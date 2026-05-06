@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.topbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  background: #cce8f4;
+  border-bottom: 0.5px solid #a8d4e8;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 20px;
+  color: #1a4a6b;
+  user-select: none;
+}
+
+.brand mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: #1a4a6b;
+}
+
+.spacer { flex: 1; }
+
+.actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}

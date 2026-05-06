@@ -1,0 +1,16 @@
+﻿{
+  "common": {
+    "appName": "Frigora"
+  },
+  "nav": {
+    "dashboard": "Panel principal",
+    "sites": "Sitios",
+    "equipments": "Equipos",
+    "services": "Servicios",
+    "alerts": "Alertas",
+    "reports": "Reportes",
+    "provider_dashboard": "Panel principal",
+    "provider_services": "Servicios",
+    "technician_management": "Técnicos"
+  }
+}

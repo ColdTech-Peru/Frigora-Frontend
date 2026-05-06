@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  align-items: center;
+}
+
+mat-button-toggle-group {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 8px;
+  overflow: hidden;
+}

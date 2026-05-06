@@ -1,0 +1,12 @@
+<header class="topbar">
+  <div class="brand" (click)="goToDashboard()" role="button" aria-label="Go to dashboard">
+    <mat-icon>ac_unit</mat-icon>
+    <span>{{ appName }}</span>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="actions">
+    <app-language-switcher />
+  </div>
+</header>

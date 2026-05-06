@@ -1,0 +1,32 @@
+<aside class="sidebar">
+  @for (item of items; track item.labelKey) {
+    @if (hasChildren(item)) {
+      <mat-expansion-panel class="nav-expansion" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="nav-group-title">
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span>{{ item.labelKey | translate }}</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        @for (child of item.children!; track child.labelKey) {
+          <div
+            class="nav-item nested"
+            [class.active]="router.isActive(child.route!, true)"
+            (click)="navigate(child.route!)">
+            <mat-icon>{{ child.icon }}</mat-icon>
+            <span>{{ child.labelKey | translate }}</span>
+          </div>
+        }
+      </mat-expansion-panel>
+    } @else {
+      <div
+        class="nav-item"
+        [class.active]="router.isActive(item.route!, true)"
+        (click)="navigate(item.route!)">
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span>{{ item.labelKey | translate }}</span>
+      </div>
+    }
+  }
+</aside>
