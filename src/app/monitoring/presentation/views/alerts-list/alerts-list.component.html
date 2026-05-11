@@ -1,0 +1,51 @@
+<section class="page-container">
+  <div class="page-header">
+    <div>
+      <h1>Alertas</h1>
+      <p>Lista de alertas generadas por los equipos monitoreados.</p>
+    </div>
+
+    <a routerLink="/equipments" class="secondary-button">Ver equipos</a>
+  </div>
+
+  <div *ngIf="loading$ | async" class="loading">
+    Cargando alertas...
+  </div>
+
+  <div class="alerts-list" *ngIf="!(loading$ | async)">
+    <article class="alert-card" *ngFor="let alert of alerts$ | async">
+      <div class="alert-header">
+        <h2>{{ alert.type }}</h2>
+        <span [ngClass]="alert.severity.toLowerCase()">
+          {{ alert.severity }}
+        </span>
+      </div>
+
+      <p class="message">{{ alert.message }}</p>
+
+      <div class="alert-info">
+        <p><strong>Equipo:</strong> {{ alert.equipmentId }}</p>
+        <p><strong>Sitio:</strong> {{ alert.siteId }}</p>
+        <p><strong>Estado:</strong> {{ alert.status }}</p>
+        <p><strong>Creado:</strong> {{ alert.createdAt }}</p>
+      </div>
+
+      <div class="actions">
+        <button
+          type="button"
+          class="primary-button"
+          (click)="acknowledgeAlert(alert)"
+          [disabled]="alert.status === 'acknowledged'">
+          Reconocer
+        </button>
+
+        <button
+          type="button"
+          class="danger-button"
+          (click)="deleteAlert(alert.id)">
+          Eliminar
+        </button>
+      </div>
+    </article>
+  </div>
+</section>

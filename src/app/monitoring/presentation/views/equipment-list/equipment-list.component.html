@@ -1,0 +1,36 @@
+<section class="page-container">
+  <div class="page-header">
+    <div>
+      <h1>Equipos monitoreados</h1>
+      <p>Visualiza el estado actual de los equipos de refrigeración.</p>
+    </div>
+
+    <a routerLink="/alerts" class="secondary-button">Ver alertas</a>
+  </div>
+
+  <div *ngIf="loading$ | async" class="loading">
+    Cargando equipos...
+  </div>
+
+  <div class="equipment-grid" *ngIf="!(loading$ | async)">
+    <article class="equipment-card" *ngFor="let equipment of equipments$ | async">
+      <div class="card-header">
+        <h2>{{ equipment.name }}</h2>
+        <span [class.online]="equipment.online" [class.offline]="!equipment.online">
+          {{ equipment.online ? 'Online' : 'Offline' }}
+        </span>
+      </div>
+
+      <p><strong>Modelo:</strong> {{ equipment.model }}</p>
+      <p><strong>Tipo:</strong> {{ equipment.type }}</p>
+      <p><strong>Serie:</strong> {{ equipment.serial }}</p>
+      <p><strong>Estado:</strong> {{ equipment.status }}</p>
+      <p><strong>Temperatura actual:</strong> {{ equipment.currentTemperature }} °C</p>
+      <p><strong>Set Point:</strong> {{ equipment.setPoint }} °C</p>
+
+      <a [routerLink]="['/equipments', equipment.id]" class="primary-button">
+        Ver detalle
+      </a>
+    </article>
+  </div>
+</section>

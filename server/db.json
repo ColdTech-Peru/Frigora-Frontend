@@ -1,0 +1,67 @@
+{
+  "equipments": [
+    {
+      "id": 1,
+      "equipmentId": "EQ-001",
+      "name": "Cámara de refrigeración principal",
+      "model": "FR-900",
+      "type": "Freezer",
+      "serial": "SN-10001",
+      "status": "Operativo",
+      "manufacturer": "FrigoraTech",
+      "installed": "2026-01-10",
+      "lastSeen": "2026-05-11 15:30",
+      "setPoint": -18,
+      "online": true,
+      "currentTemperature": -17.5,
+      "created": "2026-01-10",
+      "updated": "2026-05-11"
+
+    },
+    {
+      "id": 2,
+      "equipmentId": "EQ-002",
+      "name": "Refrigeradora de productos lácteos",
+      "model": "RF-450",
+      "type": "Refrigerator",
+      "serial": "SN-10002",
+      "status": "En observación",
+      "manufacturer": "ColdSystem",
+      "installed": "2026-02-15",
+      "lastSeen": "2026-05-11 15:20",
+      "setPoint": 4,
+      "online": true,
+      "currentTemperature": 6.2,
+      "created": "2026-02-15",
+      "updated": "2026-05-11"
+    }
+  ],
+  "alerts": [
+    {
+      "id": 1,
+      "tenantId": 1,
+      "equipmentId": 1,
+      "siteId": 101,
+      "type": "Temperatura alta",
+      "severity": "High",
+      "message": "La temperatura superó el límite permitido.",
+      "status": "pending",
+      "createdAt": "2026-05-11 15:00",
+      "resolvedAt": null,
+      "acknowledgedBy": null
+    },
+    {
+      "id": 2,
+      "tenantId": 1,
+      "equipmentId": 2,
+      "siteId": 102,
+      "type": "Conexión inestable",
+      "severity": "Medium",
+      "message": "El equipo presenta pérdida de conexión intermitente.",
+      "status": "pending",
+      "createdAt": "2026-05-11 14:40",
+      "resolvedAt": null,
+      "acknowledgedBy": null
+    }
+  ]
+}
