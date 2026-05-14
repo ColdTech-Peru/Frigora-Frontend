@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class MonitoringApiService {
-  private baseUrl = 'http://localhost:3000';
-
-  private equipmentsEndpoint = `${this.baseUrl}/equipments`;
-  private alertsEndpoint = `${this.baseUrl}/alerts`;
+  private equipmentsEndpoint = `${environment.apiBaseUrl}${environment.equipmentsEndpointPath}`;
+  private alertsEndpoint = `${environment.apiBaseUrl}${environment.alertsEndpointPath}`;
 
   constructor(private http: HttpClient) {}
 
