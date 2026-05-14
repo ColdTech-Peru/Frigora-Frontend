@@ -1,12 +1,27 @@
-import { BaseApiEndpoint } from '../../shared/infrastructure/base-api-endpoint';
-import { Sites } from '../domain/model/sites.entity';
-import { SitesResource, SitesResponse } from './sites-response';
-import { SitesAssembler } from './sites-assembler';
+import { Injectable } from '@angular/core';
+import { BaseApi } from '../../shared/infrastructure/base-api';
+import { SitesApiEndpoint } from './sites-api';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { Sites } from '../domain/model/sites.entity';
 
-export class AssetsManagementApi extends BaseApiEndpoint<Sites, SitesResource, SitesResponse, SitesAssembler>{
+@Injectable({ providedIn: 'root' })
+export class AssetsManagementApi extends BaseApi {
+  private readonly sitesEndpoint: SitesApiEndpoint;
+
   constructor(http: HttpClient) {
-    super(http, environment.ProviderApiBaseUrl + environment.ProviderSitesEndpointPath, new SitesAssembler());
+    super();
+    this.sitesEndpoint = new SitesApiEndpoint(http);
   }
+
+  getSites(): Observable<Sites[]> {
+    return this.sitesEndpoint.getAll();
+  }
+
+  createSite(site: Sites): Observable<Sites> {
+    return this.sitesEndpoint.create(site);
+  }
+
+
+
 }
