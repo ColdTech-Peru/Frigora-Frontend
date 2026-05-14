@@ -1,0 +1,142 @@
+<div class="container">
+
+  <h1>Create Report</h1>
+
+  <form [formGroup]="reportForm" (ngSubmit)="submit()">
+
+    <div class="form-group">
+      <label for="title">Title</label>
+
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+      >
+
+      <small
+        class="error"
+        *ngIf="reportForm.get('title')?.invalid &&
+               reportForm.get('title')?.touched">
+
+        Title is required
+
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="type">Type</label>
+
+      <input
+        id="type"
+        type="text"
+        formControlName="type"
+      >
+
+      <small
+        class="error"
+        *ngIf="reportForm.get('type')?.invalid &&
+               reportForm.get('type')?.touched">
+
+        Type is required
+
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="summary">Summary</label>
+
+      <textarea
+        id="summary"
+        rows="4"
+        formControlName="summary">
+      </textarea>
+
+      <small
+        class="error"
+        *ngIf="reportForm.get('summary')?.invalid &&
+               reportForm.get('summary')?.touched">
+
+        Summary is required
+
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="content">Content</label>
+
+      <textarea
+        id="content"
+        rows="6"
+        formControlName="content">
+      </textarea>
+
+      <small
+        class="error"
+        *ngIf="reportForm.get('content')?.invalid &&
+               reportForm.get('content')?.touched">
+
+        Content is required
+
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="url">URL</label>
+
+      <input
+        id="url"
+        type="text"
+        formControlName="url"
+      >
+
+      <small
+        class="error"
+        *ngIf="reportForm.get('url')?.invalid &&
+               reportForm.get('url')?.touched">
+
+        URL is required
+
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="status">Status</label>
+
+      <select
+        id="status"
+        formControlName="status">
+
+        <option value="Pending">
+          Pending
+        </option>
+
+        <option value="Generated">
+          Generated
+        </option>
+
+        <option value="Completed">
+          Completed
+        </option>
+
+      </select>
+    </div>
+
+    <div class="buttons">
+
+      <button type="submit">
+        Save Report
+      </button>
+
+      <button
+        type="button"
+        routerLink="/reporting">
+
+        Cancel
+
+      </button>
+
+    </div>
+
+  </form>
+
+</div>
