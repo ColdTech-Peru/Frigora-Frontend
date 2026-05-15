@@ -27,6 +27,52 @@
     "reports": "Reportes"
   },
 
+  "dashboard": {
+    "title": "Panel de Control",
+    "recentAlerts": "Alertas Recientes",
+    "chartTitle": "Tendencia de Temperatura",
+    "kpis": {
+      "equipments": "Equipos",
+      "alerts": "Alertas Activas",
+      "orders": "Órdenes de Trabajo",
+      "avgTemp": "Temp. Promedio"
+    },
+    "trends": {
+      "temperature": "Tendencia de Temperatura"
+    },
+    "alerts": {
+      "date": "Fecha",
+      "equipment": "Equipo",
+      "site": "Sitio",
+      "severity": "Severidad",
+      "status": "Estado",
+      "noAlerts": "No hay alertas recientes.",
+      "noData": "No hay datos para mostrar.",
+      "columns": {
+        "date": "Fecha",
+        "equipment": "Equipo",
+        "site": "Sitio",
+        "severity": "Severidad",
+        "status": "Estado",
+        "action": "Acción"
+      },
+      "severities": {
+        "critical": "Crítico",
+        "warning": "Advertencia",
+        "info": "Info"
+      },
+      "statuses": {
+        "open": "Abierta",
+        "acknowledged": "Reconocida",
+        "resolved": "Resuelta",
+        "closed": "Cerrada"
+      },
+      "actions": {
+        "acknowledge": "Reconocer"
+      }
+    }
+  },
+
   "monitoring": {
     "equipment": {
       "title": "Equipos monitoreados",

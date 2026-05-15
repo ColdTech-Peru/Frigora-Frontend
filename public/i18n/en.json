@@ -25,6 +25,52 @@
     "reports": "Reports"
   },
 
+  "dashboard": {
+    "title": "Dashboard",
+    "recentAlerts": "Recent Alerts",
+    "chartTitle": "Temperature Trend",
+    "kpis": {
+      "equipments": "Equipments",
+      "alerts": "Active Alerts",
+      "orders": "Work Orders",
+      "avgTemp": "Avg. Temp"
+    },
+    "trends": {
+      "temperature": "Temperature Trend"
+    },
+    "alerts": {
+      "date": "Date",
+      "equipment": "Equipment",
+      "site": "Site",
+      "severity": "Severity",
+      "status": "Status",
+      "noAlerts": "No recent alerts.",
+      "noData": "No data to display.",
+      "columns": {
+        "date": "Date",
+        "equipment": "Equipment",
+        "site": "Site",
+        "severity": "Severity",
+        "status": "Status",
+        "action": "Action"
+      },
+      "severities": {
+        "critical": "Critical",
+        "warning": "Warning",
+        "info": "Info"
+      },
+      "statuses": {
+        "open": "Open",
+        "acknowledged": "Acknowledged",
+        "resolved": "Resolved",
+        "closed": "Closed"
+      },
+      "actions": {
+        "acknowledge": "Acknowledge"
+      }
+    }
+  },
+
   "monitoring": {
     "equipment": {
       "title": "Monitored equipment",

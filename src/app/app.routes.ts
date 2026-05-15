@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { dashboardRoutes } from './dashboard/presentation/dashboard.routes';
 import { monitoringRoutes } from './monitoring/presentation/monitoring-routes';
 
 export const routes: Routes = [
@@ -11,12 +12,17 @@ export const routes: Routes = [
   ...monitoringRoutes,
 
   {
+    path: 'dashboard',
+    children: dashboardRoutes
+  },
+
+  {
     path: 'reporting',
     loadChildren: () =>
       import('./reporting/reporting.routes')
         .then(m => m.REPORTING_ROUTES)
   },
-  
+
   {
     path: 'sites',
     loadChildren: () =>

@@ -1,0 +1,65 @@
+<div class="grid">
+  <div class="col-12 md:col-6 lg:col-3">
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <mat-card-title class="flex align-items-center justify-content-between w-full title-text">
+          <span>{{ 'dashboard.kpis.equipments' | translate }}</span>
+          <mat-icon color="primary" title="Equipos">developer_board</mat-icon>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-3xl font-bold text-primary kpi-value">
+          {{ snapshot()?.kpis?.totalEquipments ?? '-' }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-12 md:col-6 lg:col-3">
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <mat-card-title class="flex align-items-center justify-content-between w-full title-text">
+          <span>{{ 'dashboard.kpis.alerts' | translate }}</span>
+          <mat-icon class="text-orange-500" title="Alertas">warning</mat-icon>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-3xl font-bold text-orange-500 kpi-value">
+          {{ snapshot()?.kpis?.openAlerts ?? '-' }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-12 md:col-6 lg:col-3">
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <mat-card-title class="flex align-items-center justify-content-between w-full title-text">
+          <span>{{ 'dashboard.kpis.orders' | translate }}</span>
+          <mat-icon class="text-green-500" title="Órdenes">work</mat-icon>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-3xl font-bold text-green-500 kpi-value">
+          {{ snapshot()?.kpis?.activeRequests ?? '-' }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-12 md:col-6 lg:col-3">
+    <mat-card class="kpi-card">
+      <mat-card-header>
+        <mat-card-title class="flex align-items-center justify-content-between w-full title-text">
+          <span>{{ 'dashboard.kpis.avgTemp' | translate }}</span>
+          <mat-icon color="primary" title="Temperatura">scatter_plot</mat-icon>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-3xl font-bold text-blue-500 kpi-value">
+          {{ formattedAvgTemperature() }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

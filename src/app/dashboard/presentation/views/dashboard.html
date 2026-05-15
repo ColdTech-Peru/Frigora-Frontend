@@ -1,0 +1,75 @@
+<div class="dashboard-container p-3">
+
+  <div class="flex align-items-center justify-content-between mb-4">
+    <h1 class="text-3xl font-bold">{{ 'dashboard.title' | translate }}</h1>
+
+    @if (store.snapshot()) {
+      <mat-chip-set class="flex gap-2">
+        <mat-chip class="bg-blue-100">
+          Min: {{ store.snapshot()?.avgTemperature | number:'1.1-1' }}°C
+        </mat-chip>
+        <mat-chip class="bg-orange-100">
+          Max: {{ store.snapshot()?.avgTemperature | number:'1.1-1' }}°C
+        </mat-chip>
+      </mat-chip-set>
+    }
+  </div>
+
+  @if (store.loading()) {
+    <div class="flex flex-column align-items-center justify-content-center p-4">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p class="mt-2">Cargando dashboard...</p>
+    </div>
+  }
+
+  @if (store.error()) {
+    <div class="error-container border-round p-3 mb-3 border-1 border-red-500 bg-red-50">
+      <div class="flex align-items-center justify-content-between">
+        <div class="flex align-items-center">
+          <mat-icon color="warn" class="mr-2">warning</mat-icon>
+          <span class="font-semibold text-red-700">Se encontró un problema:</span>
+        </div>
+        <button mat-icon-button (click)="clearErrors()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <p class="mt-2 mb-0 text-red-600">{{ store.error() }}</p>
+    </div>
+  }
+
+  @if (!store.loading()) {
+
+    @if (store.snapshot()) {
+      <div class="mb-4">
+        <app-kpi-cards [snapshot]="store.snapshot()" />
+      </div>
+    } @else if (!store.error()) {
+      <div class="text-center p-4 mb-4 bg-gray-100 border-round">
+        <mat-icon class="text-400" style="font-size: 48px; height: 48px; width: 48px;">inbox</mat-icon>
+        <p class="mt-2 text-600">Sin datos de dashboard para este tenant</p>
+      </div>
+    }
+
+    @if (store.snapshot()) {
+      <div class="mb-4">
+        <app-trend-chart
+          [chartData]="store.temperatureChart()"
+          [isLoading]="store.loading()" />
+      </div>
+    }
+
+    <div class="relative-container">
+      <app-recent-alerts-table [items]="store.alerts()" />
+    </div>
+  }
+
+  <div class="fixed-bottom-right">
+    <button mat-fab
+            color="secondary"
+            (click)="refreshDashboard()"
+            [disabled]="store.loading()"
+            matTooltip="Recargar dashboard">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+</div>

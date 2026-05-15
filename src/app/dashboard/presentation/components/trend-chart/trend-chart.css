@@ -1,0 +1,69 @@
+.chart-card {
+  margin-top: 1.5rem;
+  height: 100%;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 1rem;
+}
+
+.h-20rem { height: 20rem; }
+.h-full { height: 100%; }
+
+.empty-state {
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  background-color: #f9fafb;
+}
+
+.native-chart-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.svg-chart {
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.grid-line {
+  stroke: #e0e0e0;
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.trend-line {
+  fill: none;
+  stroke: #03a9f4;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: drawLine 1s ease-out forwards;
+}
+
+.x-axis-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 0 4px;
+}
+
+.x-label {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.flex { display: flex; }
+.align-items-center { align-items: center; }
+.justify-content-center { justify-content: center; }
+.text-500 { color: #6c757d; }
+
+@keyframes drawLine {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
