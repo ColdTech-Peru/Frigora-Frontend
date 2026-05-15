@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
+
 import { MonitoringStore } from '../../../application/monitoring.store';
 import { EquipmentsEntity } from '../../../domain/model/equipments.entity';
 
@@ -23,5 +24,13 @@ export class EquipmentListComponent implements OnInit {
 
   ngOnInit(): void {
     this.monitoringStore.fetchEquipments();
+  }
+
+  deleteEquipment(id: number): void {
+    const confirmDelete = confirm('¿Seguro que deseas eliminar este equipo?');
+
+    if (confirmDelete) {
+      this.monitoringStore.deleteEquipment(id);
+    }
   }
 }

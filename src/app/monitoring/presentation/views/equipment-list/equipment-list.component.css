@@ -19,6 +19,12 @@
   color: #666;
 }
 
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .equipment-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -54,10 +60,16 @@
   font-weight: 600;
 }
 
+.card-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+
 .primary-button,
 .secondary-button {
   display: inline-block;
-  margin-top: 12px;
   padding: 10px 14px;
   border-radius: 8px;
   text-decoration: none;
@@ -72,6 +84,21 @@
 .secondary-button {
   background: #eeeeee;
   color: #222;
+}
+
+.danger-button {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #c62828;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.danger-button:hover {
+  background: #a61f1f;
 }
 
 .loading {

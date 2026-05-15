@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+
 import { MonitoringApiService } from '../infrastructure/monitoring-api.service';
 import { EquipmentsEntity } from '../domain/model/equipments.entity';
 import { AlertsEntity } from '../domain/model/alerts.entity';
@@ -38,6 +39,46 @@ export class MonitoringStore {
     });
   }
 
+  fetchEquipmentById(id: number, callback: (equipment: EquipmentsEntity | null) => void): void {
+    this.monitoringApi.getEquipmentById(id).subscribe({
+      next: response => {
+        const equipment = EquipmentsAssembler.toEntityFromResource(response);
+        callback(equipment);
+      },
+      error: () => {
+        this.addError('No se pudo cargar el detalle del equipo.');
+        callback(null);
+      }
+    });
+  }
+
+  createEquipment(equipment: any, callback: () => void): void {
+    this.monitoringApi.createEquipment(equipment).subscribe({
+      next: response => {
+        const newEquipment = EquipmentsAssembler.toEntityFromResource(response);
+        const currentEquipments = this.equipmentsSubject.value;
+        this.equipmentsSubject.next([...currentEquipments, newEquipment]);
+        callback();
+      },
+      error: () => {
+        this.addError('No se pudo registrar el equipo.');
+      }
+    });
+  }
+
+  deleteEquipment(id: number): void {
+    this.monitoringApi.deleteEquipment(id).subscribe({
+      next: () => {
+        const currentEquipments = this.equipmentsSubject.value;
+        const updatedEquipments = currentEquipments.filter(equipment => equipment.id !== id);
+        this.equipmentsSubject.next(updatedEquipments);
+      },
+      error: () => {
+        this.addError('No se pudo eliminar el equipo.');
+      }
+    });
+  }
+
   fetchAlerts(): void {
     this.loadingSubject.next(true);
 
@@ -50,19 +91,6 @@ export class MonitoringStore {
       error: () => {
         this.addError('No se pudieron cargar las alertas.');
         this.loadingSubject.next(false);
-      }
-    });
-  }
-
-  fetchEquipmentById(id: number, callback: (equipment: EquipmentsEntity | null) => void): void {
-    this.monitoringApi.getEquipmentById(id).subscribe({
-      next: response => {
-        const equipment = EquipmentsAssembler.toEntityFromResource(response);
-        callback(equipment);
-      },
-      error: () => {
-        this.addError('No se pudo cargar el detalle del equipo.');
-        callback(null);
       }
     });
   }

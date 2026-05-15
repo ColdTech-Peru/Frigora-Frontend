@@ -5,7 +5,10 @@
       <p>Visualiza el estado actual de los equipos de refrigeración.</p>
     </div>
 
-    <a routerLink="/alerts" class="secondary-button">Ver alertas</a>
+    <div class="header-actions">
+      <a routerLink="/equipments/new" class="primary-button">Agregar equipo</a>
+      <a routerLink="/alerts" class="secondary-button">Ver alertas</a>
+    </div>
   </div>
 
   <div *ngIf="loading$ | async" class="loading">
@@ -28,9 +31,15 @@
       <p><strong>Temperatura actual:</strong> {{ equipment.currentTemperature }} °C</p>
       <p><strong>Set Point:</strong> {{ equipment.setPoint }} °C</p>
 
-      <a [routerLink]="['/equipments', equipment.id]" class="primary-button">
-        Ver detalle
-      </a>
+      <div class="card-actions">
+        <a [routerLink]="['/equipments', equipment.id]" class="primary-button">
+          Ver detalle
+        </a>
+
+        <button type="button" class="danger-button" (click)="deleteEquipment(equipment.id)">
+          Eliminar
+        </button>
+      </div>
     </article>
   </div>
 </section>

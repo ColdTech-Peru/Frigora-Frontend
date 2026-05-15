@@ -21,6 +21,14 @@ export class MonitoringApiService {
     return this.http.get<any>(`${this.equipmentsEndpoint}/${id}`);
   }
 
+  createEquipment(equipment: any): Observable<any> {
+    return this.http.post<any>(this.equipmentsEndpoint, equipment);
+  }
+
+  deleteEquipment(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.equipmentsEndpoint}/${id}`);
+  }
+
   getAlerts(): Observable<any[]> {
     return this.http.get<any[]>(this.alertsEndpoint);
   }
