@@ -1,142 +1,203 @@
-<div class="container">
+<div class="page-container">
 
-  <h1>Create Report</h1>
+  <div class="header">
 
-  <form [formGroup]="reportForm" (ngSubmit)="submit()">
+    <h1>
+      {{ isEditMode ? ('reports.editReport' | translate) : ('reports.createReport' | translate) }}
+    </h1>
 
-    <div class="form-group">
-      <label for="title">Title</label>
+    <button
+      mat-stroked-button
+      color="primary"
+      routerLink="/reporting">
 
-      <input
-        id="title"
-        type="text"
-        formControlName="title"
-      >
+      <mat-icon>
+        arrow_back
+      </mat-icon>
 
-      <small
-        class="error"
-        *ngIf="reportForm.get('title')?.invalid &&
-               reportForm.get('title')?.touched">
+      {{ 'common.back' | translate }}
 
-        Title is required
+    </button>
 
-      </small>
-    </div>
+  </div>
 
-    <div class="form-group">
-      <label for="type">Type</label>
+  <mat-card>
 
-      <input
-        id="type"
-        type="text"
-        formControlName="type"
-      >
+    <mat-card-content>
 
-      <small
-        class="error"
-        *ngIf="reportForm.get('type')?.invalid &&
-               reportForm.get('type')?.touched">
+      <form
+        [formGroup]="reportForm"
+        (ngSubmit)="submit()">
 
-        Type is required
+        <div class="form-grid">
 
-      </small>
-    </div>
+          <mat-form-field appearance="outline">
 
-    <div class="form-group">
-      <label for="summary">Summary</label>
+            <mat-label>
+              {{ 'reports.fields.title' | translate }}
+            </mat-label>
 
-      <textarea
-        id="summary"
-        rows="4"
-        formControlName="summary">
-      </textarea>
+            <input
+              matInput
+              formControlName="title"
+              [placeholder]="'reports.placeholders.title' | translate">
 
-      <small
-        class="error"
-        *ngIf="reportForm.get('summary')?.invalid &&
-               reportForm.get('summary')?.touched">
+            <mat-error *ngIf="reportForm.get('title')?.invalid">
+              {{ 'reports.validation.titleRequired' | translate }}
+            </mat-error>
 
-        Summary is required
+          </mat-form-field>
 
-      </small>
-    </div>
+          <mat-form-field appearance="outline">
 
-    <div class="form-group">
-      <label for="content">Content</label>
+            <mat-label>
+              {{ 'reports.fields.type' | translate }}
+            </mat-label>
 
-      <textarea
-        id="content"
-        rows="6"
-        formControlName="content">
-      </textarea>
+            <mat-select formControlName="type">
 
-      <small
-        class="error"
-        *ngIf="reportForm.get('content')?.invalid &&
-               reportForm.get('content')?.touched">
+              <mat-option value="Inspection">
+                {{ 'reports.types.inspection' | translate }}
+              </mat-option>
 
-        Content is required
+              <mat-option value="Maintenance">
+                {{ 'reports.types.maintenance' | translate }}
+              </mat-option>
 
-      </small>
-    </div>
+              <mat-option value="Audit">
+                {{ 'reports.types.audit' | translate }}
+              </mat-option>
 
-    <div class="form-group">
-      <label for="url">URL</label>
+              <mat-option value="Incident">
+                {{ 'reports.types.incident' | translate }}
+              </mat-option>
 
-      <input
-        id="url"
-        type="text"
-        formControlName="url"
-      >
+            </mat-select>
 
-      <small
-        class="error"
-        *ngIf="reportForm.get('url')?.invalid &&
-               reportForm.get('url')?.touched">
+            <mat-error *ngIf="reportForm.get('type')?.invalid">
+              {{ 'reports.validation.typeRequired' | translate }}
+            </mat-error>
 
-        URL is required
+          </mat-form-field>
 
-      </small>
-    </div>
+          <mat-form-field appearance="outline">
 
-    <div class="form-group">
-      <label for="status">Status</label>
+            <mat-label>
+              {{ 'reports.fields.url' | translate }}
+            </mat-label>
 
-      <select
-        id="status"
-        formControlName="status">
+            <input
+              matInput
+              formControlName="url"
+              [placeholder]="'reports.placeholders.url' | translate">
 
-        <option value="Pending">
-          Pending
-        </option>
+            <mat-error *ngIf="reportForm.get('url')?.invalid">
+              {{ 'reports.validation.urlRequired' | translate }}
+            </mat-error>
 
-        <option value="Generated">
-          Generated
-        </option>
+          </mat-form-field>
 
-        <option value="Completed">
-          Completed
-        </option>
+          <mat-form-field appearance="outline">
 
-      </select>
-    </div>
+            <mat-label>
+              {{ 'reports.fields.status' | translate }}
+            </mat-label>
 
-    <div class="buttons">
+            <mat-select formControlName="status">
 
-      <button type="submit">
-        Save Report
-      </button>
+              <mat-option value="Pending">
+                {{ 'reports.status.pending' | translate }}
+              </mat-option>
 
-      <button
-        type="button"
-        routerLink="/reporting">
+              <mat-option value="Generated">
+                {{ 'reports.status.generated' | translate }}
+              </mat-option>
 
-        Cancel
+              <mat-option value="Completed">
+                {{ 'reports.status.completed' | translate }}
+              </mat-option>
 
-      </button>
+              <mat-option value="In Progress">
+                {{ 'reports.status.inProgress' | translate }}
+              </mat-option>
 
-    </div>
+              <mat-option value="Canceled">
+                {{ 'reports.status.canceled' | translate }}
+              </mat-option>
 
-  </form>
+            </mat-select>
+
+            <mat-error *ngIf="reportForm.get('status')?.invalid">
+              {{ 'reports.validation.statusRequired' | translate }}
+            </mat-error>
+
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="full-width">
+
+            <mat-label>
+              {{ 'reports.fields.summary' | translate }}
+            </mat-label>
+
+            <textarea
+              matInput
+              rows="4"
+              formControlName="summary"
+              [placeholder]="'reports.placeholders.summary' | translate">
+            </textarea>
+
+            <mat-error *ngIf="reportForm.get('summary')?.invalid">
+              {{ 'reports.validation.summaryRequired' | translate }}
+            </mat-error>
+
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            class="full-width">
+
+            <mat-label>
+              {{ 'reports.fields.content' | translate }}
+            </mat-label>
+
+            <textarea
+              matInput
+              rows="6"
+              formControlName="content"
+              [placeholder]="'reports.placeholders.content' | translate">
+            </textarea>
+
+            <mat-error *ngIf="reportForm.get('content')?.invalid">
+              {{ 'reports.validation.contentRequired' | translate }}
+            </mat-error>
+
+          </mat-form-field>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit">
+
+            <mat-icon>
+              save
+            </mat-icon>
+
+            {{ isEditMode ? ('reports.buttons.updateReport' | translate) : ('reports.buttons.saveReport' | translate) }}
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </mat-card-content>
+
+  </mat-card>
 
 </div>

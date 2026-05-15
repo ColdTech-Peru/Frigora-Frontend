@@ -1,33 +1,173 @@
-<div class="container" *ngIf="report">
+<div
+  class="page-container"
+  *ngIf="report">
 
-  <h1>Report Detail</h1>
+  <div class="header">
 
-  <div class="form-group">
-    <label>Title</label>
-    <input [(ngModel)]="report.title">
+    <h1>
+      {{ 'reports.reportDetail' | translate }}
+    </h1>
+
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="goBack()">
+
+      <mat-icon>
+        arrow_back
+      </mat-icon>
+
+      {{ 'common.back' | translate }}
+
+    </button>
+
   </div>
 
-  <div class="form-group">
-    <label>Type</label>
-    <input [(ngModel)]="report.type">
-  </div>
+  <mat-card>
 
-  <div class="form-group">
-    <label>Status</label>
-    <input [(ngModel)]="report.status">
-  </div>
+    <mat-card-content>
 
-  <div class="form-group">
-    <label>Summary</label>
-    <textarea [(ngModel)]="report.summary"></textarea>
-  </div>
+      <div class="form-grid">
 
-  <button (click)="saveChanges()">
-    Save
-  </button>
+        <mat-form-field appearance="outline">
 
-  <button (click)="goBack()">
-    Back
-  </button>
+          <mat-label>
+            {{ 'reports.fields.title' | translate }}
+          </mat-label>
+
+          <input
+            matInput
+            [(ngModel)]="report.title">
+
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+
+          <mat-label>
+            {{ 'reports.fields.type' | translate }}
+          </mat-label>
+
+          <mat-select [(ngModel)]="report.type">
+
+            <mat-option value="Inspection">
+              {{ 'reports.types.inspection' | translate }}
+            </mat-option>
+
+            <mat-option value="Maintenance">
+              {{ 'reports.types.maintenance' | translate }}
+            </mat-option>
+
+            <mat-option value="Audit">
+              {{ 'reports.types.audit' | translate }}
+            </mat-option>
+
+            <mat-option value="Incident">
+              {{ 'reports.types.incident' | translate }}
+            </mat-option>
+
+          </mat-select>
+
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+
+          <mat-label>
+            {{ 'reports.fields.status' | translate }}
+          </mat-label>
+
+          <mat-select [(ngModel)]="report.status">
+
+            <mat-option value="Pending">
+              {{ 'reports.status.pending' | translate }}
+            </mat-option>
+
+            <mat-option value="Generated">
+              {{ 'reports.status.generated' | translate }}
+            </mat-option>
+
+            <mat-option value="Completed">
+              {{ 'reports.status.completed' | translate }}
+            </mat-option>
+
+            <mat-option value="In Progress">
+              {{ 'reports.status.inProgress' | translate }}
+            </mat-option>
+
+            <mat-option value="Canceled">
+              {{ 'reports.status.canceled' | translate }}
+            </mat-option>
+
+          </mat-select>
+
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="full-width">
+
+          <mat-label>
+            {{ 'reports.fields.summary' | translate }}
+          </mat-label>
+
+          <textarea
+            matInput
+            rows="4"
+            [(ngModel)]="report.summary">
+          </textarea>
+
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="full-width">
+
+          <mat-label>
+            {{ 'reports.fields.content' | translate }}
+          </mat-label>
+
+          <textarea
+            matInput
+            rows="6"
+            [(ngModel)]="report.content">
+          </textarea>
+
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="full-width">
+
+          <mat-label>
+            {{ 'reports.fields.url' | translate }}
+          </mat-label>
+
+          <input
+            matInput
+            [(ngModel)]="report.url">
+
+        </mat-form-field>
+
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="saveChanges()">
+
+        <mat-icon>
+          save
+        </mat-icon>
+
+        {{ 'reports.saveChanges' | translate }}
+
+      </button>
+
+    </mat-card-actions>
+
+  </mat-card>
 
 </div>

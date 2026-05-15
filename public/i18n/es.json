@@ -1,6 +1,18 @@
 ﻿{
   "common": {
-    "appName": "Frigora"
+    "appName": "Frigora",
+    "save": "Guardar",
+    "update": "Actualizar",
+    "cancel": "Cancelar",
+    "back": "Volver",
+    "close": "Cerrar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "actions": "Acciones",
+    "all": "Todos",
+    "yes": "Sí",
+    "no": "No"
   },
   "nav": {
     "dashboard": "Panel principal",
@@ -12,5 +24,80 @@
     "provider_dashboard": "Panel principal",
     "provider_services": "Servicios",
     "technician_management": "Técnicos"
+  },
+  "reports": {
+    "title": "Reportes",
+    "myReports": "Mis reportes",
+    "newReport": "Nuevo reporte",
+    "createReport": "Crear reporte",
+    "editReport": "Editar reporte",
+    "reportDetail": "Detalle del reporte",
+    "saveReport": "Guardar reporte",
+    "updateReport": "Actualizar reporte",
+    "saveChanges": "Guardar cambios",
+    "createSuccess": "Reporte creado correctamente",
+    "updateSuccess": "Reporte actualizado correctamente",
+    "deleteSuccess": "Reporte eliminado correctamente",
+    "deleteConfirm": "¿Estás seguro de que deseas eliminar este reporte?",
+    "loadError": "No se pudieron cargar los reportes",
+    "createError": "No se pudo crear el reporte",
+    "updateError": "No se pudo actualizar el reporte",
+    "deleteError": "No se pudo eliminar el reporte",
+    "empty": "No hay reportes registrados",
+    "table": {
+      "id": "ID",
+      "title": "Título",
+      "type": "Tipo",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "filters": {
+      "status": "Estado",
+      "type": "Tipo",
+      "allStatuses": "Todos los estados",
+      "allTypes": "Todos los tipos"
+    },
+    "fields": {
+      "title": "Título",
+      "type": "Tipo",
+      "summary": "Resumen",
+      "content": "Contenido",
+      "url": "URL",
+      "status": "Estado",
+      "generatedAt": "Fecha de generación"
+    },
+    "placeholders": {
+      "title": "Ingrese el título del reporte",
+      "summary": "Ingrese un resumen del reporte",
+      "content": "Ingrese el contenido del reporte",
+      "url": "Ingrese la URL del reporte"
+    },
+    "validation": {
+      "titleRequired": "El título es obligatorio",
+      "typeRequired": "El tipo es obligatorio",
+      "summaryRequired": "El resumen es obligatorio",
+      "contentRequired": "El contenido es obligatorio",
+      "urlRequired": "La URL es obligatoria",
+      "statusRequired": "El estado es obligatorio"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "generated": "Generado",
+      "completed": "Completado",
+      "inProgress": "En progreso",
+      "canceled": "Cancelado"
+    },
+    "types": {
+      "inspection": "Inspección",
+      "maintenance": "Mantenimiento",
+      "audit": "Auditoría",
+      "incident": "Incidente"
+    },
+    "buttons": {
+      "newReport": "Nuevo reporte",
+      "saveReport": "Guardar reporte",
+      "updateReport": "Actualizar reporte",
+      "backToReports": "Volver a reportes"
+    }
   }
 }

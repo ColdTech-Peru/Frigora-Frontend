@@ -14,12 +14,15 @@ export const REPORTING_ROUTES: Routes = [
         .then(m => m.ReportFormComponent)
   },
   {
+    path: 'edit/:id',
+    loadComponent: () =>
+      import('./presentation/report-form/report-form')
+        .then(m => m.ReportFormComponent)
+  },
+  {
     path: ':id',
     loadComponent: () =>
       import('./presentation/report-detail/report-detail')
         .then(m => m.ReportDetailComponent)
   }
 ];
-
-export class Reporting {
-}

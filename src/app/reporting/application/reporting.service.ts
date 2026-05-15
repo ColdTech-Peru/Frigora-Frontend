@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Report } from '../domain/model/report.entity';
+import { ReportEntity } from '../domain/model/report.entity';
 import { ReportingApiService } from '../infrastructure/reporting-api.service';
 
 @Injectable({
@@ -10,19 +10,19 @@ export class ReportingService {
 
   constructor(private api: ReportingApiService) {}
 
-  getReports(): Observable<Report[]> {
+  getReports(): Observable<ReportEntity[]> {
     return this.api.getReports();
   }
 
-  getReportById(id: number): Observable<Report> {
+  getReportById(id: number): Observable<ReportEntity> {
     return this.api.getReportById(id);
   }
 
-  createReport(report: Report): Observable<Report> {
+  createReport(report: ReportEntity): Observable<ReportEntity> {
     return this.api.createReport(report);
   }
 
-  updateReport(id: number, report: Report): Observable<Report> {
+  updateReport(id: number, report: ReportEntity): Observable<ReportEntity> {
     return this.api.updateReport(id, report);
   }
 
