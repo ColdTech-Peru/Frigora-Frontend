@@ -7,14 +7,14 @@ export const environment = {
   tenantsEndpointPath: '/tenants',
   dashboardConfigsEndpointPath: '/dashboard-configs',
   usersEndpointPath: '/users',
-  sitesEndpointPath: '/site',
-  equipmentsEndpointPath: '/equipment',
+  sitesEndpointPath: '/sites',
+  equipmentsEndpointPath: '/equipments',
   reportsEndpointPath: '/reports',
 
   serviceRequestsEndpointPath: '/serviceRequests',
   interventionsEndpointPath: '/interventions',
 
-  alertsEndpointPath: '/alert',
+  alertsEndpointPath: '/alerts',
 
   authEndpointPath: '/authentication',
 
