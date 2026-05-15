@@ -2,19 +2,19 @@ export const environment = {
   production: true,
 
   // Base URL
-  apiBaseUrl: '',
+  apiBaseUrl: 'https://fake-api-0233.onrender.com',
 
   tenantsEndpointPath: '/tenants',
   dashboardConfigsEndpointPath: '/dashboard-configs',
   usersEndpointPath: '/users',
-  sitesEndpointPath: '/site',
-  equipmentsEndpointPath: '/equipment',
+  sitesEndpointPath: '/sites',
+  equipmentsEndpointPath: '/equipments',
   reportsEndpointPath: '/reports',
 
   serviceRequestsEndpointPath: '/serviceRequests',
   interventionsEndpointPath: '/interventions',
 
-  alertsEndpointPath: '/alert',
+  alertsEndpointPath: '/alerts',
 
   authEndpointPath: '/authentication',
 
