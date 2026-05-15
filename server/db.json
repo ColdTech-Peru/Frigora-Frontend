@@ -271,7 +271,7 @@
       "lat": -12.08,
       "lng": -77.08,
       "contactName": "Sonia Rocio",
-      "contactPhone": "+51 999 111 222",
+      "phone": "+51 999 111 222",
       "createdAt": "2024-12-01T00:00:00Z",
       "updatedAt": "2025-09-01T00:00:00Z"
     },
@@ -283,7 +283,7 @@
       "lat": -12.09,
       "lng": -77.04,
       "contactName": "Henry Campos",
-      "contactPhone": "+51 999 333 444",
+      "phone": "+51 999 333 444",
       "createdAt": "2024-12-10T00:00:00Z",
       "updatedAt": "2025-09-01T00:00:00Z"
     },
@@ -295,7 +295,7 @@
       "lat": -12.05,
       "lng": -77.03,
       "contactName": "Kenyi Ramírez",
-      "contactPhone": "+51 999 555 666",
+      "phone": "+51 999 555 666",
       "createdAt": "2025-01-01T00:00:00Z",
       "updatedAt": "2025-09-01T00:00:00Z"
     },
@@ -307,7 +307,7 @@
       "lat": -12.17,
       "lng": -77.02,
       "contactName": "Alejandro Galindo",
-      "contactPhone": "+51 999 444 333",
+      "phone": "+51 999 444 333",
       "createdAt": "2025-02-15T00:00:00Z",
       "updatedAt": "2025-09-01T00:00:00Z"
     },
