@@ -1,6 +1,6 @@
 export class EquipmentsEntity {
   constructor(
-    public id: number,
+    public id: string,
     public equipmentId: string,
     public name: string,
     public model: string,
@@ -12,7 +12,7 @@ export class EquipmentsEntity {
     public lastSeen: string,
     public setPoint: number,
     public online: boolean,
-    public currentTemperature: number,
+    public currentTemperature: number | null,
     public created: string,
     public updated: string
   ) {}
