@@ -1,26 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BaseApi } from '../../shared/infrastructure/base-api';
-import { DashboardSnapshotApiEndpoint } from './dashboard-endpoint';
-import { DashboardSnapshot } from '../domain/model/dashboard-snapshot.entity';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardApi extends BaseApi {
-  private readonly dashboardSnapshotEndpoint: DashboardSnapshotApiEndpoint;
+export class DashboardApi {
 
-  constructor(http: HttpClient) {
-    super();
-    this.dashboardSnapshotEndpoint = new DashboardSnapshotApiEndpoint(
-      http // endpoint constructs its own URL; TODO: reemplazar por environment
-    );
+  private readonly baseUrl = 'http://localhost:3000';
+
+  constructor(private http: HttpClient) {}
+
+  /**
+   * Obtiene el snapshot del dashboard filtrado por tenantId.
+   * json-server resolverá esto como: GET /dashboard?tenantId=t1
+   */
+  getSnapshotByTenant(tenantId: string): Observable<any[]> {
+    const params = new HttpParams().set('tenantId', tenantId);
+    return this.http.get<any[]>(`${this.baseUrl}/dashboard`, { params });
   }
 
-  getSnapshotByTenant(tenantId: string): Observable<DashboardSnapshot[]> {
-    return this.dashboardSnapshotEndpoint.getByTenant(tenantId);
+  /**
+   * Obtiene las alertas filtradas por tenantId.
+   * json-server resolverá esto como: GET /alerts?tenantId=t1
+   */
+  getAlertsByTenant(tenantId: string): Observable<any[]> {
+    const params = new HttpParams().set('tenantId', tenantId);
+    return this.http.get<any[]>(`${this.baseUrl}/alerts`, { params });
   }
-
-  // TODO: Implementar endpoints para alerts, equipments y sites siguiendo el mismo patrón
 }
