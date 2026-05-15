@@ -5,7 +5,7 @@ import { AlertsResponse, AlertResource } from './alert-response';
 export class AlertAssembler implements BaseAssembler<AlertView, AlertResource, AlertsResponse> {
   toEntityFromResource(resource: AlertResource): AlertView {
     return new AlertView({
-      id: resource.id,
+      id: String(resource.id),
       createdAt: resource.createdAt,
       equipmentId: resource.equipmentId,
       siteId: resource.siteId,
@@ -16,13 +16,13 @@ export class AlertAssembler implements BaseAssembler<AlertView, AlertResource, A
 
   toResourceFromEntity(entity: AlertView): AlertResource {
     return {
-      id: entity.id,
+      id: Number(entity.id) || 0,
       createdAt: entity.createdAt,
       equipmentId: entity.equipmentId,
       siteId: entity.siteId,
       severity: entity.severity,
       status: entity.status
-    };
+    } as AlertResource;
   }
 
   toEntitiesFromResponse(response: AlertsResponse): AlertView[] {

@@ -14,13 +14,12 @@ export class DashboardApi extends BaseApi {
   constructor(http: HttpClient) {
     super();
     this.dashboardSnapshotEndpoint = new DashboardSnapshotApiEndpoint(
-      http,
-      'http://localhost:3000/dashboard' // TODO: reemplazar por environment
+      http // endpoint constructs its own URL; TODO: reemplazar por environment
     );
   }
 
   getSnapshotByTenant(tenantId: string): Observable<DashboardSnapshot[]> {
-    return this.dashboardSnapshotEndpoint.getAll();
+    return this.dashboardSnapshotEndpoint.getByTenant(tenantId);
   }
 
   // TODO: Implementar endpoints para alerts, equipments y sites siguiendo el mismo patrón
