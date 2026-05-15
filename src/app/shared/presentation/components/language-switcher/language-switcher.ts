@@ -9,6 +9,7 @@ import {TranslateService} from '@ngx-translate/core';
     MatButtonToggle
   ],
   templateUrl: './language-switcher.html',
+  standalone: true,
   styleUrl: './language-switcher.css'
 })
 export class LanguageSwitcher {

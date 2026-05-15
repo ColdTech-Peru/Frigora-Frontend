@@ -7,10 +7,74 @@
   },
   "nav": {
     "dashboard": "Inicio",
+    "save": "Guardar",
+    "update": "Actualizar",
+    "cancel": "Cancelar",
+    "back": "Volver",
+    "close": "Cerrar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "actions": "Acciones",
+    "all": "Todos",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
     "sites": "Sitios",
     "equipments": "Equipos",
     "services": "Servicios",
     "alerts": "Alertas",
+    "reports": "Reportes"
+  },
+  "monitoring": {
+    "equipment": {
+      "title": "Equipos monitoreados",
+      "subtitle": "Visualiza el estado actual de los equipos de refrigeración.",
+      "add": "Agregar equipo",
+      "alerts": "Ver alertas",
+      "detail": "Ver detalle",
+      "delete": "Eliminar",
+      "model": "Modelo",
+      "type": "Tipo",
+      "serial": "Serie",
+      "status": "Estado",
+      "currentTemperature": "Temperatura actual",
+      "setPoint": "Set Point",
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "form": {
+      "title": "Agregar equipo",
+      "subtitle": "Registra un nuevo equipo de refrigeración para monitoreo.",
+      "back": "Volver a equipos",
+      "equipmentId": "ID de equipo",
+      "name": "Nombre",
+      "model": "Modelo",
+      "type": "Tipo",
+      "serial": "Serie",
+      "status": "Estado",
+      "manufacturer": "Fabricante",
+      "installed": "Fecha de instalación",
+      "setPoint": "Set Point",
+      "currentTemperature": "Temperatura actual",
+      "connectionStatus": "Estado de conexión",
+      "save": "Guardar equipo",
+      "cancel": "Cancelar"
+    },
+    "alerts": {
+      "title": "Alertas",
+      "subtitle": "Lista de alertas generadas por los equipos monitoreados.",
+      "viewEquipments": "Ver equipos",
+      "equipment": "Equipo",
+      "site": "Sitio",
+      "status": "Estado",
+      "created": "Creado",
+      "acknowledge": "Reconocer",
+      "delete": "Eliminar",
+      "loading": "Cargando alertas..."
+    }
     "reports": "Reportes",
     "provider_dashboard": "Inicio",
     "provider_services": "Servicios",
@@ -44,5 +108,103 @@
   },
   "errors": {
     "occurred": "Ocurrió un error"
+  "reports": {
+    "title": "Reportes",
+    "myReports": "Mis reportes",
+    "newReport": "Nuevo reporte",
+    "createReport": "Crear reporte",
+    "editReport": "Editar reporte",
+    "reportDetail": "Detalle del reporte",
+    "saveReport": "Guardar reporte",
+    "updateReport": "Actualizar reporte",
+    "saveChanges": "Guardar cambios",
+    "createSuccess": "Reporte creado correctamente",
+    "updateSuccess": "Reporte actualizado correctamente",
+    "deleteSuccess": "Reporte eliminado correctamente",
+    "deleteConfirm": "¿Estás seguro de que deseas eliminar este reporte?",
+    "loadError": "No se pudieron cargar los reportes",
+    "createError": "No se pudo crear el reporte",
+    "updateError": "No se pudo actualizar el reporte",
+    "deleteError": "No se pudo eliminar el reporte",
+    "empty": "No hay reportes registrados",
+    "table": {
+      "id": "ID",
+      "title": "Título",
+      "type": "Tipo",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "filters": {
+      "status": "Estado",
+      "type": "Tipo",
+      "allStatuses": "Todos los estados",
+      "allTypes": "Todos los tipos"
+    },
+    "fields": {
+      "title": "Título",
+      "type": "Tipo",
+      "summary": "Resumen",
+      "content": "Contenido",
+      "url": "URL",
+      "status": "Estado",
+      "generatedAt": "Fecha de generación"
+    },
+    "placeholders": {
+      "title": "Ingrese el título del reporte",
+      "summary": "Ingrese un resumen del reporte",
+      "content": "Ingrese el contenido del reporte",
+      "url": "Ingrese la URL del reporte"
+    },
+    "validation": {
+      "titleRequired": "El título es obligatorio",
+      "typeRequired": "El tipo es obligatorio",
+      "summaryRequired": "El resumen es obligatorio",
+      "contentRequired": "El contenido es obligatorio",
+      "urlRequired": "La URL es obligatoria",
+      "statusRequired": "El estado es obligatorio"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "generated": "Generado",
+      "completed": "Completado",
+      "inProgress": "En progreso",
+      "canceled": "Cancelado"
+    },
+    "types": {
+      "inspection": "Inspección",
+      "maintenance": "Mantenimiento",
+      "audit": "Auditoría",
+      "incident": "Incidente"
+    },
+    "buttons": {
+      "newReport": "Nuevo reporte",
+      "saveReport": "Guardar reporte",
+      "updateReport": "Actualizar reporte",
+      "backToReports": "Volver a reportes"
+    }
+  "service-request": {
+    "requests": "Mis Solicitudes de Servicio",
+    "button": "Nueva Solicitud de Servicio",
+    "newService": "Nueva Solicitud de Servicio",
+    "site": "Sitio",
+    "equipment": "Equipo",
+    "requestType": "Tipo de solicitud",
+    "priority": "Prioridad",
+    "description": "Descripción",
+    "date": "Fecha",
+    "provider": "Proveedor",
+    "type": "Tipo",
+    "status": "Estado",
+    "actions": "Acciones",
+    "requestDetails": "Detalles de la solicitud",
+    "createdAt": "Creado en",
+    "completedAt": "Completado en",
+    "request": "Solicitud de Servicio",
+    "equipmentDetails": "Ver Detalles Del Equipo"
+  },
+
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "powered-by": "Desarrollado por"
   }
 }

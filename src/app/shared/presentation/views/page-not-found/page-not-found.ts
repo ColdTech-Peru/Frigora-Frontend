@@ -7,6 +7,7 @@ import {TranslatePipe} from '@ngx-translate/core';
   selector: 'app-page-not-found',
   imports: [MatButton, TranslatePipe],
   templateUrl: './page-not-found.html',
+  standalone: true,
   styleUrl: './page-not-found.css'
 })
 export class PageNotFound implements OnInit {
@@ -19,7 +20,7 @@ export class PageNotFound implements OnInit {
   }
 
   protected navigateToHome() {
-    this.router.navigate(['home']).then();
+    this.router.navigate(['dashboard']).then();
   }
 
 }

@@ -1,0 +1,208 @@
+<div class="page-container">
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner diameter="48" />
+  </div>
+
+  <!-- Not found -->
+  <div *ngIf="!isLoading && !serviceRequest" class="not-found">
+    <mat-icon>search_off</mat-icon>
+    <p>Service request not found.</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading && serviceRequest">
+
+    <!-- Header -->
+    <div class="page-header">
+      <h1 class="page-title">{{ 'service-request.request' | translate }}<span class="request-id">#{{ serviceRequest.id }}</span></h1>
+      <mat-chip [class]="statusClass(serviceRequest.status)">{{ serviceRequest.status }}</mat-chip>
+    </div>
+
+    <!-- Request Details Card -->
+    <mat-card class="detail-card mb-4">
+      <mat-card-header>
+        <mat-card-title>{{ 'service-request.requestDetails' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">{{ 'service-request.status' | translate }}</span>
+            <mat-chip [class]="statusClass(serviceRequest.status)">{{ serviceRequest.status }}</mat-chip>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">{{ 'service-request.priority' | translate }}</span>
+            <span class="detail-value">{{ serviceRequest.priority }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">{{ 'service-request.site' | translate }}</span>
+            <span class="detail-value">{{ serviceRequest.siteName }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">{{ 'service-request.equipment' | translate }}</span>
+            <span class="detail-value">{{ serviceRequest.equipmentName}}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">{{ 'service-request.createdAt' | translate }}</span>
+            <span class="detail-value">{{ formatDateTime(serviceRequest.createdAt) }}</span>
+          </div>
+          <div class="detail-item" *ngIf="serviceRequest.completedAt">
+            <span class="detail-label">{{ 'service-request.completedAt' | translate }}</span>
+            <span class="detail-value">{{ formatDateTime(serviceRequest.completedAt) }}</span>
+          </div>
+          <div class="detail-item full-width">
+            <span class="detail-label">{{ 'service-request.description' | translate }}</span>
+            <span class="detail-value">{{ serviceRequest.description }}</span>
+          </div>
+        </div>
+        <div class="mt-3">
+          <button mat-stroked-button (click)="openEquipmentDialog()">
+            <mat-icon>memory</mat-icon>
+            {{ 'service-request.equipmentDetails' | translate }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Interventions Log -->
+    <mat-card class="detail-card mb-4">
+      <mat-card-header>
+        <mat-card-title>Interventions Log</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div *ngIf="interventions.length === 0" class="empty-state">
+          <mat-icon>engineering</mat-icon>
+          <p>No interventions recorded yet.</p>
+        </div>
+
+        <div class="timeline" *ngIf="interventions.length > 0">
+          <div class="timeline-item" *ngFor="let item of interventions">
+            <div class="timeline-marker" [class.completed]="item.status?.toLowerCase() === 'completed'">
+              <mat-icon>{{ item.status?.toLowerCase() === 'completed' ? 'check' : 'schedule' }}</mat-icon>
+            </div>
+            <mat-card class="timeline-card" (click)="navigateToIntervention(item)">
+              <mat-card-header>
+                <mat-card-title>{{ item.status }} — {{ formatDate(item.startTime) }}</mat-card-title>
+                <mat-card-subtitle>Technician ID: {{ item.technicianId }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p class="line-clamp-2">{{ item.summary }}</p>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button color="primary">
+                  View Details <mat-icon>arrow_forward</mat-icon>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Register New Intervention -->
+    <mat-card class="detail-card mb-4">
+      <mat-card-header>
+        <mat-card-title>Register Intervention</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-grid">
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Work Summary</mat-label>
+            <textarea matInput rows="3" [(ngModel)]="newIntervention.summary" required></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Start Time</mat-label>
+            <input matInput type="datetime-local" [(ngModel)]="newIntervention.startTime" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>End Time</mat-label>
+            <input matInput type="datetime-local" [(ngModel)]="newIntervention.endTime" />
+          </mat-form-field>
+
+          <!-- Photo URLs -->
+          <div class="photo-section full-width">
+            <div class="photo-input-row">
+              <mat-form-field appearance="outline" class="photo-field">
+                <mat-label>Add Photo URL</mat-label>
+                <input matInput [(ngModel)]="newPhotoUrl" placeholder="https://example.com/photo.jpg" />
+              </mat-form-field>
+              <button mat-icon-button color="primary" type="button" (click)="addPhotoUrl()"
+                      matTooltip="Add photo">
+                <mat-icon>add_photo_alternate</mat-icon>
+              </button>
+            </div>
+            <div class="photo-preview" *ngIf="newIntervention.photoUrls.length">
+              <div class="photo-thumb" *ngFor="let url of newIntervention.photoUrls">
+                <img [src]="url" alt="photo" />
+                <button mat-icon-button class="remove-photo" (click)="removePhotoUrl(url)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-flat-button color="primary" (click)="registerIntervention()">
+          <mat-icon>add_task</mat-icon>
+          Register
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+  </ng-container>
+
+</div>
+
+<!-- Equipment Dialog Overlay -->
+<div class="dialog-overlay" *ngIf="displayEquipmentDialog" (click)="displayEquipmentDialog = false">
+  <div class="dialog-panel" (click)="$event.stopPropagation()">
+
+    <div class="dialog-header">
+      <h2>Equipment Details</h2>
+      <button mat-icon-button (click)="displayEquipmentDialog = false">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="dialog-body" *ngIf="selectedEquipment">
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="detail-label">Name</span>
+          <span class="detail-value">{{ selectedEquipment.name }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Model</span>
+          <span class="detail-value">{{ selectedEquipment.model }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Serial</span>
+          <span class="detail-value">{{ selectedEquipment.serial }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Type</span>
+          <span class="detail-value">{{ selectedEquipment.type }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Status</span>
+          <mat-chip [class]="statusClass(selectedEquipment.status)">{{ selectedEquipment.status }}</mat-chip>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Installed At</span>
+          <span class="detail-value">{{ formatDate(selectedEquipment.installedAt) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button mat-stroked-button (click)="displayEquipmentDialog = false">Close</button>
+    </div>
+
+  </div>
+</div>
