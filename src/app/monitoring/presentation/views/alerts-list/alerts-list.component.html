@@ -1,15 +1,17 @@
 <section class="page-container">
   <div class="page-header">
     <div>
-      <h1>Alertas</h1>
-      <p>Lista de alertas generadas por los equipos monitoreados.</p>
+      <h1>{{ 'monitoring.alerts.title' | translate }}</h1>
+      <p>{{ 'monitoring.alerts.subtitle' | translate }}</p>
     </div>
 
-    <a routerLink="/equipments" class="secondary-button">Ver equipos</a>
+    <a routerLink="/equipments" class="secondary-button">
+      {{ 'monitoring.alerts.viewEquipments' | translate }}
+    </a>
   </div>
 
   <div *ngIf="loading$ | async" class="loading">
-    Cargando alertas...
+    {{ 'monitoring.alerts.loading' | translate }}
   </div>
 
   <div class="alerts-list" *ngIf="!(loading$ | async)">
@@ -24,10 +26,10 @@
       <p class="message">{{ alert.message }}</p>
 
       <div class="alert-info">
-        <p><strong>Equipo:</strong> {{ alert.equipmentId }}</p>
-        <p><strong>Sitio:</strong> {{ alert.siteId }}</p>
-        <p><strong>Estado:</strong> {{ alert.status }}</p>
-        <p><strong>Creado:</strong> {{ alert.createdAt }}</p>
+        <p><strong>{{ 'monitoring.alerts.equipment' | translate }}:</strong> {{ alert.equipmentId }}</p>
+        <p><strong>{{ 'monitoring.alerts.site' | translate }}:</strong> {{ alert.siteId }}</p>
+        <p><strong>{{ 'monitoring.alerts.status' | translate }}:</strong> {{ alert.status }}</p>
+        <p><strong>{{ 'monitoring.alerts.created' | translate }}:</strong> {{ alert.createdAt }}</p>
       </div>
 
       <div class="actions">
@@ -36,14 +38,14 @@
           class="primary-button"
           (click)="acknowledgeAlert(alert)"
           [disabled]="alert.status === 'acknowledged'">
-          Reconocer
+          {{ 'monitoring.alerts.acknowledge' | translate }}
         </button>
 
         <button
           type="button"
           class="danger-button"
           (click)="deleteAlert(alert.id)">
-          Eliminar
+          {{ 'monitoring.alerts.delete' | translate }}
         </button>
       </div>
     </article>

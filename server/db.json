@@ -33,23 +33,6 @@
       "currentTemperature": 6.2,
       "created": "2026-02-15",
       "updated": "2026-05-11"
-    },
-    {
-      "equipmentId": "23",
-      "name": "refri1",
-      "model": "1002",
-      "type": "refri",
-      "serial": "10202",
-      "status": "Operativo",
-      "manufacturer": "xd",
-      "installed": "2026-05-22",
-      "lastSeen": "2026-05-15",
-      "setPoint": 5,
-      "online": true,
-      "currentTemperature": 9,
-      "created": "2026-05-15",
-      "updated": "2026-05-15",
-      "id": 3
     }
   ],
   "alerts": [

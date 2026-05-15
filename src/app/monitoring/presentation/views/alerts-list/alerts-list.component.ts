@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { MonitoringStore } from '../../../application/monitoring.store';
 import { AlertsEntity } from '../../../domain/model/alerts.entity';
 
 @Component({
   selector: 'app-alerts-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe],
   templateUrl: './alerts-list.component.html',
   styleUrl: './alerts-list.component.css'
 })
