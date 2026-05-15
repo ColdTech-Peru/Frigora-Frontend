@@ -1,4 +1,13 @@
 {
+  "reports": [
+    {
+      "id": 1,
+      "tenantId": "t2",
+      "type": "Inspection",
+      "equipmentId": "e2",
+      "generatedAt": "2025-09-21T12:00:00Z",
+      "title": "Rendimiento - Cámara A (sep, 2025)",
+      "status": "Completed",
   "tenants": [
     {
       "id": "t1",
@@ -754,6 +763,13 @@
       "url": "/reports/rep1.pdf"
     },
     {
+      "id": 2,
+      "tenantId": "t2",
+      "type": "Inspection",
+      "equipmentId": "e2",
+      "generatedAt": "2025-09-21T17:20:00Z",
+      "title": "Reporte de consumo de energía - Cámara A",
+      "status": "Completed",
       "id": "2",
       "tenantId": "t2",
       "type": "inspection",
@@ -766,6 +782,14 @@
       "url": "/reports/rep2.pdf"
     },
     {
+      "id": 3,
+      "tenantId": "t1",
+      "type": "Maintenance",
+      "equipmentId": "e2",
+      "serviceRequestId": "sr4",
+      "generatedAt": "2025-09-12T11:30:00Z",
+      "title": "Reporte de historial - Cámara B",
+      "status": "Canceled",
       "id": "3",
       "tenantId": "t1",
       "type": "maintenance",
@@ -779,6 +803,13 @@
       "url": "/reports/rep3.pdf"
     },
     {
+      "id": 4,
+      "tenantId": "t1",
+      "type": "Maintenance",
+      "equipmentId": "e5",
+      "generatedAt": "2025-09-21T12:30:00Z",
+      "title": "Reporte de consumo de energía - Cámara B",
+      "status": "Completed",
       "id": "4",
       "tenantId": "t1",
       "type": "maintenance",
@@ -791,6 +822,13 @@
       "url": "/reports/rep4.pdf"
     },
     {
+      "id": 5,
+      "tenantId": "t2",
+      "type": "Inspection",
+      "equipmentId": "e1",
+      "generatedAt": "2025-09-21T14:30:00Z",
+      "title": "Rendimiento - Freezer Vertical #1 (sep, 2025)",
+      "status": "Completed",
       "id": "5",
       "tenantId": "t2",
       "type": "inspection",
@@ -803,6 +841,13 @@
       "url": "/reports/rep5.pdf"
     },
     {
+      "id": 6,
+      "tenantId": null,
+      "type": "Audit",
+      "equipmentId": null,
+      "generatedAt": "2025-12-02T00:16:40.010Z",
+      "title": "kljalsdm",
+      "status": "Completed",
       "id": "6",
       "tenantId": null,
       "type": "audit",
@@ -815,6 +860,13 @@
       "url": ""
     },
     {
+      "id": 8,
+      "tenantId": null,
+      "type": "Audit",
+      "equipmentId": null,
+      "generatedAt": "2025-12-02T03:18:08.033Z",
+      "title": "kldskaklsdñ",
+      "status": "Completed",
       "id": "8",
       "tenantId": null,
       "type": "audit",
@@ -827,6 +879,49 @@
       "url": ""
     },
     {
+      "id": 9,
+      "title": "dsaldkma",
+      "type": "Incident",
+      "summary": "sdaosdj",
+      "content": "qwopekopqwke",
+      "status": "In Progress",
+      "generatedAt": "2025-12-02T03:28:36.257Z"
+    },
+    {
+      "id": 10,
+      "title": "qweqwe",
+      "type": "Maintenance",
+      "summary": "sdasdasd",
+      "content": "asdasd",
+      "status": "In Progress",
+      "generatedAt": "2025-12-02T03:32:56.660Z"
+    },
+    {
+      "id": 11,
+      "title": "sdakadsk",
+      "type": "Inspection",
+      "summary": "zxknczklxc",
+      "content": "qweiojqwpe",
+      "status": "In Progress",
+      "generatedAt": "2025-12-02T03:35:49.944Z"
+    },
+    {
+      "title": "leonardo",
+      "type": "Inspection",
+      "summary": "yoko perrovich",
+      "content": "saddas",
+      "url": "asd",
+      "status": "In Progress",
+      "id": 12
+    },
+    {
+      "title": "asddsa",
+      "type": "Maintenance",
+      "summary": "sdasda",
+      "content": "sadasd",
+      "url": "dasasd",
+      "status": "Generated",
+      "id": 13
       "title": "dsaldkma",
       "type": "incident",
       "summary": "sdaosdj",
