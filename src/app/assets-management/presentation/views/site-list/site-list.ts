@@ -14,8 +14,10 @@ import { AssetsManagementStore } from '../../../application/assets-management.st
 
 @Component({
   selector: 'app-site-list',
+  // Standalone so it can be lazy-loaded with loadComponent
+  standalone: true,
   imports: [CommonModule,
-    CommonModule,
+    // CommonModule was duplicated; removed duplicate
     RouterModule,
     FormsModule,
     TranslateModule,
@@ -28,7 +30,7 @@ import { AssetsManagementStore } from '../../../application/assets-management.st
     MatTooltipModule
   ],
   templateUrl: './site-list.html',
-  styleUrl: './site-list.css',
+  styleUrls: ['./site-list.css'],
 })
 export class SiteList {
   public store = inject(AssetsManagementStore);

@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-site-detail',
+  // This is a standalone component so it can be lazy-loaded via loadComponent
+  standalone: true,
   imports: [
     CommonModule,
     RouterModule,
@@ -15,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatButtonModule],
   templateUrl: './site-detail.html',
-  styleUrl: './site-detail.css',
+  styleUrls: ['./site-detail.css'],
 })
 export class SiteDetail {
   public store = inject(AssetsManagementStore);

@@ -1,16 +1,48 @@
 ﻿{
   "common": {
-    "appName": "Frigora"
+    "appName": "Frigora",
+    "actions": "Acciones",
+    "cancel": "Cancelar",
+    "view-details": "Ver Detalles"
   },
   "nav": {
-    "dashboard": "Panel principal",
+    "dashboard": "Inicio",
     "sites": "Sitios",
     "equipments": "Equipos",
     "services": "Servicios",
     "alerts": "Alertas",
     "reports": "Reportes",
-    "provider_dashboard": "Panel principal",
+    "provider_dashboard": "Inicio",
     "provider_services": "Servicios",
     "technician_management": "Técnicos"
+  },
+  "sites": {
+    "list": {
+      "title": "Sitios",
+      "name": "Nombre del Sitio",
+      "address": "Dirección",
+      "empty": "No se encontraron sitios registrados."
+    },
+    "new": {
+      "title": "Nuevo Sitio",
+      "name": "Nombre",
+      "address": "Dirección",
+      "contact-name": "Nombre de Contacto",
+      "phone": "Teléfono",
+      "register": "Registrar",
+      "alert-required-fields": "Por favor, complete todos los campos obligatorios.",
+      "alert-site-created": "Sitio creado con éxito.",
+      "alert-create-error": "Ocurrió un error al crear el sitio."
+    },
+    "detail": {
+      "title": "Detalles del Sitio",
+      "contactName": "Nombre de Contacto",
+      "contactPhone": "Teléfono de Contacto",
+      "createdAt": "Fecha de Creación",
+      "updatedAt": "Última Actualización"
+    }
+  },
+  "errors": {
+    "occurred": "Ocurrió un error"
   }
 }

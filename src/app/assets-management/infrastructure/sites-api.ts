@@ -7,6 +7,6 @@ import { environment } from '../../../environments/environment';
 
 export class SitesApiEndpoint extends BaseApiEndpoint<Sites, SitesResource, SitesResponse, SitesAssembler>{
   constructor(http: HttpClient) {
-    super(http, environment.ProviderApiBaseUrl + environment.ProviderSitesEndpointPath, new SitesAssembler());
+    super(http, environment.apiBaseUrl + environment.sitesEndpointPath, new SitesAssembler());
   }
 }

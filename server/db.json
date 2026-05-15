@@ -310,6 +310,13 @@
       "contactPhone": "+51 999 444 333",
       "createdAt": "2025-02-15T00:00:00Z",
       "updatedAt": "2025-09-01T00:00:00Z"
+    },
+    {
+      "name": "Carlo Pastelería",
+      "address": "Huamanga 218",
+      "contactName": "Felix Felicis",
+      "phone": "975864111",
+      "id": "Zwb0Shp"
     }
   ],
   "equipments": [

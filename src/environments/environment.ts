@@ -1,7 +1,6 @@
 export const environment = {
   production: true,
-  ProviderApiBaseUrl: 'http://localhost:3000/api/v1',
-  ProviderSitesEndpointPath: '/site',
-
+  apiBaseUrl: 'http://localhost:3000/api/v1',
+  sitesEndpointPath: '/sites',
 
 };
