@@ -1,6 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-sidebar: #d1e9f6;
+  --bg-header: #cce8f4;
+  --bg-footer: #cce8f4;
+  --border-color: #a8d4e8;
+  --text-primary: #1a4a6b;
+  --text-secondary: rgba(26, 74, 107, 0.6);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-sidebar: #1a2332;
+  --bg-header: #1a2332;
+  --bg-footer: #1a2332;
+  --border-color: #2c3e50;
+  --text-primary: #e0e0e0;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+
+  --mat-table-background-color: #1e1e1e;
+  --mat-table-row-item-label-text-color: #e0e0e0;
+  --mat-table-header-headline-color: #e0e0e0;
+  --mat-form-field-container-text-color: #e0e0e0;
+  --mat-select-trigger-text-color: #e0e0e0;
+  --mat-option-label-text-color: #e0e0e0;
+  --mat-card-background-color: #1e1e1e;
+  --mat-paginator-container-background-color: #1e1e1e;
+  --mat-paginator-label-text-color: rgba(255, 255, 255, 0.6);
+  --mdc-outlined-text-field-label-text-color: rgba(255, 255, 255, 0.6);
+  --mdc-outlined-text-field-outline-color: rgba(255, 255, 255, 0.2);
+  --mat-select-panel-background-color: #2c2c2c;
+  --mat-chip-label-text-color: #e0e0e0;
+
+  .mat-mdc-chip {
+    background-color: #2c2c2c !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .mat-mdc-select-value-text {
+    color: #e0e0e0;
+  }
+}

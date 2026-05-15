@@ -1,5 +1,6 @@
 :host {
   display: block;
+  background-color: var(--bg-sidebar);
 }
 
 .sidebar {
@@ -9,6 +10,9 @@
   overflow: auto;
   width: 240px;
   box-sizing: border-box;
+}
+.side {
+  background-color: var(--bg-sidebar);
 }
 
 .nav-item {
@@ -101,3 +105,4 @@
   height: 22px;
   flex-shrink: 0;
 }
+

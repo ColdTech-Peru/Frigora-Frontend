@@ -4,6 +4,8 @@ import { TranslateService } from '@ngx-translate/core'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
 import { LanguageSwitcher } from '../language-switcher/language-switcher'
+import { ThemeService } from '../../../infrastructure/theme-service';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-header',
@@ -12,12 +14,13 @@ import { LanguageSwitcher } from '../language-switcher/language-switcher'
     MatIconModule,
     MatButtonModule,
     LanguageSwitcher,
+    MatTooltip
   ],
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
 export class Header {
-
+  readonly theme = inject(ThemeService);
   private router = inject(Router)
   private translate = inject(TranslateService)
 

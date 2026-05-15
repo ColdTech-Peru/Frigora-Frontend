@@ -63,7 +63,7 @@ export class Sidebar {
       { labelKey: 'nav.dashboard',  icon: 'home',          route: '/dashboard' },
       { labelKey: 'nav.sites',      icon: 'business',      route: '/sites' },
       { labelKey: 'nav.equipments', icon: 'dns',           route: '/equipments' },
-      { labelKey: 'nav.services',   icon: 'work',          route: '/service-requests-list' },
+      { labelKey: 'nav.services',   icon: 'work',          route: '/services' },
       { labelKey: 'nav.alerts',     icon: 'notifications', route: '/alerts' },
       { labelKey: 'nav.reports',    icon: 'bar_chart',     route: '/reporting' },
     ]

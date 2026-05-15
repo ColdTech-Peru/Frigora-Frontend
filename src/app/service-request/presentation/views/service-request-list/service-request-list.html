@@ -1,0 +1,111 @@
+<div class="page-container">
+
+  <div class="page-header">
+    <h1 class="page-title">{{'service-request.requests' | translate }}</h1>
+    <button mat-flat-button color="primary" (click)="navigateToNew()">
+      <mat-icon>add</mat-icon>
+      {{ 'service-request.button' | translate}}
+    </button>
+  </div>
+
+  <div class="filters-bar">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>{{'service-request.status' | translate}}</mat-label>
+      <mat-select [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()">
+        <mat-option *ngFor="let s of statusOptions" [value]="s">
+          {{ s || 'All' }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>{{ 'service-request.type' | translate }}</mat-label>
+      <mat-select [(ngModel)]="selectedType" (ngModelChange)="applyFilters()">
+        <mat-option *ngFor="let t of typeOptions" [value]="t">
+          {{ t || 'All' }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="loading()" class="loading-container">
+    <mat-spinner diameter="40" />
+  </div>
+
+  <div class="table-container mat-elevation-z2" [hidden]="loading()">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="orderNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+        <td mat-cell *matCellDef="let row">{{ row.orderNumber }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'service-request.date' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ formatDate(row.createdAt) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="equipmentName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'service-request.equipment' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.equipmentName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="siteName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'service-request.site' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.siteName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="assignedToName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'service-request.provider' | translate }}</th>
+        <td mat-cell *matCellDef="let row">{{ row.assignedToName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>{{ 'service-request.type' | translate }}</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip [class]="row.type === 'corrective' ? 'chip-corrective' : 'chip-preventive'">
+            {{ row.type }}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>{{ 'service-request.status' | translate }}</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip [class]="statusClass(row.status)">
+            {{ row.status }}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>{{ 'service-request.actions' | translate }}</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button color="primary"
+                  matTooltip="View detail"
+                  (click)="navigateToDetail(row)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-data-cell" [attr.colspan]="displayedColumns.length">
+          No service requests found.
+        </td>
+      </tr>
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons />
+  </div>
+
+  <div *ngIf="error()" class="error-message">
+    <mat-icon>error_outline</mat-icon>
+    {{ error() }}
+  </div>
+
+</div>
