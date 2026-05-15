@@ -12,5 +12,30 @@
     "provider_dashboard": "Panel principal",
     "provider_services": "Servicios",
     "technician_management": "Técnicos"
+  },
+  "service-request": {
+    "requests": "Mis Solicitudes de Servicio",
+    "button": "Nueva Solicitud de Servicio",
+    "newService": "Nueva Solicitud de Servicio",
+    "site": "Sitio",
+    "equipment": "Equipo",
+    "requestType": "Tipo de solicitud",
+    "priority": "Prioridad",
+    "description": "Descripción",
+    "date": "Fecha",
+    "provider": "Proveedor",
+    "type": "Tipo",
+    "status": "Estado",
+    "actions": "Acciones",
+    "requestDetails": "Detalles de la solicitud",
+    "createdAt": "Creado en",
+    "completedAt": "Completado en",
+    "request": "Solicitud de Servicio",
+    "equipmentDetails": "Ver Detalles Del Equipo"
+  },
+
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "powered-by": "Desarrollado por"
   }
 }

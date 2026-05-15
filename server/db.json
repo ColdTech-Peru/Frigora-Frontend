@@ -1,0 +1,1274 @@
+{
+  "tenants": [
+    {
+      "id": "t1",
+      "name": "Frostshield Demo",
+      "plan": "pro",
+      "createdAt": "2025-09-01T00:00:00Z"
+    },
+    {
+      "id": "t2",
+      "name": "Lácteos Lima SAC",
+      "plan": "basic",
+      "createdAt": "2025-09-05T00:00:00Z"
+    }
+  ],
+  "users": [
+    {
+      "name": "owner",
+      "username": "owner",
+      "password": "owner",
+      "role": "owner",
+      "id": "KWPA3wG",
+      "tenantId": "t1"
+    },
+    {
+      "name": "prov",
+      "username": "prov",
+      "password": "prov",
+      "role": "provider",
+      "id": "14qTsdO",
+      "tenantId": "t1"
+    },
+    {
+      "name": "pro",
+      "username": "pro",
+      "password": "pro",
+      "role": "provider",
+      "id": "-uV94bL",
+      "tenantId": "t1"
+    },
+    {
+      "name": "pro2",
+      "username": "pro2",
+      "password": "pro2",
+      "role": "provider",
+      "id": "S2HxCjl",
+      "tenantId": "t2"
+    },
+    {
+      "name": "client",
+      "username": "client",
+      "password": "client",
+      "role": "owner",
+      "id": "oCTRfpK",
+      "tenantId": "t2"
+    },
+    {
+      "name": "c",
+      "username": "c",
+      "password": "c",
+      "role": "owner",
+      "id": "eR2dQHR",
+      "tenantId": "t1"
+    },
+    {
+      "name": "company",
+      "username": "company",
+      "password": "company",
+      "role": "provider",
+      "id": "bNYYBos",
+      "tenantId": "t2"
+    },
+    {
+      "name": "owner2",
+      "username": "owner2",
+      "password": "owner2",
+      "role": "owner",
+      "id": "jUKr0rh",
+      "tenantId": "t2"
+    },
+    {
+      "name": "newow",
+      "username": "newow",
+      "password": "newoow",
+      "role": "provider",
+      "id": "D0tzX3L",
+      "tenantId": "t1"
+    },
+    {
+      "name": "new",
+      "username": "new",
+      "password": "new",
+      "role": "owner",
+      "id": "KZOq8nW",
+      "tenantId": "t2"
+    },
+    {
+      "name": "newp",
+      "username": "newp",
+      "password": "newp",
+      "role": "provider",
+      "id": "WHInLM1",
+      "tenantId": "t1"
+    },
+    {
+      "name": "go",
+      "username": "go",
+      "password": "go",
+      "role": "owner",
+      "id": "A6l8Z1G"
+    },
+    {
+      "name": "pro3",
+      "username": "pro3",
+      "password": "pro3",
+      "role": "provider",
+      "id": "8DxIGrK"
+    },
+    {
+      "name": "ow3",
+      "username": "ow3",
+      "password": "ow3",
+      "role": "owner",
+      "id": "lRkRbL2"
+    },
+    {
+      "name": "ow1",
+      "username": "ow1",
+      "password": "ow1",
+      "role": "owner",
+      "id": "swkxR10"
+    },
+    {
+      "name": "provider",
+      "username": "provider",
+      "password": "provider",
+      "role": "provider",
+      "id": "iHGC2SU"
+    },
+    {
+      "name": "owner4",
+      "username": "owner4",
+      "password": "owner4",
+      "role": "owner",
+      "id": "76BguhY"
+    },
+    {
+      "name": "owner1",
+      "username": "owner1",
+      "password": "owner",
+      "role": "owner",
+      "id": "qpkRK_s"
+    }
+  ],
+  "technicians": [
+    {
+      "name": "tec tec",
+      "specialty": "Mantenimiento",
+      "phone": "987654321",
+      "providerId": "14qTsdO",
+      "id": "nJDNWmx",
+      "tenantId": "t1"
+    },
+    {
+      "name": "upc",
+      "specialty": "upc",
+      "phone": "987654322",
+      "providerId": "S2HxCjl",
+      "id": "4atkQ-j",
+      "tenantId": "t2"
+    },
+    {
+      "name": "g",
+      "specialty": "g",
+      "phone": "987654323",
+      "providerId": "-uV94bL",
+      "id": "6nTs5MJ",
+      "tenantId": "t1"
+    },
+    {
+      "name": "tecn",
+      "specialty": "tecn",
+      "phone": "987654324",
+      "providerId": "S2HxCjl",
+      "id": "UG1Y1yR",
+      "tenantId": "t2"
+    },
+    {
+      "name": "protec",
+      "specialty": "protec",
+      "phone": "987654325",
+      "providerId": "-uV94bL",
+      "id": "d6tJxH0",
+      "tenantId": "t1"
+    },
+    {
+      "name": "ff",
+      "specialty": "ff",
+      "phone": "987654326",
+      "providerId": "-uV94bL",
+      "id": "65z1DNJ",
+      "tenantId": "t1"
+    },
+    {
+      "name": "t",
+      "specialty": "t",
+      "phone": "987654327",
+      "providerId": "S2HxCjl",
+      "id": "j2a8eqz",
+      "tenantId": "t2"
+    },
+    {
+      "name": "pro",
+      "specialty": "sps",
+      "phone": "987654328",
+      "providerId": "-uV94bL",
+      "id": "wKY3-Pl",
+      "tenantId": "t1"
+    },
+    {
+      "name": "Juan",
+      "specialty": "Mantenimiento",
+      "phone": "987654329",
+      "providerId": "WHInLM1",
+      "id": "ACq4Wcy",
+      "tenantId": "t1"
+    },
+    {
+      "name": "Gerardo",
+      "specialty": "Reparación",
+      "phone": "987654330",
+      "providerId": "WHInLM1",
+      "id": "BkUyePi",
+      "tenantId": "t1"
+    },
+    {
+      "name": "manuel",
+      "specialty": "manuel",
+      "phone": "987654331",
+      "providerId": "8DxIGrK",
+      "id": "u0J2Yiv"
+    },
+    {
+      "name": "manuel",
+      "specialty": "Reparación",
+      "phone": "987654332",
+      "providerId": "3cxmfAk",
+      "id": "osYf66F"
+    },
+    {
+      "name": "Ricardo",
+      "specialty": "Reparación",
+      "phone": "987654333",
+      "providerId": "iHGC2SU",
+      "id": "REA3y93"
+    },
+    {
+      "name": "Manuel Torres",
+      "specialty": "Mantenimiento",
+      "phone": "987654123",
+      "providerId": "-uV94bL",
+      "id": "B9K5GMQ"
+    }
+  ],
+  "sites": [
+    {
+      "id": "s1",
+      "tenantId": "t1",
+      "name": "Minimarket San Miguel",
+      "address": "Av. La Marina 1234, Lima",
+      "lat": -12.08,
+      "lng": -77.08,
+      "contactName": "Sonia Rocio",
+      "contactPhone": "+51 999 111 222",
+      "createdAt": "2024-12-01T00:00:00Z",
+      "updatedAt": "2025-09-01T00:00:00Z"
+    },
+    {
+      "id": "s2",
+      "tenantId": "t2",
+      "name": "Laboratorio Central",
+      "address": "Av. Arequipa 456, Lima",
+      "lat": -12.09,
+      "lng": -77.04,
+      "contactName": "Henry Campos",
+      "contactPhone": "+51 999 333 444",
+      "createdAt": "2024-12-10T00:00:00Z",
+      "updatedAt": "2025-09-01T00:00:00Z"
+    },
+    {
+      "id": "s3",
+      "tenantId": "t1",
+      "name": "Demo Store",
+      "address": "Jr. Demo 101, Lima",
+      "lat": -12.05,
+      "lng": -77.03,
+      "contactName": "Kenyi Ramírez",
+      "contactPhone": "+51 999 555 666",
+      "createdAt": "2025-01-01T00:00:00Z",
+      "updatedAt": "2025-09-01T00:00:00Z"
+    },
+    {
+      "id": "s4",
+      "tenantId": "t2",
+      "name": "Warehouse Chorrillos",
+      "address": "Av. Guardia Peruana 2345, Lima",
+      "lat": -12.17,
+      "lng": -77.02,
+      "contactName": "Alejandro Galindo",
+      "contactPhone": "+51 999 444 333",
+      "createdAt": "2025-02-15T00:00:00Z",
+      "updatedAt": "2025-09-01T00:00:00Z"
+    }
+  ],
+  "equipments": [
+    {
+      "id": "e1",
+      "tenantId": "t1",
+      "siteId": "s1",
+      "name": "Freezer Vertical #1",
+      "type": "freezer",
+      "manufacturer": "FrioPeru",
+      "model": "FP-300V",
+      "serial": "FV-1-0001",
+      "installedAt": "2024-05-10",
+      "status": "active",
+      "powerState": "on",
+      "setpointC": -18,
+      "lastSeenAt": "2025-09-21T14:10:00Z",
+      "online": true
+    },
+    {
+      "id": "e2",
+      "tenantId": "t2",
+      "siteId": "s2",
+      "name": "Cámara Frigorífica A",
+      "type": "coldRoom",
+      "manufacturer": "ColdTech",
+      "model": "CT-CR600",
+      "serial": "CR-600-A",
+      "installedAt": "2023-11-02",
+      "status": "active",
+      "powerState": "on",
+      "setpointC": 4,
+      "lastSeenAt": "2025-09-21T14:10:00Z",
+      "online": true
+    },
+    {
+      "id": "e3",
+      "tenantId": "t1",
+      "siteId": "s1",
+      "name": "Vitrina Refrigerada",
+      "type": "displayCase",
+      "manufacturer": "Vitrifrio",
+      "model": "VF-120",
+      "serial": "VF-120-01",
+      "installedAt": "2024-07-20",
+      "status": "maintenance",
+      "powerState": "off",
+      "setpointC": 3,
+      "lastSeenAt": "2025-09-21T13:30:00Z",
+      "online": false
+    },
+    {
+      "id": "e4",
+      "tenantId": "t1",
+      "siteId": "s3",
+      "name": "Freezer Demo",
+      "type": "freezer",
+      "manufacturer": "DemoCorp",
+      "model": "DC-F100",
+      "serial": "DCF-100-D",
+      "installedAt": "2025-01-10",
+      "status": "active",
+      "powerState": "on",
+      "setpointC": -18,
+      "lastSeenAt": "2025-09-21T14:10:00Z",
+      "online": true
+    },
+    {
+      "id": "e5",
+      "tenantId": "t2",
+      "siteId": "s4",
+      "name": "Cámara Frigorífica B",
+      "type": "coldRoom",
+      "manufacturer": "ArcticPro",
+      "model": "AP-800",
+      "serial": "AP-800-B",
+      "installedAt": "2025-03-05",
+      "status": "active",
+      "powerState": "on",
+      "setpointC": 3,
+      "lastSeenAt": "2025-09-21T14:10:00Z",
+      "online": true
+    }
+  ],
+  "sensors": [
+    {
+      "id": "sen1",
+      "tenantId": "t1",
+      "equipmentId": "e1",
+      "kind": "temperature",
+      "unit": "C",
+      "status": "active",
+      "lastSeenAt": "2025-09-21T14:10:00Z"
+    },
+    {
+      "id": "sen2",
+      "tenantId": "t1",
+      "equipmentId": "e1",
+      "kind": "energy",
+      "unit": "kWh",
+      "status": "active",
+      "lastSeenAt": "2025-09-21T14:10:00Z"
+    },
+    {
+      "id": "sen3",
+      "tenantId": "t2",
+      "equipmentId": "e2",
+      "kind": "temperature",
+      "unit": "C",
+      "status": "active",
+      "lastSeenAt": "2025-09-21T14:10:00Z"
+    },
+    {
+      "id": "sen4",
+      "tenantId": "t1",
+      "equipmentId": "e3",
+      "kind": "temperature",
+      "unit": "C",
+      "status": "inactive",
+      "lastSeenAt": "2025-09-21T12:55:00Z"
+    },
+    {
+      "id": "sen5",
+      "tenantId": "t1",
+      "equipmentId": "e4",
+      "kind": "temperature",
+      "unit": "C",
+      "status": "active",
+      "lastSeenAt": "2025-09-21T14:10:00Z"
+    },
+    {
+      "id": "sen6",
+      "tenantId": "t2",
+      "equipmentId": "e5",
+      "kind": "temperature",
+      "unit": "C",
+      "status": "active",
+      "lastSeenAt": "2025-09-21T14:10:00Z"
+    }
+  ],
+  "readings": [
+    {
+      "id": "r1",
+      "tenantId": "t1",
+      "sensorId": "sen1",
+      "equipmentId": "e1",
+      "ts": "2025-09-21T13:00:00Z",
+      "temperature": -18.2,
+      "energyKwh": 1.2,
+      "uptimePct": 99.7
+    },
+    {
+      "id": "r2",
+      "tenantId": "t1",
+      "sensorId": "sen1",
+      "equipmentId": "e1",
+      "ts": "2025-09-21T14:00:00Z",
+      "temperature": -13,
+      "energyKwh": 1.3,
+      "uptimePct": 99.7
+    },
+    {
+      "id": "r3",
+      "tenantId": "t2",
+      "sensorId": "sen3",
+      "equipmentId": "e2",
+      "ts": "2025-09-21T13:00:00Z",
+      "temperature": 4.1,
+      "energyKwh": 2.5,
+      "uptimePct": 99.9
+    },
+    {
+      "id": "r4",
+      "tenantId": "t1",
+      "sensorId": "sen4",
+      "equipmentId": "e3",
+      "ts": "2025-09-21T13:00:00Z",
+      "temperature": 6.2,
+      "energyKwh": 0.8,
+      "uptimePct": 98.5
+    },
+    {
+      "id": "r5",
+      "tenantId": "t1",
+      "sensorId": "sen5",
+      "equipmentId": "e4",
+      "ts": "2025-09-21T13:00:00Z",
+      "temperature": -19,
+      "energyKwh": 1,
+      "uptimePct": 100
+    },
+    {
+      "id": "r6",
+      "tenantId": "t1",
+      "sensorId": "sen1",
+      "equipmentId": "e1",
+      "ts": "2025-09-21T15:00:00Z",
+      "temperature": -16.8,
+      "energyKwh": 1.4,
+      "uptimePct": 99.7
+    },
+    {
+      "id": "r7",
+      "tenantId": "t2",
+      "sensorId": "sen6",
+      "equipmentId": "e5",
+      "ts": "2025-09-21T13:00:00Z",
+      "temperature": 3.5,
+      "energyKwh": 2,
+      "uptimePct": 100
+    },
+    {
+      "id": "r8",
+      "tenantId": "t1",
+      "sensorId": "sen1",
+      "equipmentId": "e1",
+      "ts": "2025-09-21T16:00:00Z",
+      "temperature": -18.1,
+      "energyKwh": 1.1,
+      "uptimePct": 99.8
+    }
+  ],
+  "alerts": [
+    {
+      "id": "a1",
+      "tenantId": "t1",
+      "equipmentId": "e1",
+      "siteId": "s1",
+      "type": "highTemperature",
+      "severity": "critical",
+      "message": "Temperatura por encima del umbral (-13.0 °C > -15.0 °C)",
+      "status": "acknowledged",
+      "createdAt": "2025-09-21T14:02:00Z",
+      "acknowledgedAt": "2025-09-21T14:03:00Z",
+      "acknowledgedBy": "u4",
+      "resolvedAt": null,
+      "resolvedBy": null,
+      "closedAt": null,
+      "createdBy": "system"
+    },
+    {
+      "id": "a2",
+      "tenantId": "t2",
+      "equipmentId": "e2",
+      "siteId": "s2",
+      "type": "powerLoss",
+      "severity": "warning",
+      "message": "Pérdida de energía detectada durante 2 min",
+      "status": "resolved",
+      "createdAt": "2025-09-20T10:15:00Z",
+      "acknowledgedAt": "2025-09-20T10:17:00Z",
+      "acknowledgedBy": "u5",
+      "resolvedAt": "2025-09-20T10:20:00Z",
+      "resolvedBy": "u5",
+      "closedAt": "2025-09-20T10:25:00Z",
+      "createdBy": "system"
+    },
+    {
+      "id": "a3",
+      "tenantId": "t1",
+      "equipmentId": "e4",
+      "siteId": "s3",
+      "type": "sensorOffline",
+      "severity": "info",
+      "message": "Sensor sin datos > 5 min",
+      "status": "open",
+      "createdAt": "2025-09-21T13:05:00Z",
+      "acknowledgedAt": null,
+      "acknowledgedBy": null,
+      "resolvedAt": null,
+      "resolvedBy": null,
+      "closedAt": null,
+      "createdBy": "system"
+    },
+    {
+      "id": "a4",
+      "tenantId": "t1",
+      "equipmentId": "e3",
+      "siteId": "s1",
+      "type": "highTemperature",
+      "severity": "warning",
+      "message": "Temperatura elevada sostenida (6.2 °C > 4.0 °C)",
+      "status": "closed",
+      "createdAt": "2025-09-19T09:00:00Z",
+      "acknowledgedAt": "2025-09-19T09:05:00Z",
+      "acknowledgedBy": "u4",
+      "resolvedAt": "2025-09-19T10:30:00Z",
+      "resolvedBy": "u5",
+      "closedAt": "2025-09-19T10:45:00Z",
+      "createdBy": "system"
+    },
+    {
+      "id": "a5",
+      "tenantId": "t1",
+      "equipmentId": "e1",
+      "siteId": "s1",
+      "type": "highTemperature",
+      "severity": "warning",
+      "message": "Pico temporal de temperatura (-16.8 °C > -18.0 °C objetivo)",
+      "status": "resolved",
+      "createdAt": "2025-09-21T15:05:00Z",
+      "acknowledgedAt": "2025-09-21T15:06:00Z",
+      "acknowledgedBy": "u5",
+      "resolvedAt": "2025-09-21T15:20:00Z",
+      "resolvedBy": "u5",
+      "closedAt": null,
+      "createdBy": "system"
+    }
+  ],
+  "serviceRequests": [
+    {
+      "requesterId": "eR2dQHR",
+      "siteId": "s1",
+      "equipmentId": "e1",
+      "assignedTo": "S2HxCjl",
+      "origin": "manual",
+      "type": "corrective",
+      "priority": "high",
+      "description": "para pro2\n",
+      "status": "completed",
+      "createdAt": "2025-11-16T17:28:59.535Z",
+      "id": "7",
+      "technicianId": "4atkQ-j",
+      "completedAt": "2025-11-16T17:42:06.375Z",
+      "tenantId": "t1"
+    },
+    {
+      "requesterId": "eR2dQHR",
+      "siteId": "s1",
+      "equipmentId": "e3",
+      "assignedTo": "14qTsdO",
+      "origin": "manual",
+      "type": "corrective",
+      "priority": "high",
+      "description": "n",
+      "status": "pending",
+      "createdAt": "2025-11-16T17:31:49.268Z",
+      "id": "8",
+      "tenantId": "t1"
+    },
+    {
+      "requesterId": "KWPA3wG",
+      "siteId": "s2",
+      "equipmentId": "e2",
+      "assignedTo": "14qTsdO",
+      "origin": "manual",
+      "type": "preventive",
+      "priority": "medium",
+      "description": "para prov\n",
+      "status": "inProgress",
+      "createdAt": "2025-11-16T17:39:41.471Z",
+      "id": "9",
+      "technicianId": "nJDNWmx",
+      "tenantId": "t1"
+    },
+    {
+      "requesterId": "KWPA3wG",
+      "siteId": "s1",
+      "equipmentId": "e1",
+      "assignedTo": "-uV94bL",
+      "origin": "manual",
+      "type": "preventive",
+      "priority": "low",
+      "description": "para pro\n",
+      "status": "completed",
+      "createdAt": "2025-11-16T17:51:51.924Z",
+      "id": "10",
+      "technicianId": "d6tJxH0",
+      "completedAt": "2025-11-16T18:05:26.172Z",
+      "tenantId": "t1"
+    },
+    {
+      "requesterId": "jUKr0rh",
+      "siteId": "s1",
+      "equipmentId": "e3",
+      "assignedTo": "bNYYBos",
+      "origin": "manual",
+      "type": "preventive",
+      "priority": "low",
+      "description": "para company\n",
+      "status": "pending",
+      "createdAt": "2025-11-16T17:57:23.393Z",
+      "id": "11",
+      "tenantId": "t2"
+    },
+    {
+      "requesterId": "jUKr0rh",
+      "siteId": "s2",
+      "equipmentId": "e2",
+      "assignedTo": "-uV94bL",
+      "origin": "manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "para pro\n",
+      "status": "rejected",
+      "createdAt": "2025-11-16T18:01:48.611Z",
+      "id": "12",
+      "tenantId": "t2"
+    },
+    {
+      "requesterId": "jUKr0rh",
+      "siteId": "s1",
+      "equipmentId": "e1",
+      "assignedTo": "-uV94bL",
+      "origin": "manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "para pro otra\n",
+      "status": "completed",
+      "createdAt": "2025-11-16T18:05:04.721Z",
+      "id": "13",
+      "technicianId": "d6tJxH0",
+      "tenantId": "t2",
+      "completedAt": "2025-11-16T22:01:42.203Z"
+    },
+    {
+      "requesterId": "KWPA3wG",
+      "siteId": "s1",
+      "equipmentId": "e1",
+      "assignedTo": "S2HxCjl",
+      "origin": "manual",
+      "type": "preventive",
+      "priority": "medium",
+      "description": "pro2",
+      "status": "completed",
+      "createdAt": "2025-11-16T18:08:24.239Z",
+      "id": "14",
+      "technicianId": "j2a8eqz",
+      "completedAt": "2025-11-16T18:09:40.749Z",
+      "tenantId": "t1"
+    },
+    {
+      "id": "1",
+      "tenantId": "t2",
+      "type": "inspection",
+      "equipmentId": "e2",
+      "createdAt": "2025-09-21T12:00:00Z",
+      "title": "Rendimiento - Cámara A (sep, 2025)",
+      "status": "completed",
+      "summary": "Temperatura promedio 4.3 °C, sin incidentes críticos.",
+      "content": "Rendimiento del equipo.",
+      "url": "/reports/rep1.pdf"
+    },
+    {
+      "id": "2",
+      "tenantId": "t2",
+      "type": "inspection",
+      "equipmentId": "e2",
+      "createdAt": "2025-09-21T17:20:00Z",
+      "title": "Reporte de consumo de energía - Cámara A",
+      "status": "completed",
+      "summary": "Consumo estable. Pico de 3.2 kWh",
+      "content": "Reporte detallado de consumo energético.",
+      "url": "/reports/rep2.pdf"
+    },
+    {
+      "id": "3",
+      "tenantId": "t1",
+      "type": "maintenance",
+      "equipmentId": "e2",
+      "serviceRequestId": "sr4",
+      "createdAt": "2025-09-12T11:30:00Z",
+      "title": "Reporte de historial - Cámara B",
+      "status": "canceled",
+      "summary": "Generación pendiente. Última solicitud hace 2 horas.",
+      "content": "Reporte en proceso de generación.",
+      "url": "/reports/rep3.pdf"
+    },
+    {
+      "id": "4",
+      "tenantId": "t1",
+      "type": "maintenance",
+      "equipmentId": "e5",
+      "createdAt": "2025-09-21T12:30:00Z",
+      "title": "Reporte de consumo de energía - Cámara B",
+      "status": "completed",
+      "summary": "Consumo promedio 2.9 kWh, sin anomalías.",
+      "content": "Reporte detallado de consumo energético.",
+      "url": "/reports/rep4.pdf"
+    },
+    {
+      "id": "5",
+      "tenantId": "t2",
+      "type": "inspection",
+      "equipmentId": "e1",
+      "createdAt": "2025-09-21T14:30:00Z",
+      "title": "Rendimiento - Freezer Vertical #1 (sep, 2025)",
+      "status": "completed",
+      "summary": "Temperatura promedio -17.5 °C, 1 alerta crítica resuelta.",
+      "content": "Rendimiento del equipo.",
+      "url": "/reports/rep5.pdf"
+    },
+    {
+      "id": "6",
+      "tenantId": null,
+      "type": "audit",
+      "equipmentId": null,
+      "createdAt": "2025-12-02T00:16:40.010Z",
+      "title": "kljalsdm",
+      "status": "completed",
+      "summary": "asdnmad",
+      "content": "xmc mkzx",
+      "url": ""
+    },
+    {
+      "id": "8",
+      "tenantId": null,
+      "type": "audit",
+      "equipmentId": null,
+      "createdAt": "2025-12-02T03:18:08.033Z",
+      "title": "kldskaklsdñ",
+      "status": "completed",
+      "summary": "aspdkaopskd",
+      "content": "asdijaoisjd",
+      "url": ""
+    },
+    {
+      "title": "dsaldkma",
+      "type": "incident",
+      "summary": "sdaosdj",
+      "content": "qwopekopqwke",
+      "status": "inProgress",
+      "createdAt": "2025-12-02T03:28:36.257Z",
+      "id": "9"
+    },
+    {
+      "title": "qweqwe",
+      "type": "maintenance",
+      "summary": "sdasdasd",
+      "content": "asdasd",
+      "status": "inProgress",
+      "createdAt": "2025-12-02T03:32:56.660Z",
+      "id": "10"
+    },
+    {
+      "title": "sdakadsk",
+      "type": "inspection",
+      "summary": "zxknczklxc",
+      "content": "qweiojqwpe",
+      "status": "inProgress",
+      "createdAt": "2025-12-02T03:35:49.944Z",
+      "id": "11"
+    },
+    {
+      "id": "8972",
+      "equipmentId": "e2",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "asad",
+      "status": "pending",
+      "createdAt": "2026-05-13T00:29:20.409Z",
+      "interventions": []
+    },
+    {
+      "id": "4856",
+      "equipmentId": "e3",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "asd",
+      "status": "pending",
+      "createdAt": "2026-05-13T00:29:46.451Z",
+      "interventions": []
+    },
+    {
+      "id": "ffb3",
+      "equipmentId": "e2",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "2342",
+      "status": "pending",
+      "createdAt": "2026-05-13T00:38:48.196Z",
+      "interventions": []
+    },
+    {
+      "id": "UBrj77d",
+      "equipmentId": "e3",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "asd",
+      "status": "pending",
+      "createdAt": "2026-05-13T01:27:20.396Z",
+      "interventions": []
+    },
+    {
+      "id": "iyoEnF6",
+      "equipmentId": "e2",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "asd",
+      "status": "pending",
+      "createdAt": "2026-05-13T02:03:05.831Z",
+      "interventions": []
+    },
+    {
+      "equipmentId": "e2",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "asd",
+      "status": "pending",
+      "createdAt": "2026-05-13T02:21:12.422Z",
+      "interventions": [],
+      "id": "LJVYe8V"
+    },
+    {
+      "equipmentId": "e4",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "asd",
+      "status": "pending",
+      "createdAt": "2026-05-13T02:21:25.840Z",
+      "interventions": [],
+      "id": "0gjOMRb"
+    },
+    {
+      "equipmentId": "e2",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "ASD",
+      "status": "pending",
+      "createdAt": "2026-05-13T03:08:49.767Z",
+      "interventions": [],
+      "id": "zZyBJdu"
+    },
+    {
+      "equipmentId": "e2",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "asd",
+      "status": "pending",
+      "createdAt": "2026-05-13T03:14:22.671Z",
+      "interventions": [],
+      "id": "krE-hr9"
+    },
+    {
+      "equipmentId": "e2",
+      "origin": "Manual",
+      "type": "preventive",
+      "priority": "high",
+      "description": "asd",
+      "status": "pending",
+      "createdAt": "2026-05-13T06:23:04.412Z",
+      "interventions": [],
+      "id": "WZU3UJf"
+    },
+    {
+      "equipmentId": "e2",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "asd",
+      "status": "pending",
+      "createdAt": "2026-05-13T23:14:17.900Z",
+      "interventions": [],
+      "id": "Jc7zTvt"
+    },
+    {
+      "equipmentId": "e4",
+      "origin": "Manual",
+      "type": "preventive",
+      "priority": "low",
+      "description": "hola",
+      "status": "pending",
+      "createdAt": "2026-05-13T23:14:37.666Z",
+      "interventions": [],
+      "id": "-HycrNE"
+    },
+    {
+      "siteId": "s2",
+      "equipmentId": "e4",
+      "origin": "Manual",
+      "type": "corrective",
+      "priority": "medium",
+      "description": "hola",
+      "status": "pending",
+      "createdAt": "2026-05-15T00:01:10.766Z",
+      "interventions": [],
+      "id": "taqpFAM"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n1",
+      "tenantId": "t1",
+      "userId": "u4",
+      "channel": "email",
+      "title": "Alerta crítica: Freezer Vertical #1",
+      "body": "Se detectó alta temperatura en Freezer Vertical #1.",
+      "read": false,
+      "readAt": null,
+      "actionUrl": "/alerts/a1",
+      "createdAt": "2025-09-21T14:03:00Z"
+    },
+    {
+      "id": "n2",
+      "tenantId": "t1",
+      "userId": "u5",
+      "channel": "app",
+      "title": "Nueva asignación SR-1",
+      "body": "Se te asignó la solicitud SR-1 (correctivo).",
+      "read": false,
+      "readAt": null,
+      "actionUrl": "/services/sr1",
+      "createdAt": "2025-09-21T14:06:00Z"
+    },
+    {
+      "id": "n3",
+      "tenantId": "t1",
+      "userId": "u1",
+      "channel": "app",
+      "title": "Resumen diario",
+      "body": "1 alerta abierta y 1 solicitud programada.",
+      "read": true,
+      "readAt": "2025-09-21T08:30:00Z",
+      "actionUrl": "/dashboard",
+      "createdAt": "2025-09-21T08:00:00Z"
+    }
+  ],
+  "logs": [
+    {
+      "id": "lg1",
+      "tenantId": "t1",
+      "type": "system",
+      "actorId": "system",
+      "action": "ALERT_TRIGGERED",
+      "entity": "alerts",
+      "entityId": "a1",
+      "context": {
+        "temperature": -13,
+        "thresholdMax": -15
+      },
+      "createdAt": "2025-09-21T14:02:00Z"
+    },
+    {
+      "id": "lg2",
+      "tenantId": "t1",
+      "type": "audit",
+      "actorId": "u4",
+      "action": "ALERT_ACK",
+      "entity": "alerts",
+      "entityId": "a1",
+      "context": {},
+      "createdAt": "2025-09-21T14:03:00Z"
+    },
+    {
+      "id": "lg3",
+      "tenantId": "t1",
+      "type": "audit",
+      "actorId": "u4",
+      "action": "CREATE_SERVICE_REQUEST",
+      "entity": "serviceRequests",
+      "entityId": "sr1",
+      "context": {
+        "fromAlert": "a1"
+      },
+      "createdAt": "2025-09-21T14:05:05Z"
+    },
+    {
+      "id": "lg4",
+      "tenantId": "t1",
+      "type": "audit",
+      "actorId": "u5",
+      "action": "ASSIGN_SELF",
+      "entity": "serviceRequests",
+      "entityId": "sr1",
+      "context": {
+        "previousAssignedTo": "u5"
+      },
+      "createdAt": "2025-09-21T14:06:10Z"
+    },
+    {
+      "id": "lg5",
+      "tenantId": "t1",
+      "type": "system",
+      "actorId": "system",
+      "action": "ALERT_TRIGGERED",
+      "entity": "alerts",
+      "entityId": "a3",
+      "context": {
+        "sensor": "sen5"
+      },
+      "createdAt": "2025-09-21T13:05:00Z"
+    },
+    {
+      "id": "lg6",
+      "tenantId": "t1",
+      "type": "audit",
+      "actorId": "u3",
+      "action": "SR_STATUS_CHANGE",
+      "entity": "serviceRequests",
+      "entityId": "sr4",
+      "context": {
+        "to": "done"
+      },
+      "createdAt": "2025-09-12T11:25:30Z"
+    }
+  ],
+  "dashboard": [
+    {
+      "id": "d1",
+      "tenantId": "t1",
+      "updatedAt": "2025-09-21T14:10:00Z",
+      "kpis": {
+        "totalSites": 2,
+        "totalEquipments": 3,
+        "openAlerts": 2,
+        "activeRequests": 2,
+        "energyThisWeekKwh": 312.4
+      },
+      "trends": {
+        "temperature": {
+          "labels": [
+            "09-17",
+            "09-18",
+            "09-19",
+            "09-20",
+            "09-21"
+          ],
+          "avg": [
+            3.9,
+            4.1,
+            4,
+            4.2,
+            4.3
+          ]
+        },
+        "energy": {
+          "labels": [
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri"
+          ],
+          "kwh": [
+            62,
+            58,
+            64,
+            60,
+            68
+          ]
+        }
+      }
+    },
+    {
+      "id": "d2",
+      "tenantId": "t2",
+      "updatedAt": "2025-09-21T14:10:00Z",
+      "kpis": {
+        "totalSites": 2,
+        "totalEquipments": 2,
+        "openAlerts": 1,
+        "activeRequests": 1,
+        "energyThisWeekKwh": 148.9
+      },
+      "trends": {
+        "temperature": {
+          "labels": [
+            "09-17",
+            "09-18",
+            "09-19",
+            "09-20",
+            "09-21"
+          ],
+          "avg": [
+            -18.5,
+            -18.4,
+            -18.6,
+            -18.3,
+            -18.7
+          ]
+        },
+        "energy": {
+          "labels": [
+            "Mon",
+            "Tue",
+            "Wed",
+            "Thu",
+            "Fri"
+          ],
+          "kwh": [
+            28,
+            30,
+            29,
+            31,
+            30
+          ]
+        }
+      }
+    }
+  ],
+  "system": [
+    {
+      "id": "sys1",
+      "defaultLanguage": "es",
+      "supportedLanguages": [
+        "es",
+        "en"
+      ],
+      "features": {
+        "remoteControl": false,
+        "sensorIngestion": true,
+        "reportsPdf": true,
+        "whatsappNotifications": true
+      },
+      "alertChannels": [
+        "email",
+        "sms",
+        "whatsapp",
+        "app"
+      ],
+      "units": {
+        "temperature": "C"
+      },
+      "thresholdDefaults": {
+        "freezer": {
+          "tempMin": -25,
+          "tempMax": -15
+        },
+        "coldRoom": {
+          "tempMin": 2,
+          "tempMax": 8
+        },
+        "displayCase": {
+          "tempMin": 1,
+          "tempMax": 4
+        }
+      },
+      "pagination": {
+        "pageSize": 10
+      }
+    }
+  ],
+  "interventions": [
+    {
+      "serviceRequestId": "Jc7zTvt",
+      "summary": "asd",
+      "startTime": "2322-03-12T07:23:00.000Z",
+      "endTime": "2322-03-13T04:22:00.000Z",
+      "status": "completed",
+      "photoUrls": [],
+      "id": 1
+    },
+    {
+      "serviceRequestId": "3",
+      "summary": "123",
+      "startTime": "1222-03-12T08:31:12.000Z",
+      "endTime": "1222-02-24T04:31:12.000Z",
+      "status": "completed",
+      "photoUrls": [],
+      "id": 2
+    }
+  ]
+}

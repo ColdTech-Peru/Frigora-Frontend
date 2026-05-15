@@ -12,5 +12,30 @@
     "provider_dashboard": "Dashboard",
     "provider_services": "Services",
     "technician_management": "Technicians"
+  },
+  "service-request": {
+    "requests": "My Service Requests",
+    "button": "New Service Request",
+    "newService": "New Service Request",
+    "site": "Site",
+    "equipment": "Equipment",
+    "requestType": "Request Type",
+    "priority": "Priority",
+    "description": "Description",
+    "date": "Date",
+    "provider": "Provider",
+    "type": "Type",
+    "status": "Status",
+    "actions": "Actions",
+    "requestDetails": "Request Details",
+    "createdAt": "Created at",
+    "completedAt": "Completed at",
+    "request": "Service Request",
+    "equipmentDetails": "View Equipment Details"
+  },
+
+  "footer": {
+    "rights": "All rights reserved.",
+    "powered-by": "Powered by"
   }
 }

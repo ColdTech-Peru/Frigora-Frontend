@@ -1,0 +1,114 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+
+  --color-brand-primary: #1976d2;
+  --color-brand-light: #d1e9f6;
+  --color-brand-hover: rgba(25, 118, 210, 0.08);
+}
+
+.page-container {
+  padding: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.form-card {
+  border-radius: 8px;
+  border-top: 4px solid var(--color-brand-light);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+mat-card-actions {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+mat-card-actions button[mat-flat-button],
+mat-card-actions button.mat-mdc-flat-button.mat-primary {
+  background-color: var(--color-brand-primary) !important;
+  color: #ffffff !important;
+  font-weight: 500;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3) !important;
+  transition: all 0.2s ease-in-out;
+}
+
+mat-card-actions button[mat-flat-button]:hover,
+mat-card-actions button.mat-mdc-flat-button.mat-primary:hover {
+  background-color: #1565c0 !important;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+mat-card-actions button[mat-button],
+mat-card-actions button.mat-mdc-button {
+  background-color: transparent !important;
+  color: var(--color-brand-primary) !important;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+mat-card-actions button[mat-button]:hover,
+mat-card-actions button.mat-mdc-button:hover {
+  background-color: var(--color-brand-hover) !important;
+}
+
+.btn-spinner {
+  display: inline-block;
+  margin-right: 6px;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: var(--color-brand-primary) !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: var(--color-brand-primary) !important;
+}
+
+.error-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f44336;
+  margin-top: 8px;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: 1;
+  }
+}

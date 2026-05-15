@@ -40,3 +40,8 @@
   gap: 4px;
   align-items: center;
 }
+
+.topbar {
+  background: var(--bg-header);
+  border-bottom: 0.5px solid var(--border-color);
+}
