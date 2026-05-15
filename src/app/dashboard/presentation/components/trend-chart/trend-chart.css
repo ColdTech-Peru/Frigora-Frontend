@@ -1,5 +1,5 @@
 .chart-card {
-  margin-top: 1.5rem; /* Separación con la fila superior */
+  margin-top: 1.5rem;
   height: 100%;
 }
 
@@ -27,7 +27,7 @@
 .svg-chart {
   width: 100%;
   flex-grow: 1;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .grid-line {
