@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import {Layout} from './shared/presentation/components/layout/layout';
 import { TranslateService } from '@ngx-translate/core';
-import { ThemeService } from './shared/infrastructure/theme-services';
+import { ThemeService } from './shared/infrastructure/theme-service';
 
 @Component({
   selector: 'app-root',

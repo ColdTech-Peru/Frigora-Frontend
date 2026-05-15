@@ -6,5 +6,5 @@ export interface BaseEntity {
    * The unique identifier for the entity.
    * Puede ser string (UUID) o number (autoincremental)
    */
-  id: string | number;
+  id: number | string | null;
 }

@@ -1,5 +1,7 @@
 export const environment = {
   production: true,
+
+  // Base URL
   apiBaseUrl: '',
 
   tenantsEndpointPath: '/tenants',

@@ -1,0 +1,62 @@
+<section class="page-container">
+  <a routerLink="/equipments" class="back-link">Volver a equipos</a>
+
+  <div class="detail-card" *ngIf="equipment">
+    <div class="detail-header">
+      <div>
+        <h1>{{ equipment.name }}</h1>
+        <p>{{ equipment.manufacturer }} - {{ equipment.model }}</p>
+      </div>
+
+      <span [class.online]="equipment.online" [class.offline]="!equipment.online">
+        {{ equipment.online ? 'Online' : 'Offline' }}
+      </span>
+    </div>
+
+    <div class="detail-grid">
+      <div>
+        <strong>ID de equipo</strong>
+        <p>{{ equipment.equipmentId }}</p>
+      </div>
+
+      <div>
+        <strong>Tipo</strong>
+        <p>{{ equipment.type }}</p>
+      </div>
+
+      <div>
+        <strong>Serie</strong>
+        <p>{{ equipment.serial }}</p>
+      </div>
+
+      <div>
+        <strong>Estado</strong>
+        <p>{{ equipment.status }}</p>
+      </div>
+
+      <div>
+        <strong>Temperatura actual</strong>
+        <p>{{ equipment.currentTemperature }} °C</p>
+      </div>
+
+      <div>
+        <strong>Set Point</strong>
+        <p>{{ equipment.setPoint }} °C</p>
+      </div>
+
+      <div>
+        <strong>Fecha de instalación</strong>
+        <p>{{ equipment.installed }}</p>
+      </div>
+
+      <div>
+        <strong>Última conexión</strong>
+        <p>{{ equipment.lastSeen }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!equipment" class="empty-state">
+    No se encontró información del equipo.
+  </div>
+</section>

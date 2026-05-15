@@ -1,0 +1,53 @@
+<section class="page-container">
+  <div class="page-header">
+    <div>
+      <h1>{{ 'monitoring.alerts.title' | translate }}</h1>
+      <p>{{ 'monitoring.alerts.subtitle' | translate }}</p>
+    </div>
+
+    <a routerLink="/equipments" class="secondary-button">
+      {{ 'monitoring.alerts.viewEquipments' | translate }}
+    </a>
+  </div>
+
+  <div *ngIf="loading$ | async" class="loading">
+    {{ 'monitoring.alerts.loading' | translate }}
+  </div>
+
+  <div class="alerts-list" *ngIf="!(loading$ | async)">
+    <article class="alert-card" *ngFor="let alert of alerts$ | async">
+      <div class="alert-header">
+        <h2>{{ alert.type }}</h2>
+        <span [ngClass]="alert.severity.toLowerCase()">
+          {{ alert.severity }}
+        </span>
+      </div>
+
+      <p class="message">{{ alert.message }}</p>
+
+      <div class="alert-info">
+        <p><strong>{{ 'monitoring.alerts.equipment' | translate }}:</strong> {{ alert.equipmentId }}</p>
+        <p><strong>{{ 'monitoring.alerts.site' | translate }}:</strong> {{ alert.siteId }}</p>
+        <p><strong>{{ 'monitoring.alerts.status' | translate }}:</strong> {{ alert.status }}</p>
+        <p><strong>{{ 'monitoring.alerts.created' | translate }}:</strong> {{ alert.createdAt }}</p>
+      </div>
+
+      <div class="actions">
+        <button
+          type="button"
+          class="primary-button"
+          (click)="acknowledgeAlert(alert)"
+          [disabled]="alert.status === 'acknowledged'">
+          {{ 'monitoring.alerts.acknowledge' | translate }}
+        </button>
+
+        <button
+          type="button"
+          class="danger-button"
+          (click)="deleteAlert(alert.id)">
+          {{ 'monitoring.alerts.delete' | translate }}
+        </button>
+      </div>
+    </article>
+  </div>
+</section>
