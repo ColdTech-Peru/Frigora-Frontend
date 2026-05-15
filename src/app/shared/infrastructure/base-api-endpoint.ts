@@ -1,9 +1,9 @@
-﻿import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
-import {BaseEntity} from './base-entity';
-import {BaseResource, BaseResponse} from './base-response';
-import {BaseAssembler} from './base-assembler';
+﻿import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { BaseEntity } from './base-entity';
+import { BaseResource, BaseResponse } from './base-response';
+import { BaseAssembler } from './base-assembler';
 
 /**
  * Base class for API endpoint operations with generic CRUD functionality.
@@ -19,6 +19,14 @@ export abstract class BaseApiEndpoint<
   TResponse extends BaseResponse,
   TAssembler extends BaseAssembler<TEntity, TResource, TResponse>
 > {
+
+  /**
+   * Exposes the base endpoint URL for use in extended API classes.
+   */
+  get resourcePath(): string {
+    return this.endpointUrl;
+  }
+
   constructor(
     protected http: HttpClient,
     protected endpointUrl: string,
@@ -32,7 +40,6 @@ export abstract class BaseApiEndpoint<
   getAll(): Observable<TEntity[]> {
     return this.http.get<TResponse | TResource[]>(this.endpointUrl).pipe(
       map(response => {
-        console.log(response);
         if (Array.isArray(response)) {
           return response.map(resource => this.assembler.toEntityFromResource(resource));
         }
@@ -44,10 +51,10 @@ export abstract class BaseApiEndpoint<
 
   /**
    * Retrieves a single entity by ID.
-   * @param id - The ID of the entity.
+   * @param id - The ID of the entity (supports both numeric and string IDs).
    * @returns An Observable of the entity.
    */
-  getById(id: number): Observable<TEntity> {
+  getById(id: number | string): Observable<TEntity> {
     return this.http.get<TResource>(`${this.endpointUrl}/${id}`).pipe(
       map(resource => this.assembler.toEntityFromResource(resource)),
       catchError(this.handleError('Failed to fetch entity'))
@@ -70,10 +77,10 @@ export abstract class BaseApiEndpoint<
   /**
    * Updates an existing entity.
    * @param entity - The entity to update.
-   * @param id - The ID of the entity.
+   * @param id - The ID of the entity (supports both numeric and string IDs).
    * @returns An Observable of the updated entity.
    */
-  update(entity: TEntity, id: number): Observable<TEntity> {
+  update(entity: TEntity, id: number | string): Observable<TEntity> {
     const resource = this.assembler.toResourceFromEntity(entity);
     return this.http.put<TResource>(`${this.endpointUrl}/${id}`, resource).pipe(
       map(updated => this.assembler.toEntityFromResource(updated)),
@@ -83,10 +90,10 @@ export abstract class BaseApiEndpoint<
 
   /**
    * Deletes an entity by ID.
-   * @param id - The ID of the entity to delete.
+   * @param id - The ID of the entity to delete (supports both numeric and string IDs).
    * @returns An Observable of void.
    */
-  delete(id: number): Observable<void> {
+  delete(id: number | string): Observable<void> {
     return this.http.delete<void>(`${this.endpointUrl}/${id}`).pipe(
       catchError(this.handleError('Failed to delete entity'))
     );
