@@ -917,6 +917,20 @@
       "acknowledgedBy": null
     },
     {
+      "id": 5,
+      "tenantId": "t1",
+      "equipmentId": 5,
+      "siteId": 101,
+      "type": "Temperatura alta",
+      "severity": "High",
+      "message": "La temperatura superó el límite permitido.",
+      "status": "acknowledged",
+      "createdAt": "2026-05-11 15:00",
+      "resolvedAt": null,
+      "acknowledgedBy": null
+    },
+
+    {
       "id": 2,
       "tenantId": 1,
       "equipmentId": 2,
