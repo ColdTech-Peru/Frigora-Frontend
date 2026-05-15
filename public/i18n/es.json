@@ -59,7 +59,8 @@
       "severities": {
         "critical": "Crítico",
         "warning": "Advertencia",
-        "info": "Info"
+        "info": "Info",
+        "High": "Alto"
       },
       "statuses": {
         "open": "Abierta",
