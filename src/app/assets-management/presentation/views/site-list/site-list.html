@@ -1,0 +1,99 @@
+<section class="p-4">
+  <!-- Cabecera -->
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-3xl font-bold">{{ 'sites.list.title' | translate }}</h1>
+    <button mat-raised-button color="primary" (click)="openNewSiteDialog()">
+      <mat-icon>add</mat-icon>
+      {{ 'sites.new.title' | translate }}
+    </button>
+  </div>
+
+  <!-- Tabla -->
+  <div class="mat-elevation-z8 overflow-x-auto">
+    <table mat-table [dataSource]="store.sites()" class="w-full">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> {{ 'sites.list.name' | translate }} </th>
+        <td mat-cell *matCellDef="let site"> {{ site.name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> {{ 'sites.list.address' | translate }} </th>
+        <td mat-cell *matCellDef="let site"> {{ site.address }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="contactName">
+        <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.contactName' | translate }} </th>
+        <td mat-cell *matCellDef="let site"> {{ site.contactName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.contactPhone' | translate }} </th>
+        <td mat-cell *matCellDef="let site"> {{ site.phone }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> {{ 'common.actions' | translate }} </th>
+        <td mat-cell *matCellDef="let site">
+          <a [routerLink]="['/site-detail', site.id]">
+            <button mat-icon-button color="primary" [matTooltip]="'common.view-details' | translate">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <!-- Mensaje cuando la tabla está vacía -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell text-center py-4" colspan="5">
+          {{ 'sites.list.empty' | translate }}
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Errores generales -->
+  <div *ngIf="store.error()" class="text-red-500 mt-3">
+    {{ 'errors.occurred' | translate }}: {{ store.error() }}
+  </div>
+
+  <!-- Modal / Dialog de Creación (Sin Mapa) -->
+  <ng-template #newSiteDialog>
+    <h2 mat-dialog-title>{{ 'sites.new.title' | translate }}</h2>
+
+    <mat-dialog-content>
+      <form class="flex flex-col gap-4 mt-2">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ 'sites.new.name' | translate }}</mat-label>
+          <input matInput [(ngModel)]="newSite.name" name="name" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ 'sites.new.address' | translate }}</mat-label>
+          <input matInput [(ngModel)]="newSite.address" name="address" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ 'sites.new.contact-name' | translate }}</mat-label>
+          <input matInput [(ngModel)]="newSite.contactName" name="contactName" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ 'sites.new.phone' | translate }}</mat-label>
+          <input matInput [(ngModel)]="newSite.phone" name="phone" required>
+        </mat-form-field>
+      </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="closeDialog()">{{ 'common.cancel' | translate }}</button>
+      <button mat-raised-button color="primary" (click)="saveNewSite()">
+        <mat-icon>check</mat-icon> {{ 'sites.new.register' | translate }}
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
+
+</section>

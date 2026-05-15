@@ -1,0 +1,50 @@
+<section class="page-container">
+  <div class="page-header">
+    <div>
+      <h1>{{ 'monitoring.equipment.title' | translate }}</h1>
+      <p>{{ 'monitoring.equipment.subtitle' | translate }}</p>
+    </div>
+
+    <div class="header-actions">
+      <a routerLink="/equipments/new" class="primary-button">
+        {{ 'monitoring.equipment.add' | translate }}
+      </a>
+
+      <a routerLink="/alerts" class="secondary-button">
+        {{ 'monitoring.equipment.alerts' | translate }}
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="loading$ | async" class="loading">
+    Cargando equipos...
+  </div>
+
+  <div class="equipment-grid" *ngIf="!(loading$ | async)">
+    <article class="equipment-card" *ngFor="let equipment of equipments$ | async">
+      <div class="card-header">
+        <h2>{{ equipment.name }}</h2>
+        <span [class.online]="equipment.online" [class.offline]="!equipment.online">
+          {{ equipment.online ? ('monitoring.equipment.online' | translate) : ('monitoring.equipment.offline' | translate) }}
+        </span>
+      </div>
+
+      <p><strong>{{ 'monitoring.equipment.model' | translate }}:</strong> {{ equipment.model }}</p>
+      <p><strong>{{ 'monitoring.equipment.type' | translate }}:</strong> {{ equipment.type }}</p>
+      <p><strong>{{ 'monitoring.equipment.serial' | translate }}:</strong> {{ equipment.serial }}</p>
+      <p><strong>{{ 'monitoring.equipment.status' | translate }}:</strong> {{ equipment.status }}</p>
+      <p><strong>{{ 'monitoring.equipment.currentTemperature' | translate }}:</strong> {{ equipment.currentTemperature }} °C</p>
+      <p><strong>{{ 'monitoring.equipment.setPoint' | translate }}:</strong> {{ equipment.setPoint }} °C</p>
+
+      <div class="card-actions">
+        <a [routerLink]="['/equipments', equipment.id]" class="primary-button">
+          {{ 'monitoring.equipment.detail' | translate }}
+        </a>
+
+        <button type="button" class="danger-button" (click)="deleteEquipment(equipment.id)">
+          {{ 'monitoring.equipment.delete' | translate }}
+        </button>
+      </div>
+    </article>
+  </div>
+</section>

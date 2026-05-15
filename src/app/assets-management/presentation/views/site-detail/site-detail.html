@@ -1,0 +1,65 @@
+<section class="p-4">
+  <h1 class="text-2xl font-semibold mb-4">{{ 'sites.detail.title' | translate }}</h1>
+
+  <div class="flex flex-col gap-4">
+
+    <!-- Contenedor para aplicar algo de sombra/estilo opcional -->
+    <div class="mat-elevation-z8 overflow-x-auto">
+
+      <!-- Tabla de Angular Material. dataSource lee nuestro Signal -->
+      <table mat-table [dataSource]="store.sites()" class="w-full">
+
+        <!-- Columna: Contact Name -->
+        <ng-container matColumnDef="contactName">
+          <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.contactName' | translate }} </th>
+          <td mat-cell *matCellDef="let site"> {{ site.contactName }} </td>
+        </ng-container>
+
+        <!-- Columna: Contact Phone -->
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.contactPhone' | translate }} </th>
+          <td mat-cell *matCellDef="let site">
+            <span style="font-weight: bold;">{{ site.phone }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Columna: Created At -->
+        <ng-container matColumnDef="created">
+          <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.createdAt' | translate }} </th>
+          <td mat-cell *matCellDef="let site"> {{ site.created }} </td>
+        </ng-container>
+
+        <!-- Columna: Updated At -->
+        <ng-container matColumnDef="updated">
+          <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.updatedAt' | translate }} </th>
+          <td mat-cell *matCellDef="let site"> {{ site.updated }} </td>
+        </ng-container>
+
+        <!-- Filas Header y Data -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <!-- Mensaje de Loading -->
+      <div *ngIf="store.loading()" class="p-4 text-center">
+        Cargando datos...
+      </div>
+
+    </div>
+
+    <!-- Mensaje de Error -->
+    <div *ngIf="store.error()" class="text-red-500 mt-2">
+      {{ 'errors.occurred' | translate }}: {{ store.error() }}
+    </div>
+
+    <!-- Botón de Angular Material -->
+    <div>
+      <a [routerLink]="['/sites']">
+        <button mat-raised-button color="primary">
+          {{ 'sites.list.title' | translate }}
+        </button>
+      </a>
+    </div>
+
+  </div>
+</section>

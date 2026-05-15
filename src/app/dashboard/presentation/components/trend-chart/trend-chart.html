@@ -1,0 +1,28 @@
+<mat-card class="chart-card">
+  <mat-card-header>
+    <mat-card-title>{{ 'dashboard.trends.temperature' | translate }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="chart-wrapper h-20rem">
+      @if (isLoading() || !hasValidData()) {
+        <div class="flex align-items-center justify-content-center h-full empty-state">
+          <span class="text-500">{{ noDataMessage() }}</span>
+        </div>
+      } @else {
+        <div class="native-chart-container h-full">
+          <svg viewBox="0 0 400 200" class="svg-chart" preserveAspectRatio="none">
+            <line x1="0" y1="100" x2="400" y2="100" class="grid-line"></line>
+            <polyline [attr.points]="svgPoints()" class="trend-line"></polyline>
+          </svg>
+
+          <div class="x-axis-labels">
+            @for (label of labels(); track $index) {
+              <span class="x-label">{{ label }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>
