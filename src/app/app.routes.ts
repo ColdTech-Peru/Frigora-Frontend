@@ -5,7 +5,7 @@ import { monitoringRoutes } from './monitoring/presentation/monitoring-routes';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'equipments',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
 
@@ -39,6 +39,6 @@ export const routes: Routes = [
 
   {
     path: '**',
-    redirectTo: 'equipments'
+    redirectTo: 'dashboard'
   }
 ];
