@@ -57,7 +57,8 @@
       "severities": {
         "critical": "Critical",
         "warning": "Warning",
-        "info": "Info"
+        "info": "Info",
+        "High": "High"
       },
       "statuses": {
         "open": "Open",
