@@ -15,11 +15,60 @@
     "no": "No"
   },
   "nav": {
-    "dashboard": "Panel principal",
+    "dashboard": "Dashboard",
     "sites": "Sitios",
     "equipments": "Equipos",
     "services": "Servicios",
     "alerts": "Alertas",
+    "reports": "Reportes"
+  },
+  "monitoring": {
+    "equipment": {
+      "title": "Equipos monitoreados",
+      "subtitle": "Visualiza el estado actual de los equipos de refrigeración.",
+      "add": "Agregar equipo",
+      "alerts": "Ver alertas",
+      "detail": "Ver detalle",
+      "delete": "Eliminar",
+      "model": "Modelo",
+      "type": "Tipo",
+      "serial": "Serie",
+      "status": "Estado",
+      "currentTemperature": "Temperatura actual",
+      "setPoint": "Set Point",
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "form": {
+      "title": "Agregar equipo",
+      "subtitle": "Registra un nuevo equipo de refrigeración para monitoreo.",
+      "back": "Volver a equipos",
+      "equipmentId": "ID de equipo",
+      "name": "Nombre",
+      "model": "Modelo",
+      "type": "Tipo",
+      "serial": "Serie",
+      "status": "Estado",
+      "manufacturer": "Fabricante",
+      "installed": "Fecha de instalación",
+      "setPoint": "Set Point",
+      "currentTemperature": "Temperatura actual",
+      "connectionStatus": "Estado de conexión",
+      "save": "Guardar equipo",
+      "cancel": "Cancelar"
+    },
+    "alerts": {
+      "title": "Alertas",
+      "subtitle": "Lista de alertas generadas por los equipos monitoreados.",
+      "viewEquipments": "Ver equipos",
+      "equipment": "Equipo",
+      "site": "Sitio",
+      "status": "Estado",
+      "created": "Creado",
+      "acknowledge": "Reconocer",
+      "delete": "Eliminar",
+      "loading": "Cargando alertas..."
+    }
     "reports": "Reportes",
     "provider_dashboard": "Panel principal",
     "provider_services": "Servicios",

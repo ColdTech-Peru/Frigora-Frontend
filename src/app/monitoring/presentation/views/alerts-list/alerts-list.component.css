@@ -1,0 +1,116 @@
+.page-container {
+  padding: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.page-header p {
+  margin: 6px 0 0;
+  color: #666;
+}
+
+.alerts-list {
+  display: grid;
+  gap: 16px;
+}
+
+.alert-card {
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alert-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.message {
+  margin: 12px 0;
+  color: #333;
+}
+
+.alert-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.alert-info p {
+  margin: 0;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+.primary-button,
+.secondary-button,
+.danger-button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-button {
+  background: #1976d2;
+  color: white;
+}
+
+.secondary-button {
+  background: #eeeeee;
+  color: #222;
+}
+
+.danger-button {
+  background: #c62828;
+  color: white;
+}
+
+.primary-button:disabled {
+  background: #aaa;
+  cursor: default;
+}
+
+.high {
+  color: #c62828;
+  font-weight: 700;
+}
+
+.medium {
+  color: #ef6c00;
+  font-weight: 700;
+}
+
+.low {
+  color: #2e7d32;
+  font-weight: 700;
+}
+
+.loading {
+  padding: 16px;
+  color: #555;
+}

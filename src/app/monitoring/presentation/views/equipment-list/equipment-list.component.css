@@ -1,0 +1,107 @@
+.page-container {
+  padding: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.page-header p {
+  margin: 6px 0 0;
+  color: #666;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.equipment-card {
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.online {
+  color: #16803c;
+  font-weight: 600;
+}
+
+.offline {
+  color: #c62828;
+  font-weight: 600;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.primary-button,
+.secondary-button {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.primary-button {
+  background: #1976d2;
+  color: white;
+}
+
+.secondary-button {
+  background: #eeeeee;
+  color: #222;
+}
+
+.danger-button {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #c62828;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.danger-button:hover {
+  background: #a61f1f;
+}
+
+.loading {
+  padding: 16px;
+  color: #555;
+}
