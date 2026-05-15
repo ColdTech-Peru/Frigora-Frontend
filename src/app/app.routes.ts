@@ -16,6 +16,13 @@ export const routes: Routes = [
       import('./reporting/reporting.routes')
         .then(m => m.REPORTING_ROUTES)
   },
+  
+  {
+    path: 'sites',
+    loadChildren: () =>
+      import('./assets-management/presentation/assets-management-routes')
+        .then(m => m.assetsManagementRoutes)
+  },
 
   {
     path: 'services',

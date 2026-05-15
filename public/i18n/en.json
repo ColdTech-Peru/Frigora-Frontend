@@ -1,6 +1,9 @@
 ﻿{
   "common": {
     "appName": "Frigora",
+    "actions": "Actions",
+    "cancel": "Cancel",
+    "view-details": "View Details"
     "save": "Save",
     "update": "Update",
     "cancel": "Cancel",
@@ -73,6 +76,34 @@
     "provider_services": "Services",
     "technician_management": "Technicians"
   },
+  "sites": {
+    "list": {
+      "title": "Sites",
+      "name": "Site Name",
+      "address": "Address",
+      "empty": "No sites found."
+    },
+    "new": {
+      "title": "New Site",
+      "name": "Name",
+      "address": "Address",
+      "contact-name": "Contact Name",
+      "phone": "Phone",
+      "register": "Register",
+      "alert-required-fields": "Please fill in all required fields.",
+      "alert-site-created": "Site created successfully.",
+      "alert-create-error": "Error creating site."
+    },
+    "detail": {
+      "title": "Site Details",
+      "contactName": "Contact Name",
+      "contactPhone": "Contact Phone",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At"
+    }
+  },
+  "errors": {
+    "occurred": "An error occurred"
   "reports": {
     "title": "Reports",
     "myReports": "My Reports",
