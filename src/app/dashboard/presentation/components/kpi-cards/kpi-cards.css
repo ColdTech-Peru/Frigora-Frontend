@@ -1,0 +1,27 @@
+.kpi-card {
+  height: 100%;
+  padding-top: 8px;
+}
+
+.title-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.kpi-value {
+  padding-top: 1rem;
+}
+
+.text-orange-500 {
+  color: #f97316 !important;
+}
+
+.text-green-500 {
+  color: #22c55e !important;
+}
+
+.text-blue-500 {
+  color: #3b82f6 !important;
+}
