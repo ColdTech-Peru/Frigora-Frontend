@@ -1,12 +1,13 @@
-﻿{
+{
   "common": {
     "appName": "Frigora",
     "actions": "Acciones",
     "cancel": "Cancelar",
     "view-details": "Ver Detalles"
   },
+
   "nav": {
-    "dashboard": "Inicio",
+    "dashboard": "Dashboard",
     "save": "Guardar",
     "update": "Actualizar",
     "cancel": "Cancelar",
@@ -18,16 +19,14 @@
     "actions": "Acciones",
     "all": "Todos",
     "yes": "Sí",
-    "no": "No"
-  },
-  "nav": {
-    "dashboard": "Dashboard",
+    "no": "No",
     "sites": "Sitios",
     "equipments": "Equipos",
     "services": "Servicios",
     "alerts": "Alertas",
     "reports": "Reportes"
   },
+
   "monitoring": {
     "equipment": {
       "title": "Equipos monitoreados",
@@ -45,6 +44,7 @@
       "online": "Online",
       "offline": "Offline"
     },
+
     "form": {
       "title": "Agregar equipo",
       "subtitle": "Registra un nuevo equipo de refrigeración para monitoreo.",
@@ -63,6 +63,7 @@
       "save": "Guardar equipo",
       "cancel": "Cancelar"
     },
+
     "alerts": {
       "title": "Alertas",
       "subtitle": "Lista de alertas generadas por los equipos monitoreados.",
@@ -74,12 +75,14 @@
       "acknowledge": "Reconocer",
       "delete": "Eliminar",
       "loading": "Cargando alertas..."
-    }
+    },
+
     "reports": "Reportes",
     "provider_dashboard": "Inicio",
     "provider_services": "Servicios",
     "technician_management": "Técnicos"
   },
+
   "sites": {
     "list": {
       "title": "Sitios",
@@ -87,6 +90,7 @@
       "address": "Dirección",
       "empty": "No se encontraron sitios registrados."
     },
+
     "new": {
       "title": "Nuevo Sitio",
       "name": "Nombre",
@@ -98,6 +102,7 @@
       "alert-site-created": "Sitio creado con éxito.",
       "alert-create-error": "Ocurrió un error al crear el sitio."
     },
+
     "detail": {
       "title": "Detalles del Sitio",
       "contactName": "Nombre de Contacto",
@@ -106,8 +111,11 @@
       "updatedAt": "Última Actualización"
     }
   },
+
   "errors": {
     "occurred": "Ocurrió un error"
+  },
+
   "reports": {
     "title": "Reportes",
     "myReports": "Mis reportes",
@@ -127,6 +135,7 @@
     "updateError": "No se pudo actualizar el reporte",
     "deleteError": "No se pudo eliminar el reporte",
     "empty": "No hay reportes registrados",
+
     "table": {
       "id": "ID",
       "title": "Título",
@@ -134,12 +143,14 @@
       "status": "Estado",
       "actions": "Acciones"
     },
+
     "filters": {
       "status": "Estado",
       "type": "Tipo",
       "allStatuses": "Todos los estados",
       "allTypes": "Todos los tipos"
     },
+
     "fields": {
       "title": "Título",
       "type": "Tipo",
@@ -149,12 +160,14 @@
       "status": "Estado",
       "generatedAt": "Fecha de generación"
     },
+
     "placeholders": {
       "title": "Ingrese el título del reporte",
       "summary": "Ingrese un resumen del reporte",
       "content": "Ingrese el contenido del reporte",
       "url": "Ingrese la URL del reporte"
     },
+
     "validation": {
       "titleRequired": "El título es obligatorio",
       "typeRequired": "El tipo es obligatorio",
@@ -163,6 +176,7 @@
       "urlRequired": "La URL es obligatoria",
       "statusRequired": "El estado es obligatorio"
     },
+
     "status": {
       "pending": "Pendiente",
       "generated": "Generado",
@@ -170,18 +184,22 @@
       "inProgress": "En progreso",
       "canceled": "Cancelado"
     },
+
     "types": {
       "inspection": "Inspección",
       "maintenance": "Mantenimiento",
       "audit": "Auditoría",
       "incident": "Incidente"
     },
+
     "buttons": {
       "newReport": "Nuevo reporte",
       "saveReport": "Guardar reporte",
       "updateReport": "Actualizar reporte",
       "backToReports": "Volver a reportes"
     }
+  },
+
   "service-request": {
     "requests": "Mis Solicitudes de Servicio",
     "button": "Nueva Solicitud de Servicio",
