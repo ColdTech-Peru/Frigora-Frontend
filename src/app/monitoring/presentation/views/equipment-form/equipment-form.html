@@ -1,0 +1,132 @@
+<section class="page-container">
+  <a routerLink="/equipments" class="back-link">
+    {{ 'monitoring.form.back' | translate }}
+  </a>
+
+  <div class="form-card">
+    <h1>{{ 'monitoring.form.title' | translate }}</h1>
+    <p>{{ 'monitoring.form.subtitle' | translate }}</p>
+
+    <form (ngSubmit)="saveEquipment()" #equipmentForm="ngForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>{{ 'monitoring.form.equipmentId' | translate }}</label>
+          <input
+            type="text"
+            name="equipmentId"
+            [(ngModel)]="equipment.equipmentId"
+            required
+            placeholder="EQ-003">
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.name' | translate }}</label>
+          <input
+            type="text"
+            name="name"
+            [(ngModel)]="equipment.name"
+            required
+            placeholder="Congeladora principal">
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.model' | translate }}</label>
+          <input
+            type="text"
+            name="model"
+            [(ngModel)]="equipment.model"
+            required
+            placeholder="FR-800">
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.type' | translate }}</label>
+          <select name="type" [(ngModel)]="equipment.type" required>
+            <option value="">Seleccionar tipo</option>
+            <option value="Freezer">Freezer</option>
+            <option value="Refrigerator">Refrigerator</option>
+            <option value="Cold Room">Cold Room</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.serial' | translate }}</label>
+          <input
+            type="text"
+            name="serial"
+            [(ngModel)]="equipment.serial"
+            required
+            placeholder="SN-10003">
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.status' | translate }}</label>
+          <select name="status" [(ngModel)]="equipment.status" required>
+            <option value="Operativo">Operativo</option>
+            <option value="En observación">En observación</option>
+            <option value="Mantenimiento">Mantenimiento</option>
+            <option value="Fuera de servicio">Fuera de servicio</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.manufacturer' | translate }}</label>
+          <input
+            type="text"
+            name="manufacturer"
+            [(ngModel)]="equipment.manufacturer"
+            required
+            placeholder="FrigoraTech">
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.installed' | translate }}</label>
+          <input
+            type="date"
+            name="installed"
+            [(ngModel)]="equipment.installed"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.setPoint' | translate }}</label>
+          <input
+            type="number"
+            name="setPoint"
+            [(ngModel)]="equipment.setPoint"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.currentTemperature' | translate }}</label>
+          <input
+            type="number"
+            name="currentTemperature"
+            [(ngModel)]="equipment.currentTemperature"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label>{{ 'monitoring.form.connectionStatus' | translate }}</label>
+          <select name="online" [(ngModel)]="equipment.online">
+            <option [ngValue]="true">Online</option>
+            <option [ngValue]="false">Offline</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="equipmentForm.invalid">
+          {{ 'monitoring.form.save' | translate }}
+        </button>
+
+        <a routerLink="/equipments" class="secondary-button">
+          {{ 'monitoring.form.cancel' | translate }}
+        </a>
+      </div>
+    </form>
+  </div>
+</section>

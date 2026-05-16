@@ -20,7 +20,7 @@ export class EquipmentDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
       this.monitoringStore.fetchEquipmentById(id, equipment => {

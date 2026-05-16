@@ -27,7 +27,7 @@ export class EquipmentListComponent implements OnInit {
     this.monitoringStore.fetchEquipments();
   }
 
-  deleteEquipment(id: number): void {
+  deleteEquipment(id: string): void {
     const confirmDelete = confirm('¿Seguro que deseas eliminar este equipo?');
 
     if (confirmDelete) {

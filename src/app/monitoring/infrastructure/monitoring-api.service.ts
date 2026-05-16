@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 export class MonitoringApiService {
   private equipmentsEndpoint = `${environment.apiBaseUrl}${environment.equipmentsEndpointPath}`;
   private alertsEndpoint = `${environment.apiBaseUrl}${environment.alertsEndpointPath}`;
+  private readingsEndpoint = `${environment.apiBaseUrl}/readings`;
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +18,7 @@ export class MonitoringApiService {
     return this.http.get<any[]>(this.equipmentsEndpoint);
   }
 
-  getEquipmentById(id: number): Observable<any> {
+  getEquipmentById(id: string): Observable<any> {
     return this.http.get<any>(`${this.equipmentsEndpoint}/${id}`);
   }
 
@@ -25,8 +26,16 @@ export class MonitoringApiService {
     return this.http.post<any>(this.equipmentsEndpoint, equipment);
   }
 
-  deleteEquipment(id: number): Observable<void> {
+  deleteEquipment(id: string): Observable<void> {
     return this.http.delete<void>(`${this.equipmentsEndpoint}/${id}`);
+  }
+
+  getReadings(): Observable<any[]> {
+    return this.http.get<any[]>(this.readingsEndpoint);
+  }
+
+  getReadingsByEquipmentId(equipmentId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.readingsEndpoint}?equipmentId=${equipmentId}`);
   }
 
   getAlerts(): Observable<any[]> {

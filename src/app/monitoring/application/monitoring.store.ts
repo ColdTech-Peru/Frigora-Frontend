@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 
 import { MonitoringApiService } from '../infrastructure/monitoring-api.service';
 import { EquipmentsEntity } from '../domain/model/equipments.entity';
@@ -26,9 +26,16 @@ export class MonitoringStore {
   fetchEquipments(): void {
     this.loadingSubject.next(true);
 
-    this.monitoringApi.getEquipments().subscribe({
+    forkJoin({
+      equipments: this.monitoringApi.getEquipments(),
+      readings: this.monitoringApi.getReadings()
+    }).subscribe({
       next: response => {
-        const equipments = EquipmentsAssembler.toEntitiesFromResponse(response);
+        const equipments = EquipmentsAssembler.toEntitiesFromResponse(
+          response.equipments,
+          response.readings
+        );
+
         this.equipmentsSubject.next(equipments);
         this.loadingSubject.next(false);
       },
@@ -39,10 +46,17 @@ export class MonitoringStore {
     });
   }
 
-  fetchEquipmentById(id: number, callback: (equipment: EquipmentsEntity | null) => void): void {
-    this.monitoringApi.getEquipmentById(id).subscribe({
+  fetchEquipmentById(id: string, callback: (equipment: EquipmentsEntity | null) => void): void {
+    forkJoin({
+      equipment: this.monitoringApi.getEquipmentById(id),
+      readings: this.monitoringApi.getReadingsByEquipmentId(id)
+    }).subscribe({
       next: response => {
-        const equipment = EquipmentsAssembler.toEntityFromResource(response);
+        const equipment = EquipmentsAssembler.toEntityFromResource(
+          response.equipment,
+          response.readings
+        );
+
         callback(equipment);
       },
       error: () => {
@@ -53,11 +67,21 @@ export class MonitoringStore {
   }
 
   createEquipment(equipment: any, callback: () => void): void {
-    this.monitoringApi.createEquipment(equipment).subscribe({
+    const newEquipment = {
+      ...equipment,
+      tenantId: equipment.tenantId ?? 't1',
+      siteId: equipment.siteId ?? 's1',
+      installedAt: equipment.installed,
+      setpointC: Number(equipment.setPoint),
+      lastSeenAt: equipment.lastSeen || new Date().toISOString(),
+      powerState: equipment.online ? 'on' : 'off'
+    };
+
+    this.monitoringApi.createEquipment(newEquipment).subscribe({
       next: response => {
-        const newEquipment = EquipmentsAssembler.toEntityFromResource(response);
+        const createdEquipment = EquipmentsAssembler.toEntityFromResource(response);
         const currentEquipments = this.equipmentsSubject.value;
-        this.equipmentsSubject.next([...currentEquipments, newEquipment]);
+        this.equipmentsSubject.next([...currentEquipments, createdEquipment]);
         callback();
       },
       error: () => {
@@ -66,7 +90,7 @@ export class MonitoringStore {
     });
   }
 
-  deleteEquipment(id: number): void {
+  deleteEquipment(id: string): void {
     this.monitoringApi.deleteEquipment(id).subscribe({
       next: () => {
         const currentEquipments = this.equipmentsSubject.value;
