@@ -5,6 +5,7 @@ import { DashboardAssembler } from './dashboard-assembler';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export class DashboardSnapshotApiEndpoint extends BaseApiEndpoint<
   DashboardSnapshot,
@@ -13,7 +14,7 @@ export class DashboardSnapshotApiEndpoint extends BaseApiEndpoint<
   DashboardAssembler
 > {
   constructor(http: HttpClient) {
-    super(http, 'http://localhost:3000/dashboard', new DashboardAssembler()); // TODO: usar environment
+    super(http, `${environment.apiBaseUrl}/dashboard`, new DashboardAssembler());
   }
 
   /**
@@ -33,4 +34,3 @@ export class DashboardSnapshotApiEndpoint extends BaseApiEndpoint<
     );
   }
 }
-

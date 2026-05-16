@@ -3,6 +3,7 @@ import { AlertView } from '../domain/model/alert-view.entity';
 import { AlertsResponse, AlertResource } from './alert-response';
 import { AlertAssembler } from './alert-assembler';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 export class AlertsApiEndpoint extends BaseApiEndpoint<
   AlertView,
@@ -11,7 +12,6 @@ export class AlertsApiEndpoint extends BaseApiEndpoint<
   AlertAssembler
 > {
   constructor(http: HttpClient) {
-    super(http, 'http://localhost:3000/alerts', new AlertAssembler()); // TODO: usar environment
+    super(http, `${environment.apiBaseUrl}/alerts`, new AlertAssembler());
   }
 }
-
