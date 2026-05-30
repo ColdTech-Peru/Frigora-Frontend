@@ -2,10 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import {Layout} from './shared/presentation/components/layout/layout';
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from './shared/infrastructure/theme-service';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [Layout],
+  imports: [Layout, RouterOutlet],
   templateUrl: './app.html',
   standalone: true,
   styleUrl: './app.css'

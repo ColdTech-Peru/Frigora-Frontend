@@ -3,25 +3,20 @@
     "appName": "Frigora",
     "actions": "Acciones",
     "cancel": "Cancelar",
-    "view-details": "Ver Detalles"
-  },
-  "nav": {
-    "dashboard": "Inicio",
+    "view-details": "Ver Detalles",
     "save": "Guardar",
     "update": "Actualizar",
-    "cancel": "Cancelar",
     "back": "Volver",
     "close": "Cerrar",
     "delete": "Eliminar",
     "edit": "Editar",
     "view": "Ver",
-    "actions": "Acciones",
     "all": "Todos",
     "yes": "Sí",
     "no": "No"
   },
   "nav": {
-    "dashboard": "Dashboard",
+    "dashboard": "Inicio",
     "sites": "Sitios",
     "equipments": "Equipos",
     "services": "Servicios",
@@ -74,7 +69,7 @@
       "acknowledge": "Reconocer",
       "delete": "Eliminar",
       "loading": "Cargando alertas..."
-    }
+    },
     "reports": "Reportes",
     "provider_dashboard": "Inicio",
     "provider_services": "Servicios",
@@ -108,6 +103,7 @@
   },
   "errors": {
     "occurred": "Ocurrió un error"
+  },
   "reports": {
     "title": "Reportes",
     "myReports": "Mis reportes",
@@ -182,6 +178,7 @@
       "updateReport": "Actualizar reporte",
       "backToReports": "Volver a reportes"
     }
+  },
   "service-request": {
     "requests": "Mis Solicitudes de Servicio",
     "button": "Nueva Solicitud de Servicio",
@@ -202,9 +199,78 @@
     "request": "Solicitud de Servicio",
     "equipmentDetails": "Ver Detalles Del Equipo"
   },
-
   "footer": {
     "rights": "Todos los derechos reservados.",
     "powered-by": "Desarrollado por"
+  },
+  "validation": {
+    "required": "Por favor, completa {field}."
+  },
+  "auth": {
+    "errors": {
+      "invalidResponse": "Respuesta inválida del servidor.",
+      "invalidCredentials": "El usuario o la contraseña son incorrectos."
+    },
+    "login": {
+      "title": "Iniciar Sesión",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "cta": "Ingresar"
+    },
+    "register": {
+      "title": "Crear Cuenta",
+      "success": "¡Cuenta creada exitosamente! Redirigiendo al login...",
+      "selectRole": "Selecciona tu tipo de cuenta",
+      "cta": "Registrarse",
+      "alreadyHaveAccount": "¿Ya tienes una cuenta? Inicia sesión aquí",
+      "roles": {
+        "owner": "Propietario (Owner)",
+        "ownerDesc": "Gestión completa de activos, alertas y configuración del sistema.",
+        "provider": "Proveedor Técnico (Provider)",
+        "providerDesc": "Recepción y atención de solicitudes de servicio técnico."
+      }
+    }
+  },
+  "admin": {
+    "alert": {
+      "save": "Los cambios se han guardado exitosamente.",
+      "cancel": "Se han cancelado los cambios y restaurado los valores originales."
+    },
+    "users": {
+      "title": "Perfil de Usuario",
+      "firstName": "Nombres",
+      "lastName": "Apellidos",
+      "user": "Usuario",
+      "email": "Correo electrónico",
+      "registerDate": "Fecha de inscripción",
+      "lastConnection": "Última conexión",
+      "password": "Contraseña",
+      "show": "Mostrar",
+      "hide": "Ocultar",
+      "plans": "Plan actual"
+    },
+    "settings": {
+      "title": "Configuración",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "lightMode": "Modo de visualización",
+      "day": "Día",
+      "night": "Noche",
+      "notifications": "Notificaciones",
+      "notify": {
+        "sms": "Mensajes SMS",
+        "email": "Correo electrónico",
+        "calls": "Llamadas de alerta",
+        "social": "Redes sociales"
+      },
+      "alarmType": "Tipo de Alarma",
+      "select": "Selecciona un sonido",
+      "alarm": {
+        "bells": "Campanas",
+        "chime": "Timbre suave",
+        "pop": "Burbuja (Pop)",
+        "none": "Silencioso"
+      }
+    }
   }
 }

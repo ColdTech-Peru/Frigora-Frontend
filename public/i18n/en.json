@@ -3,16 +3,14 @@
     "appName": "Frigora",
     "actions": "Actions",
     "cancel": "Cancel",
-    "view-details": "View Details"
+    "view-details": "View Details",
     "save": "Save",
     "update": "Update",
-    "cancel": "Cancel",
     "back": "Back",
     "close": "Close",
     "delete": "Delete",
     "edit": "Edit",
     "view": "View",
-    "actions": "Actions",
     "all": "All",
     "yes": "Yes",
     "no": "No"
@@ -70,7 +68,7 @@
       "created": "Created",
       "acknowledge": "Acknowledge",
       "delete": "Delete"
-    }
+    },
     "reports": "Reports",
     "provider_dashboard": "Dashboard",
     "provider_services": "Services",
@@ -104,6 +102,7 @@
   },
   "errors": {
     "occurred": "An error occurred"
+  },
   "reports": {
     "title": "Reports",
     "myReports": "My Reports",
@@ -178,6 +177,7 @@
       "updateReport": "Update Report",
       "backToReports": "Back to Reports"
     }
+  },
   "service-request": {
     "requests": "My Service Requests",
     "button": "New Service Request",
@@ -198,9 +198,78 @@
     "request": "Service Request",
     "equipmentDetails": "View Equipment Details"
   },
-
   "footer": {
     "rights": "All rights reserved.",
     "powered-by": "Powered by"
+  },
+  "validation": {
+    "required": "Please fill in {field}."
+  },
+  "auth": {
+    "errors": {
+      "invalidResponse": "Invalid response from the server.",
+      "invalidCredentials": "Username or password is incorrect."
+    },
+    "login": {
+      "title": "Sign In",
+      "username": "Username",
+      "password": "Password",
+      "cta": "Login"
+    },
+    "register": {
+      "title": "Create Account",
+      "success": "Account successfully created! Redirecting to login...",
+      "selectRole": "Select your account type",
+      "cta": "Sign Up",
+      "alreadyHaveAccount": "Already have an account? Sign in here",
+      "roles": {
+        "owner": "Business Owner",
+        "ownerDesc": "Full management of assets, alerts, and system configuration.",
+        "provider": "Technical Provider",
+        "providerDesc": "Receive and manage technical service requests."
+      }
+    }
+  },
+  "admin": {
+    "alert": {
+      "save": "Changes have been successfully saved.",
+      "cancel": "Changes have been canceled and original values restored."
+    },
+    "users": {
+      "title": "User Profile",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "user": "Username",
+      "email": "Email address",
+      "registerDate": "Registration date",
+      "lastConnection": "Last connection",
+      "password": "Password",
+      "show": "Show",
+      "hide": "Hide",
+      "plans": "Current plan"
+    },
+    "settings": {
+      "title": "Settings",
+      "cancel": "Cancel",
+      "save": "Save",
+      "lightMode": "Display mode",
+      "day": "Light",
+      "night": "Dark",
+      "notifications": "Notifications",
+      "notify": {
+        "sms": "SMS Messages",
+        "email": "Email alerts",
+        "calls": "Phone calls",
+        "social": "Social media"
+      },
+      "alarmType": "Alarm Sound",
+      "select": "Select a sound",
+      "alarm": {
+        "bells": "Bells",
+        "chime": "Soft chime",
+        "pop": "Pop bubble",
+        "none": "Silent"
+      }
+    }
   }
 }

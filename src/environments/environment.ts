@@ -10,7 +10,6 @@ export const environment = {
   sitesEndpointPath: '/site',
   equipmentsEndpointPath: '/equipment',
   reportsEndpointPath: '/reports',
-
   serviceRequestsEndpointPath: '/serviceRequests',
   interventionsEndpointPath: '/interventions',
 

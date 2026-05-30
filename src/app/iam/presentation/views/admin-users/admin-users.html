@@ -1,0 +1,94 @@
+<div class="container mx-auto">
+  <section>
+    <div class="px-7 py-3 flex items-center">
+      <h1 class="text-2xl font-semibold flex-1">{{ 'admin.users.title' | translate }}</h1>
+      <div class="flex gap-2">
+        <a mat-flat-button color="primary" routerLink="/admin/settings">
+          {{ 'admin.settings.title' | translate }}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <form [formGroup]="userForm" (ngSubmit)="saveProfile()">
+    <section class="px-7">
+      <div class="grid gap-6">
+        <div class="md:col-span-2 bg-[#123e31] p-8 rounded-2xl shadow-md grid gap-5">
+          <div>
+            <p class="text-xl font-semibold text-white mb-2"> {{ 'admin.users.firstName' | translate }} </p>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="name" />
+            </mat-form-field>
+          </div>
+
+          <div>
+            <p class="text-xl font-semibold text-white mb-2"> {{ 'admin.users.lastName' | translate }} </p>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="lastName" />
+            </mat-form-field>
+          </div>
+
+          <div>
+            <p class="text-xl font-semibold text-white mb-2"> {{ 'admin.users.user' | translate }} </p>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="user" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="py-7 grid gap-6">
+        <div class="md:col-span-2 bg-[#123e31] p-8 rounded-2xl shadow-md grid gap-5">
+          <div>
+            <p class="text-xl font-semibold text-white mb-2"> {{ 'admin.users.email' | translate }} </p>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="email" />
+            </mat-form-field>
+          </div>
+
+          <div>
+            <p class="text-xl font-semibold text-white mb-2"> {{ 'admin.users.registerDate' | translate }} </p>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="registrationDate" />
+            </mat-form-field>
+          </div>
+
+          <div>
+            <p class="text-xl font-semibold text-white mb-2"> {{ 'admin.users.lastConnection' | translate }} </p>
+            <mat-form-field appearance="outline" class="w-9000">
+              <input matInput formControlName="lastConnection" />
+            </mat-form-field>
+          </div>
+
+          <div>
+            <p class="text-xl font-semibold text-white mb-2"> {{ 'admin.users.password' | translate }} </p>
+            <mat-form-field appearance="outline">
+              <input matInput formControlName="password" [type]="showPassword ? 'text' : 'password'" />
+              <button mat-icon-button matSuffix (click)="showPassword = !showPassword" type="button">
+                <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="pb-7">
+        <p class="text-xl font-semibold text-black mb-2"> {{ 'admin.users.plans' | translate }} </p>
+        <mat-form-field appearance="outline" class="w-9000">
+          <input matInput formControlName="plan" />
+        </mat-form-field>
+      </div>
+    </section>
+
+    <section>
+      <div class="p-7 flex justify-end gap-3">
+        <button mat-stroked-button color="warn" type="button" (click)="cancelChanges()">
+          {{ 'admin.settings.cancel' | translate }}
+        </button>
+        <button mat-flat-button color="primary" type="submit">
+          {{ 'admin.settings.save' | translate }}
+        </button>
+      </div>
+    </section>
+  </form>
+</div>
