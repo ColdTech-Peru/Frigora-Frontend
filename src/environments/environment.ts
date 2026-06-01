@@ -19,4 +19,6 @@ export const environment = {
   authEndpointPath: '/authentication',
 
   notificationsEndpointPath: '/notifications',
+
+  reviewsEndpointPath: '/reviews'
 };
