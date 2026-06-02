@@ -1,0 +1,15 @@
+.list-container { padding: 24px; background-color: #fcfaf8; min-height: 100vh; }
+.page-title { font-size: 28px; font-weight: 700; color: #4a4242; margin-bottom: 24px; }
+
+.filter-card, .table-card { border-radius: 12px !important; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(200, 195, 195, 0.2) !important; }
+.filter-content { display: flex; gap: 16px; align-items: center; }
+
+.full-width-table { width: 100%; }
+
+/* Estilos de chips (reutilizando las clases de antes) */
+.chip-pending { background-color: #ffebee; color: #c62828; }
+.chip-accepted { background-color: #fff8e1; color: #f57f17; }
+.chip-inProgress { background-color: #e3f2fd; color: #1565c0; }
+.chip-completed { background-color: #e8f5e9; color: #2e7d32; }
+
+mat-form-field { width: 250px; }

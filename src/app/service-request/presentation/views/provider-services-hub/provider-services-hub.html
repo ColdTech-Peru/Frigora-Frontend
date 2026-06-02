@@ -1,0 +1,57 @@
+<div class="hub-container">
+  <h1 class="page-title">{{ 'provider.services.hub.title' | translate }}</h1>
+
+  <div class="kpi-grid">
+    <mat-card class="kpi-card pastel-blue clickable" (click)="navigate('pending')">
+      <mat-card-header>
+        <mat-card-title class="kpi-header">
+          <span>{{ 'provider.services.hub.pending-requests' | translate }}</span>
+          <mat-icon class="text-blue">inbox</mat-icon>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="kpi-value text-blue">{{ counts.pending }}</p>
+        <p class="kpi-desc">{{ 'provider.services.hub.pending-requests-description' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card pastel-orange clickable" (click)="navigate('in-progress')">
+      <mat-card-header>
+        <mat-card-title class="kpi-header">
+          <span>{{ 'provider.services.hub.in-progress' | translate }}</span>
+          <mat-icon class="text-orange">settings</mat-icon>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="kpi-value text-orange">{{ counts.inProgress }}</p>
+        <p class="kpi-desc">{{ 'provider.services.hub.in-progress-description' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card pastel-green clickable" (click)="navigate('completed')">
+      <mat-card-header>
+        <mat-card-title class="kpi-header">
+          <span>{{ 'provider.services.hub.completed' | translate }}</span>
+          <mat-icon class="text-green">check_circle</mat-icon>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="kpi-value text-green">{{ counts.completed }}</p>
+        <p class="kpi-desc">{{ 'provider.services.hub.completed-description' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card pastel-gray clickable" (click)="navigate('rejected-canceled')">
+      <mat-card-header>
+        <mat-card-title class="kpi-header">
+          <span>{{ 'provider.services.hub.rejected-canceled' | translate }}</span>
+          <mat-icon class="text-gray">cancel</mat-icon>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="kpi-value text-gray">{{ counts.rejected + counts.canceled }}</p>
+        <p class="kpi-desc">{{ 'provider.services.hub.rejected-canceled-description' | translate }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

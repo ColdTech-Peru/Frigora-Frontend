@@ -6,7 +6,7 @@ import { adminRoutes } from './iam/presentation/admin-routes';
 import { Layout } from './shared/presentation/components/layout/layout';
 
 export const routes: Routes = [
-  // 1. IAM (Públicas)
+  // 1. IAM (Públicas)s
   { path: 'login', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: 'register', redirectTo: 'auth/register', pathMatch: 'full' },
   { path: 'auth', children: authRoutes, data: { public: true } },

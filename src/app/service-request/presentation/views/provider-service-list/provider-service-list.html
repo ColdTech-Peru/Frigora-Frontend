@@ -1,0 +1,69 @@
+<div class="list-container">
+  <h1 class="page-title">{{ 'provider.services.title' | translate }}</h1>
+
+  <mat-card class="filter-card">
+    <mat-card-content class="filter-content">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'provider.services.list.status' | translate }}</mat-label>
+        <mat-select [(ngModel)]="filters.status" (selectionChange)="applyFilters()">
+          <mat-option value="">{{ 'common.all' | translate }}</mat-option>
+          <mat-option *ngFor="let s of statusOptions.slice(1)" [value]="s">
+            {{ 'services.status.' + s | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'provider.services.list.client' | translate }}</mat-label>
+        <input matInput [(ngModel)]="filters.clientName" (input)="applyFilters()" [placeholder]="'provider.services.list.search-by-client' | translate">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="table-card">
+    <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
+      <ng-container matColumnDef="orderNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+        <td mat-cell *matCellDef="let element"> {{element.orderNumber}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="requesterName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'provider.services.list.client' | translate }} </th>
+        <td mat-cell *matCellDef="let element"> {{element.requesterName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="siteName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'provider.services.list.site' | translate }} </th>
+        <td mat-cell *matCellDef="let element"> {{element.siteName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="equipmentName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'services.requests.equipment' | translate }} </th>
+        <td mat-cell *matCellDef="let element"> {{element.equipmentName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'common.status.title' | translate }} </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-chip [ngClass]="'chip-' + element.status">
+            {{ 'services.status.' + element.status | translate }}
+          </mat-chip>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> {{ 'provider.services.list.actions' | translate }} </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="navigateToDetail(element)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card>
+</div>
