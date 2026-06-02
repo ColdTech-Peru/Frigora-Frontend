@@ -1,0 +1,28 @@
+<div class="map-picker-container">
+
+  <div
+    #mapContainer
+    class="map-container">
+  </div>
+
+  <div class="location-info">
+
+    <p>
+      <strong>Location:</strong>
+      {{ selectedLocation.name }}
+    </p>
+
+    <p>
+      <strong>Address:</strong>
+      {{ selectedLocation.address }}
+    </p>
+
+    <p>
+      <strong>Coordinates:</strong>
+      {{ selectedLocation.lat }},
+      {{ selectedLocation.lng }}
+    </p>
+
+  </div>
+
+</div>
