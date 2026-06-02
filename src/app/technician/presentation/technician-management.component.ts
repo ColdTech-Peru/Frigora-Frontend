@@ -1,4 +1,3 @@
-// src/app/technician-management/presentation/views/technician-management/technician-management.component.ts
 
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
@@ -17,31 +16,28 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatNoDataRow, MatRow, MatRowDef,
-  MatTable
+  MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatNoDataRow, MatRow, MatRowDef, MatTable
 } from '@angular/material/table';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, NgIf } from '@angular/common';
 import { Technician } from '../domain/model/technician.entity';
 import { TechniciansService } from '../infrastructure/technicians.service';
 import { FeedbackApiService } from '../../feedback/infrastructure/feedback-api.service';
-import { AuthApiEndpoint } from '../../iam/infrastructure/auth-api';
 import { AuthStoreService } from '../../iam/application/iam.store';
 
 @Component({
   selector: 'app-technician-management',
   templateUrl: './technician-management.component.html',
+  standalone: true,
   imports: [
+    NgIf,
+    DecimalPipe,
     TranslatePipe,
+    FormsModule,
     MatCard,
     MatCardTitle,
     MatCardHeader,
     MatCardContent,
-    FormsModule,
     MatFormField,
     MatLabel,
     MatError,
@@ -55,7 +51,6 @@ import { AuthStoreService } from '../../iam/application/iam.store';
     MatHeaderCellDef,
     MatCell,
     MatCellDef,
-    DecimalPipe,
     MatIconButton,
     MatHeaderRow,
     MatHeaderRowDef,
@@ -70,10 +65,9 @@ import { AuthStoreService } from '../../iam/application/iam.store';
   styleUrls: ['./technician-management.component.css']
 })
 export class TechnicianManagementComponent implements OnInit {
-  loading: boolean = false;
-  submitting: boolean = false;
+  loading = false;
+  submitting = false;
 
-  // Columnas para Angular Material Table
   displayedColumns: string[] = ['name', 'specialty', 'phone', 'averageRating', 'actions'];
   technicians: Technician[] = [];
 
@@ -81,7 +75,6 @@ export class TechnicianManagementComponent implements OnInit {
   editableTechnician: Technician | null = null;
   technicianToDelete: Technician | null = null;
 
-  // Referencias a los templates de los diálogos en el HTML
   @ViewChild('editDialog') editDialogTemplate!: TemplateRef<any>;
   @ViewChild('confirmDialog') confirmDialogTemplate!: TemplateRef<any>;
 
@@ -110,14 +103,11 @@ export class TechnicianManagementComponent implements OnInit {
       techs: this.techniciansService.getTechniciansByProvider(this.currentProviderId),
       reviews: this.reviewsService.getAllReviews()
     }).subscribe({
-      next: (responses) => {
-        const allTechnicians = responses.techs;
-        const allReviews = responses.reviews;
-
-        this.technicians = allTechnicians.map((techData: any) => {
-          const techReviews = allReviews.filter((review: any) => review.technicianId === techData.id);
-          const totalRating = techReviews.reduce((sum: number, review: any) => sum + review.rating, 0);
-          const averageRating = techReviews.length > 0 ? totalRating / techReviews.length : 0;
+      next: ({ techs, reviews }) => {
+        this.technicians = techs.map((techData: any) => {
+          const techReviews = reviews.filter((r: any) => r.technicianId === techData.id);
+          const total = techReviews.reduce((sum: number, r: any) => sum + r.rating, 0);
+          const averageRating = techReviews.length > 0 ? total / techReviews.length : 0;
           return new Technician({ ...techData, averageRating });
         });
       },
@@ -135,7 +125,7 @@ export class TechnicianManagementComponent implements OnInit {
     this.techniciansService.createTechnician(dataToSend).subscribe({
       next: () => {
         this.newTechnician = { name: '', specialty: '', phone: '' };
-        formDirective.resetForm(); // Limpia el estado de errores de Material
+        formDirective.resetForm();
         this.fetchTechnicians();
       },
       error: (e) => console.error('Error registrando técnico.', e),
@@ -145,13 +135,11 @@ export class TechnicianManagementComponent implements OnInit {
 
   openEditDialog(technician: Technician): void {
     this.editableTechnician = { ...technician };
-    this.dialog.open(this.editDialogTemplate, {
-      width: '400px'
-    });
+    this.dialog.open(this.editDialogTemplate, { width: '400px' });
   }
 
   saveTechnician(): void {
-    if (!this.editableTechnician || !this.editableTechnician.id) return;
+    if (!this.editableTechnician?.id) return;
 
     this.submitting = true;
     this.techniciansService.updateTechnician(this.editableTechnician.id, this.editableTechnician).subscribe({
@@ -166,20 +154,18 @@ export class TechnicianManagementComponent implements OnInit {
 
   openConfirmDelete(technician: Technician): void {
     this.technicianToDelete = technician;
-    this.dialog.open(this.confirmDialogTemplate, {
-      width: '350px'
-    });
+    this.dialog.open(this.confirmDialogTemplate, { width: '350px' });
   }
 
   confirmDelete(): void {
-    if (this.technicianToDelete?.id) {
-      this.techniciansService.deleteTechnician(this.technicianToDelete.id).subscribe({
-        next: () => {
-          this.dialog.closeAll();
-          this.fetchTechnicians();
-        },
-        error: (e) => console.error('Error eliminando técnico.', e)
-      });
-    }
+    if (!this.technicianToDelete?.id) return;
+
+    this.techniciansService.deleteTechnician(this.technicianToDelete.id).subscribe({
+      next: () => {
+        this.dialog.closeAll();
+        this.fetchTechnicians();
+      },
+      error: (e) => console.error('Error eliminando técnico.', e)
+    });
   }
 }

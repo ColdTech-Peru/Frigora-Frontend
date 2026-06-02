@@ -12,21 +12,31 @@ export class DashboardApi {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Obtiene el snapshot del dashboard filtrado por tenantId.
-   * json-server resolverá esto como: GET /dashboard?tenantId=t1
-   */
-  getSnapshotByTenant(tenantId: string): Observable<any[]> {
-    const params = new HttpParams().set('tenantId', tenantId);
-    return this.http.get<any[]>(`${this.baseUrl}/dashboard`, { params });
+
+  getDashboardConfigByUser(userId: string | number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/dashboard-configs/user/${userId}`);
   }
 
-  /**
-   * Obtiene las alertas filtradas por tenantId.
-   * json-server resolverá esto como: GET /alerts?tenantId=t1
-   */
-  getAlertsByTenant(tenantId: string): Observable<any[]> {
-    const params = new HttpParams().set('tenantId', tenantId);
-    return this.http.get<any[]>(`${this.baseUrl}/alerts`, { params });
+  getAvailableCards(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/dashboard-configs/available-cards`);
+  }
+
+  getAlerts(tenantId?: string, equipmentId?: string): Observable<any[]> {
+    let params = new HttpParams();
+    if (tenantId) params = params.set('tenantId', tenantId);
+    if (equipmentId) params = params.set('equipmentId', equipmentId);
+    return this.http.get<any[]>(`${this.baseUrl}/alert`, { params });
+  }
+
+  getAlertById(id: string | number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/alert/${id}`);
+  }
+
+  acknowledgeAlert(id: string | number): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/alert/${id}/acknowledge`, {});
+  }
+
+  deleteAlert(id: string | number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/alert/${id}`);
   }
 }

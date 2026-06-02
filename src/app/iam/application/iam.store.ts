@@ -5,8 +5,8 @@ import { UserAssembler } from '../infrastructure/user-assembler';
 import { User } from '../domain/model/user.entity';
 
 const roleMap: Record<number, string> = {
-  0: 'owner',
-  1: 'provider'
+  0: 'Owner',
+  1: 'Provider'
 };
 
 const getRoleAsString = (role: string | number): string => {
@@ -37,8 +37,10 @@ export class AuthStoreService {
   get currentUser(): User | null { return this.userSubject.value; }
   get currentToken(): string | null { return this.tokenSubject.value; }
   get isLoggedIn(): boolean { return !!this.currentToken && !!this.currentUser; }
+  get currentUserRole(): string | null { return this.currentUser?.role || null; }  // ← agregado
   get currentTenantId(): string | null { return this.currentUser?.tenantId || null; }
   get currentUserId(): string | number | null { return this.currentUser?.id || null; }
+
   async login(username: string, password: string): Promise<boolean> {
     this.errorsSubject.next([]);
     try {
@@ -54,7 +56,7 @@ export class AuthStoreService {
         tenantId: rawUser.tenantId || '',
         name: rawUser.name || rawUser.username,
         email: rawUser.username,
-        role: getRoleAsString(rawUser.role),
+        role: getRoleAsString(rawUser.role),  // ← ahora devuelve 'Owner' o 'Provider' con mayúscula
         status: rawUser.status || 'active',
         phone: rawUser.phone || '',
         locale: rawUser.locale || 'es',

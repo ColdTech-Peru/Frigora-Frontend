@@ -1,13 +1,16 @@
 import { computed, Injectable, signal, DestroyRef, inject } from '@angular/core';
 import { DashboardSnapshot } from '../domain/model/dashboard-snapshot.entity';
 import { AlertView } from '../domain/model/alert-view.entity';
-import { DashboardApi } from '../infrastructure/dashboard-api'; // Ajusta la ruta si es necesario
+import { DashboardApi } from '../infrastructure/dashboard-api';
+import { AuthStoreService } from '../../iam/application/iam.store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardStore {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly dashboardApi = inject(DashboardApi);
+  private readonly authStore = inject(AuthStoreService);
 
   private readonly snapshotSignal = signal<DashboardSnapshot | null>(null);
   private readonly alertsSignal = signal<AlertView[]>([]);
@@ -29,24 +32,23 @@ export class DashboardStore {
   );
   readonly criticalAlertsCount = computed(() => this.criticalAlerts().length);
 
-  constructor(private dashboardApi: DashboardApi) {}
+  // Carga el dashboard config usando el userId del usuario logueado
+  loadSnapshot(): void {
+    const userId = this.authStore.currentUserId;
+    if (!userId) return;
 
-  /**
-   * Carga el snapshot del dashboard
-   */
-  loadSnapshot(tenantId: string): void {
     this.loadingSnapshotSignal.set(true);
     this.errorSignal.set(null);
 
-    this.dashboardApi.getSnapshotByTenant(tenantId)
+    this.dashboardApi.getDashboardConfigByUser(userId)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.loadingSnapshotSignal.set(false))
       )
       .subscribe({
-        next: (snapshots) => {
-          if (snapshots && snapshots.length > 0) {
-            this.snapshotSignal.set(new DashboardSnapshot(snapshots[0]));
+        next: (data) => {
+          if (data) {
+            this.snapshotSignal.set(new DashboardSnapshot(data));
           } else {
             this.snapshotSignal.set(null);
           }
@@ -58,14 +60,14 @@ export class DashboardStore {
       });
   }
 
-  /**
-   * Carga las alertas y las mapea a la entidad AlertView
-   */
-  loadAlerts(tenantId: string): void {
+  // Carga las alertas usando el tenantId del usuario logueado
+  loadAlerts(): void {
+    const tenantId = this.authStore.currentTenantId;
+
     this.loadingAlertsSignal.set(true);
     this.errorSignal.set(null);
 
-    this.dashboardApi.getAlertsByTenant(tenantId)
+    this.dashboardApi.getAlerts(tenantId ?? undefined)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.loadingAlertsSignal.set(false))
@@ -82,7 +84,6 @@ export class DashboardStore {
             equipmentName: data.equipmentName,
             siteName: data.siteName
           }));
-
           this.alertsSignal.set(alertInstances);
         },
         error: (err) => {
@@ -92,17 +93,12 @@ export class DashboardStore {
       });
   }
 
-  /**
-   * Método de conveniencia para cargar todo el contexto del dashboard a la vez
-   */
-  loadFullDashboard(tenantId: string): void {
-    this.loadSnapshot(tenantId);
-    this.loadAlerts(tenantId);
+  // Ya no recibe tenantId como parámetro, lo lee del authStore
+  loadFullDashboard(): void {
+    this.loadSnapshot();
+    this.loadAlerts();
   }
 
-  /**
-   * Limpia el estado (útil al cerrar sesión o cambiar de tenant)
-   */
   clearStore(): void {
     this.snapshotSignal.set(null);
     this.alertsSignal.set([]);

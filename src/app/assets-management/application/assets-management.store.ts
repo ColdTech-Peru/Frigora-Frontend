@@ -34,7 +34,11 @@ export class AssetsManagementStore{
   }
 
   getSitesById(id: string): Signal<Sites | undefined> {
-    return computed(()=> id ? this.sites().find(c => c.id === id) : undefined);
+    return computed(() =>
+      this.sites().find(
+        site => String(site.id) === id
+      )
+    );
   }
 
   addSite(site: Sites): void {

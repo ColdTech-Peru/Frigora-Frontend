@@ -214,7 +214,7 @@ export class ServiceRequestDetailComponent implements OnInit {
 
     try {
       await this.api
-        .sendDeleteRequestCommand(id)
+        .sendRejectRequestCommand(id)
         .toPromise();
 
       this.snackBar.open(

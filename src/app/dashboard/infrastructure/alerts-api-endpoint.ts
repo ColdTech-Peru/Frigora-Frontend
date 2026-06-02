@@ -12,6 +12,6 @@ export class AlertsApiEndpoint extends BaseApiEndpoint<
   AlertAssembler
 > {
   constructor(http: HttpClient) {
-    super(http, `${environment.apiBaseUrl}/alerts`, new AlertAssembler());
+    super(http, `${environment.apiBaseUrl}/alert`, new AlertAssembler());
   }
 }

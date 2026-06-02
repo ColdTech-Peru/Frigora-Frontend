@@ -1,40 +1,54 @@
-<div class="auth-container">
-  <mat-card class="auth-card">
-    <mat-card-header class="auth-header">
-      <mat-card-title>{{ 'auth.login.title' | translate }}</mat-card-title>
-    </mat-card-header>
+<div class="login-page">
 
-    <mat-card-content>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+  <!-- Panel izquierdo -->
+  <div class="login-brand">
+    <img src="/logo.png" alt="Logo">
+  </div>
 
-        <div *ngIf="(authStore.errors$ | async) as errors">
-          <div *ngIf="errors.length > 0" class="error-container">
-            <div *ngFor="let error of errors" class="error-message">
-              <mat-icon>error_outline</mat-icon>
-              <span>{{ error.message }}</span>
-            </div>
-          </div>
-        </div>
+  <!-- Panel derecho -->
+  <div class="login-form-container">
+
+    <div class="login-content">
+
+      <h1>{{ 'auth.login.title' | translate }}</h1>
+
+      <p class="register-link">
+        {{ 'auth.login.noAccount' | translate }}
+        <a routerLink="/auth/register">
+          {{ 'auth.login.createAccount' | translate }}
+        </a>
+      </p>
+
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        class="auth-form">
 
         <mat-form-field appearance="outline">
           <mat-label>{{ 'auth.login.username' | translate }}</mat-label>
-          <input matInput formControlName="username" type="text" required />
+          <input matInput formControlName="username">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>{{ 'auth.login.password' | translate }}</mat-label>
-          <input matInput formControlName="password" type="password" required />
+          <input
+            matInput
+            type="password"
+            formControlName="password">
         </mat-form-field>
 
-        <button mat-flat-button color="primary" type="submit" class="submit-button" [disabled]="loginForm.invalid || loading">
-          <span *ngIf="!loading">{{ 'auth.login.cta' | translate }}</span>
-          <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+        <button
+          mat-flat-button
+          color="primary"
+          class="submit-button">
+
+          {{ 'auth.login.cta' | translate }}
         </button>
 
-        <div class="auth-links">
-          <a routerLink="/auth/register">{{ 'auth.register.alreadyHaveAccount' | translate }}</a>
-        </div>
       </form>
-    </mat-card-content>
-  </mat-card>
+
+    </div>
+
+  </div>
+
 </div>

@@ -20,14 +20,20 @@ export class UserApiEndpoint extends BaseApiEndpoint<User, UserResource, UserRes
 
   getUsersByTenant(tenantId: string): Observable<User[]> {
     const params = new HttpParams().set('tenantId', tenantId);
-    return this.http.get<UserResponse>(this.resourcePath, { params }).pipe(
-      map((response) => this.assembler.toEntitiesFromResponse(response))
+    return this.http.get<any>(this.resourcePath, {params}).pipe(
+      map((response) => {
+        const list = Array.isArray(response) ? response : response.users ?? [];
+        return list.map((r: UserResource) => this.assembler.toEntityFromResource(r));
+      })
     );
   }
 
   getUsersByRole(role: string): Observable<User[]> {
-    return this.http.get<UserResponse>(`${this.resourcePath}/role/${role}`).pipe(
-      map((response) => this.assembler.toEntitiesFromResponse(response))
+    return this.http.get<any>(`${this.resourcePath}/role/${role}`).pipe(
+      map((response) => {
+        const list = Array.isArray(response) ? response : response.users ?? [];
+        return list.map((r: UserResource) => this.assembler.toEntityFromResource(r));
+      })
     );
   }
 }

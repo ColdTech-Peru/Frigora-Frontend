@@ -1,17 +1,17 @@
 export const environment = {
   production: false,
 
-  apiBaseUrl: 'http://localhost:3000/api/v1',
+  apiBaseUrl: 'http://localhost:8080/api/v1',
 
   tenantsEndpointPath: '/tenants',
   dashboardConfigsEndpointPath: '/dashboard-configs',
   usersEndpointPath: '/users',
-  sitesEndpointPath: '/sites',
-  equipmentsEndpointPath: '/equipments',
+  sitesEndpointPath: '/site',
+  equipmentsEndpointPath: '/equipment',
   reportsEndpointPath: '/reports',
-  serviceRequestsEndpointPath: '/serviceRequests',
+  serviceRequestsEndpointPath: '/service-requests',
   interventionsEndpointPath: '/interventions',
-  alertsEndpointPath: '/alerts',
+  alertsEndpointPath: '/alert',
 
   authEndpointPath: '/authentication',
   techniciansEndpointPath: '/technicians',

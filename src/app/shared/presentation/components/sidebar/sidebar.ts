@@ -1,11 +1,10 @@
-import { Component, Input, inject } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { Router } from '@angular/router'
 import { TranslatePipe } from '@ngx-translate/core'
 import { CommonModule } from '@angular/common'
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatIconModule } from '@angular/material/icon'
-
-export type UserRole = 'Owner' | 'Provider'
+import { AuthStoreService } from '../../../../iam/application/iam.store'
 
 interface NavItem {
   labelKey: string
@@ -28,56 +27,49 @@ interface NavItem {
 })
 export class Sidebar {
 
-  @Input() set role(value: UserRole) {
-    this._role = value
-    this.buildMenu()
-  }
-
-  // Las dejamos públicas (sin protected) para que el HTML no se queje
   items: NavItem[] = []
   router = inject(Router)
-
-  private _role: UserRole = 'Owner'
+  private auth = inject(AuthStoreService)
 
   constructor() {
     this.buildMenu()
   }
 
   private buildMenu(): void {
-    // Aquí está tu menú forzado para probar solo la pantalla de técnicos
-    this.items = [
+    const role = this.auth.currentUserRole
 
-      {
-        labelKey: 'provider.dashboard.title', // Usa la llave de traducción que prefieras
-        icon: 'dashboard',
-        route: '/provider/dashboard'
-      },
-
-      {
-        labelKey: 'nav.technician_management',
-        icon: 'group',
-        route: '/provider/technicians'
-      },
-      {
-        labelKey: 'nav.services_hub',
-        icon: 'group',
-        route: '/provider/services-hub'
-      },
-      {
-        labelKey: 'nav.completed-services',
-        icon: 'group',
-        route: '/provider/completed-services'
-      },
-      {
-        labelKey: 'nav.service-list',
-        icon: 'group',
-        route: '/provider/service-list'
-      }
-
-    ];
+    if (role === 'Provider') {
+      this.items = [
+        { labelKey: 'provider.dashboard.title', icon: 'dashboard', route: '/provider/dashboard' },
+        { labelKey: 'nav.technician_management', icon: 'group', route: '/provider/technicians' },
+        { labelKey: 'nav.services_hub', icon: 'hub', route: '/provider/services-hub' },
+        {
+          labelKey: 'nav.services', icon: 'build',
+          children: [
+            { labelKey: 'nav.service-list', icon: 'list', route: '/provider/services' },
+            { labelKey: 'nav.completed-services', icon: 'check_circle', route: '/provider/services/completed' },
+            { labelKey: 'nav.rejected-canceled', icon: 'cancel', route: '/provider/services/rejected-canceled' },
+          ]
+        },
+      ]
+    } else {
+      // Owner
+      this.items = [
+        { labelKey: 'nav.dashboard', icon: 'dashboard', route: '/dashboard' },
+        { labelKey: 'nav.sites', icon: 'location_on', route: '/sites' },
+        {
+          labelKey: 'nav.monitoring', icon: 'monitor_heart',
+          children: [
+            { labelKey: 'nav.equipments', icon: 'settings', route: '/equipments' },
+            { labelKey: 'nav.alerts', icon: 'notifications', route: '/alerts' },
+          ]
+        },
+        { labelKey: 'nav.services', icon: 'build', route: '/services' },
+        { labelKey: 'nav.reporting', icon: 'bar_chart', route: '/reporting' },
+      ]
+    }
   }
 
-  // Funciones públicas para que el HTML (sidebar.html) pueda usarlas sin error
   navigate(route: string): void {
     this.router.navigate([route])
   }
