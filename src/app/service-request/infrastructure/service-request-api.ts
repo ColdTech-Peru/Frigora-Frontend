@@ -14,7 +14,7 @@ const interventionsPath =
  * @class ServiceRequestsApi
  * @description A class for interacting with the service requests API.
  * @extends BaseApi
- * @author Alejandro Galindo
+ * @author Alejandro Manuel
  */
 @Injectable({ providedIn: 'root' })
 export class ServiceRequestsApi extends BaseApi {
@@ -26,6 +26,10 @@ export class ServiceRequestsApi extends BaseApi {
     this.servicesEndpoint = new ServiceRequestsApiEndpoint(http);
   }
 
+  // ==========================================
+  // COMANDOS (Escritura / Modificación)
+  // ==========================================
+
   /**
    * @description Send a command to create a new service request.
    * @param command - The new request command.
@@ -35,13 +39,29 @@ export class ServiceRequestsApi extends BaseApi {
   }
 
   /**
+   * @description Send a command to accept a service request.
+   * @param requestId - The ID of the request to accept.
+   */
+  sendAcceptRequestCommand(requestId: string | number): Observable<object> {
+    // Nota: Para json-server enviamos el status directamente.
+    // Cuando conectes tu Spring Boot, cámbialo a: patch(`.../${requestId}/accept`, {}) si es necesario.
+    return this.http.patch(`${this.servicesEndpoint.resourcePath}/${requestId}`, { status: 'accepted' });
+  }
+
+  /**
+   * @description Send a command to reject a service request.
+   * @param requestId - The ID of the request to reject.
+   */
+  sendRejectRequestCommand(requestId: string | number): Observable<object> {
+    return this.http.patch(`${this.servicesEndpoint.resourcePath}/${requestId}`, { status: 'rejected' });
+  }
+
+  /**
    * @description Send a command to cancel a service request.
    * @param requestId - The ID of the request to cancel.
    */
   sendCancelRequestCommand(requestId: string | number): Observable<object> {
-    return this.http.patch(
-      `${this.servicesEndpoint.resourcePath}/${requestId}/cancel`, {}
-    );
+    return this.http.patch(`${this.servicesEndpoint.resourcePath}/${requestId}/cancel`, {});
   }
 
   /**
@@ -61,6 +81,10 @@ export class ServiceRequestsApi extends BaseApi {
     return this.http.post(interventionsPath, command);
   }
 
+  // ==========================================
+  // QUERIES (Lectura / Búsqueda)
+  // ==========================================
+
   /**
    * @description Retrieves all service requests.
    */
@@ -74,6 +98,15 @@ export class ServiceRequestsApi extends BaseApi {
    */
   getServiceRequestDetailsQuery(requestId: string | number): Observable<ServiceRequest> {
     return this.servicesEndpoint.getById(requestId);
+  }
+
+  /**
+   * @description Get requests assigned to a specific provider.
+   * @param providerId - The ID of the provider to filter by.
+   */
+  getRequestsForProviderQuery(providerId: string | number): Observable<ServiceRequest[]> {
+    // Busca en json-server los serviceRequests donde assignedTo sea igual a tu providerId
+    return this.http.get<ServiceRequest[]>(`${this.servicesEndpoint.resourcePath}?assignedTo=${providerId}`);
   }
 
   /**

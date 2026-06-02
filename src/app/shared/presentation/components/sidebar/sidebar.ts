@@ -1,6 +1,6 @@
 import { Component, Input, inject } from '@angular/core'
 import { Router } from '@angular/router'
-import {TranslatePipe, TranslateService} from '@ngx-translate/core'
+import { TranslatePipe } from '@ngx-translate/core'
 import { CommonModule } from '@angular/common'
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatIconModule } from '@angular/material/icon'
@@ -33,8 +33,9 @@ export class Sidebar {
     this.buildMenu()
   }
 
-  protected items: NavItem[] = []
-  protected router = inject(Router)
+  // Las dejamos públicas (sin protected) para que el HTML no se queje
+  items: NavItem[] = []
+  router = inject(Router)
 
   private _role: UserRole = 'Owner'
 
@@ -43,37 +44,45 @@ export class Sidebar {
   }
 
   private buildMenu(): void {
-    if (this._role === 'Provider') {
-      this.items = [
-        { labelKey: 'nav.provider_dashboard',    icon: 'dashboard',   route: '/provider-dashboard' },
-        {
-          labelKey: 'nav.provider_services',
-          icon: 'work',
-          children: [
-            { labelKey: 'nav.services_hub',  icon: 'account_tree', route: '/provider-services-hub' },
-            { labelKey: 'nav.all_services',  icon: 'list',         route: '/provider-services-list' },
-          ]
-        },
-        { labelKey: 'nav.technician_management', icon: 'group',      route: '/provider-technicians' },
-      ]
-      return
-    }
-
+    // Aquí está tu menú forzado para probar solo la pantalla de técnicos
     this.items = [
-      { labelKey: 'nav.dashboard',  icon: 'home',          route: '/dashboard' },
-      { labelKey: 'nav.sites',      icon: 'business',      route: '/sites' },
-      { labelKey: 'nav.equipments', icon: 'dns',           route: '/equipments' },
-      { labelKey: 'nav.services',   icon: 'work',          route: '/services' },
-      { labelKey: 'nav.alerts',     icon: 'notifications', route: '/alerts' },
-      { labelKey: 'nav.reports',    icon: 'bar_chart',     route: '/reporting' },
-    ]
+
+      {
+        labelKey: 'provider.dashboard.title', // Usa la llave de traducción que prefieras
+        icon: 'dashboard',
+        route: '/provider/dashboard'
+      },
+
+      {
+        labelKey: 'nav.technician_management',
+        icon: 'group',
+        route: '/provider/technicians'
+      },
+      {
+        labelKey: 'nav.services_hub',
+        icon: 'group',
+        route: '/provider/services-hub'
+      },
+      {
+        labelKey: 'nav.completed-services',
+        icon: 'group',
+        route: '/provider/completed-services'
+      },
+      {
+        labelKey: 'nav.service-list',
+        icon: 'group',
+        route: '/provider/service-list'
+      }
+
+    ];
   }
 
-  protected navigate(route: string): void {
+  // Funciones públicas para que el HTML (sidebar.html) pueda usarlas sin error
+  navigate(route: string): void {
     this.router.navigate([route])
   }
 
-  protected hasChildren(item: NavItem): boolean {
+  hasChildren(item: NavItem): boolean {
     return !!item.children?.length
   }
 }

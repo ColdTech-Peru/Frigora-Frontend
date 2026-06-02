@@ -1,28 +1,31 @@
 import { ServiceRequestResource, ServiceRequestsResponse } from './service-request-response';
 import { ServiceRequest } from '../domain/model/service-request.entity';
-import { BaseAssembler } from '../../shared/infrastructure/base-assembler';
 
 /**
  * Assembler for converting between ServiceRequest entities, ServiceRequestResource resources,
  * and ServiceRequestsResponse.
  */
-export class ServiceRequestAssembler implements BaseAssembler<ServiceRequest, ServiceRequestResource, ServiceRequestsResponse> {
+export class ServiceRequestAssembler {
 
   /**
    * Converts a ServiceRequestsResponse to an array of ServiceRequest entities.
    * @param response - The API response containing service requests.
+   * @param context
    * @returns An array of ServiceRequest entities.
    */
-  toEntitiesFromResponse(response: ServiceRequestsResponse): ServiceRequest[] {
-    return response.serviceRequests.map(resource => this.toEntityFromResource(resource as ServiceRequestResource));
+   toEntitiesFromResponse(response: ServiceRequestsResponse, context?: any): ServiceRequest[] {
+    return response.serviceRequests.map(resource => this.toEntityFromResource(resource as ServiceRequestResource, context));
   }
 
   /**
    * Converts a ServiceRequestResource to a ServiceRequest entity.
    * @param resource - The resource to convert.
+   * @param context
    * @returns The converted ServiceRequest entity.
    */
-  toEntityFromResource(resource: ServiceRequestResource): ServiceRequest {
+   toEntityFromResource(resource: ServiceRequestResource, context?: any): ServiceRequest {
+    // Si necesitas usar el 'context' (sites y equipments) que envías desde el componente,
+    // puedes mapearlo aquí si tu ServiceRequest Entity lo requiere.
     return new ServiceRequest({
       id: resource.id,
       requesterId: resource.requesterId,
@@ -47,7 +50,7 @@ export class ServiceRequestAssembler implements BaseAssembler<ServiceRequest, Se
    * @param entity - The entity to convert.
    * @returns The converted ServiceRequestResource.
    */
-  toResourceFromEntity(entity: ServiceRequest): ServiceRequestResource {
+   toResourceFromEntity(entity: ServiceRequest): ServiceRequestResource {
     return {
       id: entity.id,
       requesterId: entity.requesterId,

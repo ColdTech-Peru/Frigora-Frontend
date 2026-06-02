@@ -1,44 +1,81 @@
 import { Routes } from '@angular/router';
+import { authRoutes } from './iam/presentation/auth-routes';
 import { dashboardRoutes } from './dashboard/presentation/dashboard.routes';
 import { monitoringRoutes } from './monitoring/presentation/monitoring-routes';
+import { adminRoutes } from './iam/presentation/admin-routes';
+import { Layout } from './shared/presentation/components/layout/layout';
 
 export const routes: Routes = [
+  // 1. IAM (Públicas)
+  { path: 'login', redirectTo: 'auth/login', pathMatch: 'full' },
+  { path: 'register', redirectTo: 'auth/register', pathMatch: 'full' },
+  { path: 'auth', children: authRoutes, data: { public: true } },
+
+  // 2. Rutas Protegidas (Layout)
   {
     path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full'
+    component: Layout,
+    children: [
+      { path: '', redirectTo: 'provider/dashboard', pathMatch: 'full' },
+
+      // --- OWNER ROUTES ---
+      { path: 'dashboard', children: dashboardRoutes, data: { roleRequired: 'Owner' } },
+      { path: 'admin', children: adminRoutes, data: { roleRequired: 'Owner' } },
+      {
+        path: 'sites',
+        loadChildren: () => import('./assets-management/presentation/assets-management-routes').then(m => m.assetsManagementRoutes),
+        data: { roleRequired: 'Owner' }
+      },
+      {
+        path: 'reporting',
+        loadChildren: () => import('./reporting/reporting.routes').then(m => m.REPORTING_ROUTES),
+        data: { roleRequired: 'Owner' }
+      },
+      // Inyección de monitoreo para Owner
+      ...monitoringRoutes.map(r => ({ ...r, data: { ...r.data, roleRequired: 'Owner' } })),
+
+      // Servicios (Owner)
+      {
+        path: 'services',
+        loadChildren: () => import('./service-request/presentation/service-request-routes').then(m => m.serviceRequestsRoutes),
+        data: { roleRequired: 'Owner' }
+      },
+
+      // --- PROVIDER ROUTES ---
+      {
+        path: 'provider/dashboard',
+        loadComponent: () => import('./service-request/presentation/views/provider-dashboard/provider-dashboard').then(m => m.ProviderDashboardComponent),
+        data: { roleRequired: 'Provider' }
+      },
+      {
+        path: 'provider/services',
+        loadComponent: () => import('./service-request/presentation/views/provider-service-list/provider-service-list').then(m => m.ProviderServiceListComponent),
+        data: { roleRequired: 'Provider' }
+      },
+      {
+        path: 'provider/services-hub',
+        loadComponent: () => import('./service-request/presentation/views/provider-services-hub/provider-services-hub').then(m => m.ProviderServicesHubComponent),
+        data: { roleRequired: 'Provider' }
+      },
+
+      {
+        path: 'provider/services/completed',
+        loadComponent: () => import('./service-request/presentation/views/complete-service/complete-service').then(m => m.ProviderCompletedServicesComponent),
+        data: { roleRequired: 'Provider' }
+      },
+      {
+        path: 'provider/services/rejected-canceled',
+        loadComponent: () => import('./service-request/presentation/views/provider-rejected-canceled-services/provider-rejected-canceled-services').then(m => m.ProviderRejectedCanceledServicesComponent),
+        data: { roleRequired: 'Provider' }
+      },
+      {
+        path: 'provider/technicians',
+        loadComponent: () => import('./technician/presentation/technician-management.component').then(m => m.TechnicianManagementComponent),
+        data: { roleRequired: 'Provider' }
+      }
+    ]
   },
 
-  ...monitoringRoutes,
-
-  {
-    path: 'dashboard',
-    children: dashboardRoutes
-  },
-
-  {
-    path: 'reporting',
-    loadChildren: () =>
-      import('./reporting/reporting.routes')
-        .then(m => m.REPORTING_ROUTES)
-  },
-
-  {
-    path: 'sites',
-    loadChildren: () =>
-      import('./assets-management/presentation/assets-management-routes')
-        .then(m => m.assetsManagementRoutes)
-  },
-
-  {
-    path: 'services',
-    loadChildren: () =>
-      import('./service-request/presentation/service-request-routes')
-        .then(m => m.serviceRequestsRoutes)
-  },
-
-  {
-    path: '**',
-    redirectTo: 'dashboard'
-  }
+  // 3. Comodín
+  { path: '**', redirectTo: 'auth/login' }
 ];

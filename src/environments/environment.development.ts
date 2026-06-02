@@ -14,6 +14,8 @@ export const environment = {
   alertsEndpointPath: '/alerts',
 
   authEndpointPath: '/authentication',
-
+  techniciansEndpointPath: '/technicians',
   notificationsEndpointPath: '/notifications',
+  reviewsEndpointPath: '/reviews'
+
 };

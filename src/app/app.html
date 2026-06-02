@@ -1,1 +1,7 @@
-<app-layout/>
+@if (isAuthRoute) {
+  <router-outlet></router-outlet>
+} @else {
+  <app-layout>
+    <router-outlet></router-outlet>
+  </app-layout>
+}

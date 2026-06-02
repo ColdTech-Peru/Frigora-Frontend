@@ -6,6 +6,7 @@ import { ServiceRequest } from '../domain/model/service-request.entity';
 import { ServiceRequestResource, ServiceRequestsResponse } from './service-request-response';
 import { ServiceRequestAssembler } from './service-request-assembler';
 
+// @ts-ignore
 /**
  * API endpoint for managing service requests.
  */
