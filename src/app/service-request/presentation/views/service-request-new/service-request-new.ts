@@ -94,7 +94,16 @@ export class ServiceRequestNewComponent implements OnInit {
 
   private loadProviders(): void {
     this.iamApi.getUsersByRole('Provider').subscribe({
-      next: (res: any) => this.providers = res,
+      next: (res: any) => {
+        const users = Array.isArray(res) ? res : res?.data ?? [];
+
+        this.providers = users.map((u: any) => ({
+          id: u.id,
+          username: u.username || u.name || `user${u.id}`
+        }));
+
+        console.log('PROVIDERS:', this.providers);
+      },
       error: (e) => console.error('Error loading providers', e)
     });
   }

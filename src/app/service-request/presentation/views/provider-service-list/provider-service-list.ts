@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 
-// Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
@@ -22,9 +21,6 @@ import { AssetsManagementApi } from '../../../../assets-management/infrastructur
 import { AuthStoreService } from '../../../../iam/application/iam.store';
 import { MonitoringApiService } from '../../../../monitoring/infrastructure/monitoring-api.service';
 import { ServiceRequestAssembler } from '../../../infrastructure/service-request-assembler';
-
-// Servicios y Assembler
-
 
 @Component({
   selector: 'app-provider-service-list',
@@ -85,7 +81,6 @@ export class ProviderServiceListComponent implements OnInit {
 
         const data = assembler.toEntitiesFromResponse({ serviceRequests: res.requests }, context);
 
-        // Asignamos datos y configuramos paginación/sort
         this.dataSource.data = data.map((req, index) => ({ ...req, orderNumber: index + 1 }));
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

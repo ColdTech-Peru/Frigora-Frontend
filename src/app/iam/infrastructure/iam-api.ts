@@ -34,10 +34,9 @@ export class IamApi extends BaseApi {
     return this.userEndpoint.getUsersByTenant(tenantId);
   }
 
-  getUsersByRole(role: string): Observable<User[]> {
-    return this.userEndpoint.getUsersByRole(role);
+  getUsersByRole(role: string) {
+    return this.http.get<any[]>(`${environment.apiBaseUrl}/users/role/${role}`);
   }
-
   /*updateUser(id: string, user: User): Observable<User> {
     return this.userEndpoint.update(id, user);
   }*/
@@ -45,7 +44,6 @@ export class IamApi extends BaseApi {
   createUser(user: User): Observable<User> {
     return this.userEndpoint.create(user);
   }
-  // Agrega este método explícitamente
   getAllUsers(): Observable<any> {
     return this.http.get(`${environment.apiBaseUrl}/users`);
   }

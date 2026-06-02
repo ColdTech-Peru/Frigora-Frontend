@@ -32,7 +32,6 @@ export class DashboardStore {
   );
   readonly criticalAlertsCount = computed(() => this.criticalAlerts().length);
 
-  // Carga el dashboard config usando el userId del usuario logueado
   loadSnapshot(): void {
     const userId = this.authStore.currentUserId;
     if (!userId) return;
@@ -60,7 +59,6 @@ export class DashboardStore {
       });
   }
 
-  // Carga las alertas usando el tenantId del usuario logueado
   loadAlerts(): void {
     const tenantId = this.authStore.currentTenantId;
 
@@ -93,7 +91,6 @@ export class DashboardStore {
       });
   }
 
-  // Ya no recibe tenantId como parámetro, lo lee del authStore
   loadFullDashboard(): void {
     this.loadSnapshot();
     this.loadAlerts();

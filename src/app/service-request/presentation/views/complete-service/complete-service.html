@@ -1,5 +1,5 @@
 <div class="completed-container">
-  <h1 class="page-title">{{ 'services.completed.title' | translate }}</h1>
+  <h1 class="page-title">{{ 'provider.services.completed.title' | translate }}</h1>
 
   <mat-card class="table-card">
     <mat-card-content>
@@ -11,27 +11,27 @@
         <table mat-table [dataSource]="completedRequests" class="full-width-table">
 
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef style="width: 10%"> {{ 'services.completed.id' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 10%"> {{ 'provider.services.completed.id' | translate }} </th>
             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
           </ng-container>
 
           <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef style="width: 40%"> {{ 'services.completed.description' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 40%"> {{ 'provider.services.completed.description' | translate }} </th>
             <td mat-cell *matCellDef="let element"> {{element.description}} </td>
           </ng-container>
 
           <ng-container matColumnDef="siteName">
-            <th mat-header-cell *matHeaderCellDef style="width: 20%"> {{ 'services.completed.site' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 20%"> {{ 'provider.services.completed.site' | translate }} </th>
             <td mat-cell *matCellDef="let element"> {{element.siteName || '-'}} </td>
           </ng-container>
 
           <ng-container matColumnDef="technicianName">
-            <th mat-header-cell *matHeaderCellDef style="width: 20%"> {{ 'services.completed.technician' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 20%"> {{ 'provider.services.completed.technician' | translate }} </th>
             <td mat-cell *matCellDef="let element"> {{element.technicianName || '-'}} </td>
           </ng-container>
 
           <ng-container matColumnDef="completedAt">
-            <th mat-header-cell *matHeaderCellDef style="width: 10%"> {{ 'services.completed.completed-at' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 10%"> {{ 'provider.services.completed.completed-at' | translate }} </th>
             <td mat-cell *matCellDef="let element">
               {{ element.completedAt | date:'shortDate' }}
             </td>
@@ -41,7 +41,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell empty-state" colspan="5">{{ 'services.completed.no-completed-services' | translate }}</td>
+            <td class="mat-cell empty-state" colspan="5">{{ 'provider.services.completed.no-completed-services' | translate }}</td>
           </tr>
         </table>
       }

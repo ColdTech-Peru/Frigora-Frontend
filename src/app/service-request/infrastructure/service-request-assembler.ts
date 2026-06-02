@@ -23,9 +23,19 @@ export class ServiceRequestAssembler {
    * @param context
    * @returns The converted ServiceRequest entity.
    */
-   toEntityFromResource(resource: ServiceRequestResource, context?: any): ServiceRequest {
-    // Si necesitas usar el 'context' (sites y equipments) que envías desde el componente,
-    // puedes mapearlo aquí si tu ServiceRequest Entity lo requiere.
+  toEntityFromResource(resource: ServiceRequestResource, context?: any): ServiceRequest {
+
+    const sites = context?.sites ?? [];
+    const equipments = context?.equipments ?? [];
+
+    const site = sites.find(
+      (s: any) => String(s.id) === String(resource.siteId)
+    );
+
+    const equipment = equipments.find(
+      (e: any) => String(e.id) === String(resource.equipmentId)
+    );
+
     return new ServiceRequest({
       id: resource.id,
       requesterId: resource.requesterId,
@@ -42,9 +52,10 @@ export class ServiceRequestAssembler {
       canceledAt: resource.canceledAt,
       technicianId: resource.technicianId,
       interventions: resource.interventions ?? [],
+      siteName: site?.name ?? 'N/A',
+      equipmentName: equipment?.name ?? 'N/A'
     });
   }
-
   /**
    * Converts a ServiceRequest entity to a ServiceRequestResource.
    * @param entity - The entity to convert.

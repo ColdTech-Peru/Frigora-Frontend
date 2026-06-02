@@ -10,6 +10,7 @@
     "close": "Close",
     "delete": "Delete",
     "edit": "Edit",
+    "title": "Status",
     "view": "View",
     "all": "All",
     "yes": "Yes",
@@ -106,7 +107,8 @@
         "open": "Open",
         "acknowledged": "Acknowledged",
         "resolved": "Resolved",
-        "closed": "Closed"
+        "closed": "Closed",
+        "active": "Active"
       },
       "actions": {
         "acknowledge": "Acknowledge"
@@ -351,6 +353,28 @@
       },
       "requests": {
         "equipment": "Equipment"
+      },
+      "completed": {
+        "title": "Completed Services",
+        "no-completed-services": "No Completed Services",
+        "id": "Id",
+        "description": "Description",
+        "site": "Site",
+        "technician": "Technician",
+        "completed-at": "Completed At"
+      },
+      "rejected-canceled": {
+        "title": "Canceled Services",
+        "no-rejected-services": "Servicios No Cancelados",
+        "id": "Id",
+        "description": "Description",
+        "site": "Site",
+        "status": "Status",
+        "date": "Date"
+      },
+      "status": {
+        "rejected": "Rejected",
+        "canceled": "Canceled"
       }
     },
     "technicians": {

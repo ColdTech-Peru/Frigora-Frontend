@@ -1,10 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 
-// Angular Material Imports
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -12,48 +10,55 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { AssetsManagementApi } from '../../../../assets-management/infrastructure/assets-management-api';
 import { TechniciansService } from '../../../../technician/infrastructure/technicians.service';
 import { ServiceRequestsApi } from '../../../infrastructure/service-request-api';
 import { AuthStoreService } from '../../../../iam/application/iam.store';
 import { MonitoringApiService } from '../../../../monitoring/infrastructure/monitoring-api.service';
 import { ServiceRequestAssembler } from '../../../infrastructure/service-request-assembler';
-
-// Ajusta las rutas a tus verdaderos servicios en Angular
-
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-provider-dashboard',
   standalone: true,
   imports: [
     CommonModule,
-    TranslateModule,
     MatCardModule,
     MatButtonModule,
     MatTableModule,
     MatIconModule,
     MatTooltipModule,
     MatChipsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    TranslatePipe
   ],
   templateUrl: './provider-dashboard.html',
   styleUrls: ['./provider-dashboard.css']
 })
 export class ProviderDashboardComponent implements OnInit {
+
   loading = false;
   error: string | null = null;
+
   pendingRequests: any[] = [];
+
   kpis = {
     pending: 0,
     active: 0,
     technicians: 0,
   };
 
-  displayedColumns: string[] = ['id', 'description', 'siteName', 'equipmentName', 'priority', 'actions'];
+  displayedColumns: string[] = [
+    'id',
+    'description',
+    'siteName',
+    'equipmentName',
+    'priority',
+    'actions'
+  ];
 
-  // Inyección de dependencias
   private router = inject(Router);
-  public translate = inject(TranslateService);
   private authStore = inject(AuthStoreService);
   private serviceRequestApi = inject(ServiceRequestsApi);
   private techniciansApi = inject(TechniciansService);
@@ -61,9 +66,7 @@ export class ProviderDashboardComponent implements OnInit {
   private monitoringApi = inject(MonitoringApiService);
 
   get currentProviderId(): string {
-    // Retorna el ID forzado para probar la vista directamente
-    // Cambia esto a this.authStore.currentUser?.id cuando restaures el login
-    return '14qTsdO';
+    return <string>this.authStore.currentUserId ?? '14qTsdO';
   }
 
   ngOnInit(): void {
@@ -83,19 +86,37 @@ export class ProviderDashboardComponent implements OnInit {
       sites: this.assetsManagementApi.getSites(),
       equipments: this.monitoringApi.getEquipments()
     }).subscribe({
-      next: (res) => {
-        const allRequests = res.requests; // Ajusta si tu API devuelve res.requests.data
-        const context = { sites: res.sites, equipments: res.equipments };
+      next: (res: any) => {
+
+        // 🔥 FIX: soportar Axios o API raw
+        const allRequests =
+          res.requests?.data ??
+          res.requests ??
+          [];
+
+        const context = {
+          sites: res.sites?.data ?? res.sites ?? [],
+          equipments: res.equipments?.data ?? res.equipments ?? []
+        };
 
         const assembler = new ServiceRequestAssembler();
 
-        this.pendingRequests = allRequests
-          .filter((r: any) => r.status === 'pending')
-          .map((r: any) => assembler.toEntityFromResource(r, context));
+        const mapped = allRequests.map((r: any) =>
+          assembler.toEntityFromResource(r, context)
+        );
+
+        // 🔥 IMPORTANT: normalizar status
+        this.pendingRequests = mapped.filter(
+          (r: any) => (r.status ?? '').toLowerCase() === 'pending'
+        );
 
         this.kpis.pending = this.pendingRequests.length;
-        this.kpis.active = allRequests.filter((r: any) => ['accepted', 'inProgress'].includes(r.status)).length;
-        this.kpis.technicians = res.techs.length;
+
+        this.kpis.active = mapped.filter((r: any) =>
+          ['accepted', 'inprogress', 'inProgress'].includes(r.status)
+        ).length;
+
+        this.kpis.technicians = res.techs?.length ?? 0;
 
         this.loading = false;
       },
@@ -108,15 +129,13 @@ export class ProviderDashboardComponent implements OnInit {
   }
 
   handleAccept(requestId: number | string): void {
-    this.serviceRequestApi.sendAcceptRequestCommand(requestId).subscribe(() => {
-      this.fetchData();
-    });
+    this.serviceRequestApi.sendAcceptRequestCommand(requestId)
+      .subscribe(() => this.fetchData());
   }
 
   handleReject(requestId: number | string): void {
-    this.serviceRequestApi.sendRejectRequestCommand(requestId).subscribe(() => {
-      this.fetchData();
-    });
+    this.serviceRequestApi.sendRejectRequestCommand(requestId)
+      .subscribe(() => this.fetchData());
   }
 
   navigateToList(): void {

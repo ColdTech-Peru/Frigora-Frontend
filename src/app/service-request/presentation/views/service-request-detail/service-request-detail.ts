@@ -17,6 +17,7 @@ import { ServiceRequestsApi } from '../../../infrastructure/service-request-api'
 import { ServiceRequestStore } from '../../../application/service-request-store';
 import { MonitoringApiService } from '../../../../monitoring/infrastructure/monitoring-api.service';
 import { AssetsManagementApi } from '../../../../assets-management/infrastructure/assets-management-api';
+import { AuthStoreService } from '../../../../iam/application/iam.store'; // 👈 ROLE STORE
 import { TranslatePipe } from '@ngx-translate/core';
 
 /**
@@ -68,7 +69,23 @@ export class ServiceRequestDetailComponent implements OnInit {
    */
   private readonly assetsManagementApi = inject(AssetsManagementApi);
 
+  /**
+   * @description Auth store used to determine user role (Owner / Provider)
+   */
+  private readonly authStore = inject(AuthStoreService);
+
   private readonly snackBar = inject(MatSnackBar);
+
+  /**
+   * @description Role flags used to control UI and permissions
+   */
+  readonly isProvider = computed(
+    () => this.authStore.currentUserRole === 'Provider'
+  );
+
+  readonly isOwner = computed(
+    () => this.authStore.currentUserRole === 'Owner'
+  );
 
   readonly requestId = computed(() => this.route.snapshot.paramMap.get('requestId') ?? '');
 
@@ -103,7 +120,6 @@ export class ServiceRequestDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.requestId();
 
-    // Try to get enriched data from store first (includes equipmentName and siteName)
     const fromStore = this.store.serviceRequests().find(
       sr => String(sr.id) === String(id)
     );
@@ -112,8 +128,15 @@ export class ServiceRequestDetailComponent implements OnInit {
       this.serviceRequest = fromStore;
       this.fetchInterventions();
     } else {
-      // Fallback: load from API and enrich manually
       this.fetchRequestDetails();
+    }
+
+    /**
+     * @description Safety check in case route guard is bypassed
+     */
+    if (!this.isProvider() && !this.isOwner()) {
+      this.snackBar.open('Unauthorized access', 'Close', { duration: 3000 });
+      this.router.navigate(['/dashboard']);
     }
   }
 
@@ -130,7 +153,6 @@ export class ServiceRequestDetailComponent implements OnInit {
         this.assetsManagementApi.getSites().toPromise(),
       ]);
 
-      // Match using String() to avoid type mismatch between number and string ids
       const equipment = equipmentsRes?.find(
         (e: any) => String(e.id) === String(requestRes.equipmentId)
       );
@@ -213,9 +235,7 @@ export class ServiceRequestDetailComponent implements OnInit {
     this.displayDeleteConfirm = false;
 
     try {
-      await this.api
-        .sendRejectRequestCommand(id)
-        .toPromise();
+      await this.api.sendRejectRequestCommand(id).toPromise();
 
       this.snackBar.open(
         'Service request deleted successfully',
@@ -261,6 +281,12 @@ export class ServiceRequestDetailComponent implements OnInit {
    * @description Submits a new intervention for the current service request.
    */
   async registerIntervention(): Promise<void> {
+
+    if (!this.isProvider()) {
+      this.snackBar.open('Only providers can perform this action', 'Close', { duration: 3000 });
+      return;
+    }
+
     if (!this.newIntervention.summary.trim()) {
       this.snackBar.open('Please provide a summary', 'Close', { duration: 3000 });
       return;

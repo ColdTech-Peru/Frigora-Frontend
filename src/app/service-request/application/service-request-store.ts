@@ -30,50 +30,51 @@ export class ServiceRequestStore {
   readonly error = this.errorSignal.asReadonly();
 
   loadAll(): void {
-    const role = this.authStore.currentUserRole;
     const userId = this.authStore.currentUserId;
+    const role = this.authStore.currentUserRole;
 
     if (!userId) {
       this.errorSignal.set('No user ID found');
       return;
     }
 
-    const requests$ = role === 'Provider'
-      ? this.serviceRequestsApi.getRequestsForProviderQuery(userId)
-      : this.serviceRequestsApi.getRequestsByRequesterQuery(userId);
-
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
+
+    const requests$ =
+      role === 'Provider'
+        ? this.serviceRequestsApi.getRequestsForProviderQuery(userId)
+        : this.serviceRequestsApi.getRequestsByRequesterQuery(userId);
 
     forkJoin({
       requests: requests$,
       equipments: this.monitoringApi.getEquipments(),
       sites: this.assetsManagementApi.getSites(),
     }).subscribe({
-
       next: ({ requests, equipments, sites }: any) => {
+
         this.equipmentsSignal.set(
           equipments.map((e: any) => ({ id: e.id, name: e.name }))
         );
+
         this.sitesSignal.set(
           sites.map((s: any) => ({ id: s.id, name: s.name }))
         );
 
-        const enriched = requests.map((req: ServiceRequest) => {
+        const enriched = requests.map((req: any) => {
           const equipment = equipments.find(
             (e: any) => String(e.id) === String(req.equipmentId)
           );
+
           const site = sites.find(
-            (s: any) => String(s.id) === String((req as any).siteId)
+            (s: any) => String(s.id) === String(req.siteId)
           );
-          return Object.assign(
-            Object.create(Object.getPrototypeOf(req)),
-            req,
-            {
-              equipmentName: equipment?.name ?? req.equipmentId ?? 'N/A',
-              siteName: site?.name ?? (req as any).siteId ?? 'N/A',
-            }
-          );
+
+          return {
+            ...req,
+            equipmentName: equipment?.name ?? 'N/A',
+            siteName: site?.name ?? 'N/A',
+          };
         });
 
         this.serviceRequestsSignal.set(enriched);
@@ -81,8 +82,8 @@ export class ServiceRequestStore {
       },
 
       error: err => {
-        console.error('Error detallado:', err);
-        this.errorSignal.set(this.formatError(err, 'Failed to load service requests'));
+        console.error(err);
+        this.errorSignal.set('Failed to load service requests');
         this.loadingSignal.set(false);
       }
     });
@@ -92,10 +93,26 @@ export class ServiceRequestStore {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    this.serviceRequestsApi.sendNewRequestCommand(data).subscribe({
-      next: () => this.loadAll(),
+    const requesterId = this.authStore.currentUserId;
+
+    if (!requesterId) {
+      this.errorSignal.set('User not authenticated');
+      this.loadingSignal.set(false);
+      return;
+    }
+
+    const payload = {
+      ...data,
+      requesterId: requesterId
+    };
+
+    this.serviceRequestsApi.sendNewRequestCommand(payload).subscribe({
+      next: () => {
+        this.loadAll();
+      },
       error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to create service request'));
+        console.error(err);
+        this.errorSignal.set('Failed to create service request');
         this.loadingSignal.set(false);
       }
     });

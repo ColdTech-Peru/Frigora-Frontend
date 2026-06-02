@@ -1,4 +1,4 @@
-﻿// shared/guards/role.guard.ts
+﻿
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { AuthStoreService } from './iam.store';

@@ -1,5 +1,5 @@
 <div class="rejected-container">
-  <h1 class="page-title">{{ 'services.rejected-canceled.title' | translate }}</h1>
+  <h1 class="page-title">{{ 'provider.services.rejected-canceled.title' | translate }}</h1>
 
   <mat-card class="table-card">
     <mat-card-content>
@@ -11,33 +11,33 @@
         <table mat-table [dataSource]="rejectedCanceledRequests" class="full-width-table">
 
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef style="width: 10%"> {{ 'services.rejected-canceled.id' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 10%"> {{ 'provider.services.rejected-canceled.id' | translate }} </th>
             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
           </ng-container>
 
           <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef style="width: 40%"> {{ 'services.rejected-canceled.description' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 40%"> {{ 'provider.services.rejected-canceled.description' | translate }} </th>
             <td mat-cell *matCellDef="let element"> {{element.description}} </td>
           </ng-container>
 
           <ng-container matColumnDef="siteName">
-            <th mat-header-cell *matHeaderCellDef style="width: 20%"> {{ 'services.rejected-canceled.site' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 20%"> {{ 'provider.services.rejected-canceled.site' | translate }} </th>
             <td mat-cell *matCellDef="let element"> {{element.siteName || '-'}} </td>
           </ng-container>
 
           <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef style="width: 15%"> {{ 'services.rejected-canceled.status' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 15%"> {{ 'provider.services.rejected-canceled.status' | translate }} </th>
             <td mat-cell *matCellDef="let element">
               <mat-chip-set>
                 <mat-chip [ngClass]="'chip-' + element.status">
-                  {{ 'services.status.' + element.status | translate }}
+                  {{ 'provider.services.status.' + element.status | translate }}
                 </mat-chip>
               </mat-chip-set>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef style="width: 15%"> {{ 'services.rejected-canceled.date' | translate }} </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 15%"> {{ 'provider.services.rejected-canceled.date' | translate }} </th>
             <td mat-cell *matCellDef="let element">
               {{ (element.canceledAt || element.createdAt) | date:'shortDate' }}
             </td>
@@ -47,7 +47,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell empty-state" colspan="5">{{ 'services.rejected-canceled.no-rejected-canceled-services' | translate }}</td>
+            <td class="mat-cell empty-state" colspan="5">{{ 'provider.services.rejected-canceled.no-rejected-canceled-services' | translate }}</td>
           </tr>
         </table>
       }
