@@ -28,4 +28,8 @@ export class TechniciansService {
   deleteTechnician(id: number): Observable<any> {
     return this.http.delete<any>(`${this.basePath}/${id}`);
   }
+
+  getTechnicianById(id: string | number): Observable<any> {
+    return this.http.get<any>(`${this.basePath}/${id}`);
+  }
 }

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, inject} from '@angular/core';
+import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {firstValueFrom} from 'rxjs';
@@ -9,6 +9,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {ServiceRequestsApi} from '../../../infrastructure/service-request-api';
 import {IamApi} from '../../../../iam/infrastructure/iam-api';
 import {MatIcon} from '@angular/material/icon';
+import {TechniciansService} from '../../../../technician/infrastructure/technicians.service';
 
 @Component({
   selector: 'app-intervention-detail',
@@ -31,6 +32,7 @@ export class InterventionDetailComponent implements OnInit {
   private router = inject(Router);
   private api = inject(ServiceRequestsApi);
   private iamApi = inject(IamApi);
+  private techniciansService = inject(TechniciansService);
   private cdr = inject(ChangeDetectorRef);
 
   intervention: any = null;
@@ -51,10 +53,11 @@ export class InterventionDetailComponent implements OnInit {
     try {
       const res: any = await firstValueFrom(this.api.getInterventionsDetailQuery(id));
       this.intervention = res.data ?? res;
-
+      console.log('intervention:', this.intervention)
       if (this.intervention?.technicianId) {
-        const users: any = await firstValueFrom(this.iamApi.getAllUsers());
-        this.technician = users.find((u: any) => u.id === this.intervention.technicianId) ?? null;
+        this.technician = await firstValueFrom(
+          this.techniciansService.getTechnicianById(this.intervention.technicianId)
+        );
       }
 
     } catch (error) {
