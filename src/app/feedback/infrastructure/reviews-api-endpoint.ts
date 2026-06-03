@@ -5,8 +5,19 @@ import { ReviewsAssembler } from './reviews-assembler';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-export class ReviewsApiEndpoint extends BaseApiEndpoint<Review, ReviewsResource, ReviewsResponse, ReviewsAssembler> {
+export class ReviewsApiEndpoint extends BaseApiEndpoint<
+  Review,
+  ReviewsResource,
+  ReviewsResponse,
+  ReviewsAssembler
+> {
   constructor(http: HttpClient) {
-    super(http, environment.apiBaseUrl + environment.reviewsEndpointPath, new ReviewsAssembler());
+    const assembler = new ReviewsAssembler();
+
+    super(
+      http,
+      `${environment.apiBaseUrl}${environment.reviewsEndpointPath}`,
+      assembler
+    );
   }
 }

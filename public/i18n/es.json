@@ -32,7 +32,8 @@
     "services_hub": "Centro de Servicios",
     "service-list": "Lista de Servicios",
     "completed-services": "Servicios Completados",
-    "rejected-canceled": "Servicios Rechazados y Cancelados"
+    "rejected-canceled": "Servicios Rechazados y Cancelados",
+    "in-progress": "Servicios En Progreso"
   },
 
   "auth": {
@@ -376,7 +377,18 @@
       },
       "status": {
         "rejected": "Rechazado",
-        "canceled": "Cancelado"
+        "canceled": "Cancelado",
+        "completed": "Completado",
+        "pending": "Pendiente"
+      },
+      "in-progress": {
+        "title": "Solicitudes De Servicio En Progreso",
+        "id": "Id",
+        "description": "Descripción",
+        "status": "Estado",
+        "technician": "Técnico",
+        "actions": "Acciones",
+        "empty": "No hay solicitudes de servicio en progreso"
       }
     },
 

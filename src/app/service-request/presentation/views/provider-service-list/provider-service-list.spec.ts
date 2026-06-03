@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProviderServiceList } from './provider-service-list';
+import { ProviderServiceListComponent } from './provider-service-list';
 
 describe('ProviderServiceList', () => {
-  let component: ProviderServiceList;
-  let fixture: ComponentFixture<ProviderServiceList>;
+  let component: ProviderServiceListComponent;
+  let fixture: ComponentFixture<ProviderServiceListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProviderServiceList]
+      imports: [ProviderServiceListComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProviderServiceList);
+    fixture = TestBed.createComponent(ProviderServiceListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

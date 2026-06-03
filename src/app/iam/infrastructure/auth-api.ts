@@ -14,8 +14,6 @@ export class AuthApiEndpoint {
     this.baseUrl = environment.apiBaseUrl || 'http://localhost:8080/api/v1';
   }
 
-  // --- AUTH ---
-
   signIn(username: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}${this.authPath}/sign-in`, {
       username,

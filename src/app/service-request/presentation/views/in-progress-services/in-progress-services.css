@@ -1,0 +1,89 @@
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #1a1a2e;
+}
+
+.p-4 {
+  padding: 24px;
+  background-color: #fcfaf8;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #4a4242;
+}
+
+.full-table {
+  width: 100%;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  min-width: 160px;
+  background: #f8f9fa;
+}
+
+.btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: #1976d2;
+  color: white;
+}
+
+.btn.success {
+  background: #2e7d32;
+  color: white;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.accepted {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.inProgress {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.empty {
+  text-align: center;
+  padding: 20px;
+  color: #555; /* menos gris */
+}

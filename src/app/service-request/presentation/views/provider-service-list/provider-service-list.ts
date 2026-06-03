@@ -100,7 +100,7 @@ export class ProviderServiceListComponent implements OnInit {
   }
 
   navigateToDetail(request: any): void {
-    this.router.navigate(['/provider/services/detail', request.id]);
+    this.router.navigateByUrl(`/provider/services/${request.id}`);
   }
 
   statusSeverity(status: string): string {

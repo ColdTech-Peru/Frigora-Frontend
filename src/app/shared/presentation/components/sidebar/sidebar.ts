@@ -49,6 +49,7 @@ export class Sidebar {
             { labelKey: 'nav.service-list', icon: 'list', route: '/provider/services' },
             { labelKey: 'nav.completed-services', icon: 'check_circle', route: '/provider/services/completed' },
             { labelKey: 'nav.rejected-canceled', icon: 'cancel', route: '/provider/services/rejected-canceled' },
+            { labelKey: 'nav.in-progress', icon: 'autorenew', route: '/provider/services/in-progress' }
           ]
         },
       ]

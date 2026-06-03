@@ -6,7 +6,6 @@
 
 .full-width-table { width: 100%; }
 
-/* Estilos de chips (reutilizando las clases de antes) */
 .chip-pending { background-color: #ffebee; color: #c62828; }
 .chip-accepted { background-color: #fff8e1; color: #f57f17; }
 .chip-inProgress { background-color: #e3f2fd; color: #1565c0; }

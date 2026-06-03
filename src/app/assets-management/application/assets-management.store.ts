@@ -1,7 +1,6 @@
 import { computed, Injectable, Signal, signal } from '@angular/core';
 import { Sites } from '../domain/model/sites.entity';
 import { AssetsManagementApi } from '../infrastructure/assets-management-api';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root'})
 export class AssetsManagementStore{

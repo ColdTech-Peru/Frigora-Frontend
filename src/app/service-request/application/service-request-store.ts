@@ -1,10 +1,11 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable, map, tap } from 'rxjs';
 import { ServiceRequest } from '../domain/model/service-request.entity';
 import { ServiceRequestsApi } from '../infrastructure/service-request-api';
 import { MonitoringApiService } from '../../monitoring/infrastructure/monitoring-api.service';
 import { AssetsManagementApi } from '../../assets-management/infrastructure/assets-management-api';
 import { AuthStoreService } from '../../iam/application/iam.store';
+import { FeedbackApiService } from '../../feedback/infrastructure/feedback-api.service';
 
 @Injectable({ providedIn: 'root' })
 export class ServiceRequestStore {
@@ -13,6 +14,7 @@ export class ServiceRequestStore {
   private readonly monitoringApi = inject(MonitoringApiService);
   private readonly assetsManagementApi = inject(AssetsManagementApi);
   private readonly authStore = inject(AuthStoreService);
+  private readonly reviewsApi = inject(FeedbackApiService);
 
   private readonly serviceRequestsSignal = signal<ServiceRequest[]>([]);
   readonly serviceRequests = this.serviceRequestsSignal.asReadonly();
@@ -29,13 +31,13 @@ export class ServiceRequestStore {
   private readonly errorSignal = signal<string | null>(null);
   readonly error = this.errorSignal.asReadonly();
 
-  loadAll(): void {
+  loadAll(): Observable<void> {
     const userId = this.authStore.currentUserId;
     const role = this.authStore.currentUserRole;
 
     if (!userId) {
       this.errorSignal.set('No user ID found');
-      return;
+      throw new Error('No user ID found');
     }
 
     this.loadingSignal.set(true);
@@ -46,13 +48,13 @@ export class ServiceRequestStore {
         ? this.serviceRequestsApi.getRequestsForProviderQuery(userId)
         : this.serviceRequestsApi.getRequestsByRequesterQuery(userId);
 
-    forkJoin({
+    return forkJoin({
       requests: requests$,
       equipments: this.monitoringApi.getEquipments(),
       sites: this.assetsManagementApi.getSites(),
-    }).subscribe({
-      next: ({ requests, equipments, sites }: any) => {
-
+      reviews: this.reviewsApi.getAllReviews(),
+    }).pipe(
+      tap(({ requests, equipments, sites, reviews }: any) => {
         this.equipmentsSignal.set(
           equipments.map((e: any) => ({ id: e.id, name: e.name }))
         );
@@ -65,30 +67,28 @@ export class ServiceRequestStore {
           const equipment = equipments.find(
             (e: any) => String(e.id) === String(req.equipmentId)
           );
-
           const site = sites.find(
             (s: any) => String(s.id) === String(req.siteId)
+          );
+          const serviceReview = reviews.find(
+            (r: any) => String(r.serviceRequestId) === String(req.id)
           );
 
           return {
             ...req,
             equipmentName: equipment?.name ?? 'N/A',
             siteName: site?.name ?? 'N/A',
+            hasReview: !!serviceReview,
+            reviewId: serviceReview?.id ?? null
           };
         });
 
         this.serviceRequestsSignal.set(enriched);
         this.loadingSignal.set(false);
-      },
-
-      error: err => {
-        console.error(err);
-        this.errorSignal.set('Failed to load service requests');
-        this.loadingSignal.set(false);
-      }
-    });
+      }),
+      map(() => void 0)
+    );
   }
-
   createRequest(data: Partial<ServiceRequest>): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
@@ -108,7 +108,7 @@ export class ServiceRequestStore {
 
     this.serviceRequestsApi.sendNewRequestCommand(payload).subscribe({
       next: () => {
-        this.loadAll();
+        this.loadAll().subscribe();
       },
       error: err => {
         console.error(err);

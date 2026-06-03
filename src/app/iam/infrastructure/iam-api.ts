@@ -18,8 +18,6 @@ export class IamApi extends BaseApi {
     this.authEndpoint = new AuthApiEndpoint(http);
   }
 
-  // --- AUTH OPERATIONS ---
-
   login(username: string, password: string): Observable<any> {
     return this.authEndpoint.signIn(username, password);
   }
@@ -27,8 +25,6 @@ export class IamApi extends BaseApi {
   register(userData: any): Observable<any> {
     return this.authEndpoint.signUp(userData);
   }
-
-  // --- USER OPERATIONS ---
 
   getUsers(tenantId: string): Observable<User[]> {
     return this.userEndpoint.getUsersByTenant(tenantId);

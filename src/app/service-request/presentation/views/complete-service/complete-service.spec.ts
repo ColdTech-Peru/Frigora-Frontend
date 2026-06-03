@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CompleteService } from './complete-service';
+import { ProviderCompletedServicesComponent } from './complete-service';
 
 describe('CompleteService', () => {
-  let component: CompleteService;
-  let fixture: ComponentFixture<CompleteService>;
+  let component: ProviderCompletedServicesComponent;
+  let fixture: ComponentFixture<ProviderCompletedServicesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CompleteService]
+      imports: [ProviderCompletedServicesComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CompleteService);
+    fixture = TestBed.createComponent(ProviderCompletedServicesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

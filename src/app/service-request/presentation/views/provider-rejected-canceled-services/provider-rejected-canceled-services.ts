@@ -2,8 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
-
-// Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -13,8 +11,6 @@ import { ServiceRequestsApi } from '../../../infrastructure/service-request-api'
 import { AssetsManagementApi } from '../../../../assets-management/infrastructure/assets-management-api';
 import { AuthStoreService } from '../../../../iam/application/iam.store';
 import { ServiceRequestAssembler } from '../../../infrastructure/service-request-assembler';
-
-// Servicios y APIs
 
 
 @Component({

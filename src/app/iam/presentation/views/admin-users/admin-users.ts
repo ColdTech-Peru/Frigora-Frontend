@@ -46,9 +46,6 @@ export class AdminUsers implements OnInit {
   });
 
   ngOnInit(): void {
-    // Aquí podrías suscribirte a tu AuthStoreService para llenar el formulario con datos reales
-    // const currentUser = this.authStore.currentUser;
-    // if (currentUser) this.userForm.patchValue(currentUser);
   }
 
   saveProfile(): void {

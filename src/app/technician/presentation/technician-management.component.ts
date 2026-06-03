@@ -96,18 +96,27 @@ export class TechnicianManagementComponent implements OnInit {
 
   fetchTechnicians(): void {
     if (!this.currentProviderId) return;
-
     this.loading = true;
-
     forkJoin({
       techs: this.techniciansService.getTechniciansByProvider(this.currentProviderId),
       reviews: this.reviewsService.getAllReviews()
     }).subscribe({
       next: ({ techs, reviews }) => {
+
+        const reviewsArray = Array.isArray(reviews)
+          ? reviews
+          : (reviews as any)?.data ?? [];
         this.technicians = techs.map((techData: any) => {
-          const techReviews = reviews.filter((r: any) => r.technicianId === techData.id);
-          const total = techReviews.reduce((sum: number, r: any) => sum + r.rating, 0);
-          const averageRating = techReviews.length > 0 ? total / techReviews.length : 0;
+          const techReviews = reviewsArray.filter(
+            (r: any) => r.technicianId === techData.id
+          );
+          const total = techReviews.reduce(
+            (sum: number, r: any) => sum + r.rating,
+            0
+          );
+          const averageRating =
+            techReviews.length > 0 ? total / techReviews.length : 0;
+
           return new Technician({ ...techData, averageRating });
         });
       },

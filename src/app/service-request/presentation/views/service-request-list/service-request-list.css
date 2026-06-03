@@ -163,6 +163,72 @@ mat-chip.chip-preventive  { background-color: #fff8e1; color: #f57f17; }
 .dialog-body {
   padding: 24px;
   display: flex;
+  .review-dialog-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+
+  .review-dialog {
+    width: 420px;
+    max-width: 90vw;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    animation: scaleIn 0.2s ease-in-out;
+  }
+
+  .review-dialog h2 {
+    margin: 0 0 16px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  .review-dialog mat-form-field {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .review-dialog .flex {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .review-dialog button[mat-button] {
+    color: #6b7280;
+  }
+
+  .review-dialog button[mat-flat-button] {
+    border-radius: 8px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
   flex-direction: column;
   gap: 8px;
   color: var(--text-primary);
@@ -180,3 +246,47 @@ mat-chip.chip-preventive  { background-color: #fff8e1; color: #f57f17; }
 .full-width {
   width: 100%;
 }
+
+.review-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+}
+
+.review-dialog {
+  width: 400px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.review-title {
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+

@@ -2,8 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
-
-// Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -13,9 +11,6 @@ import { AssetsManagementApi } from '../../../../assets-management/infrastructur
 import { AuthStoreService } from '../../../../iam/application/iam.store';
 import { TechniciansService } from '../../../../technician/infrastructure/technicians.service';
 import { ServiceRequestAssembler } from '../../../infrastructure/service-request-assembler';
-
-// Servicios y APIs (Ajusta las rutas a tu proyecto)
-
 
 @Component({
   selector: 'app-provider-completed-services',
@@ -44,8 +39,14 @@ export class ProviderCompletedServicesComponent implements OnInit {
   public translate = inject(TranslateService);
 
   get currentProviderId(): string | number | null {
-    // Mantenemos el ID que configuramos para pruebas
-    return '14qTsdO';
+    const id = this.authStore.currentUserId;
+
+    if (!id) {
+      console.warn('Provider ID not ready from AuthStore');
+      return null;
+    }
+
+    return id;
   }
 
   ngOnInit(): void {
@@ -55,26 +56,42 @@ export class ProviderCompletedServicesComponent implements OnInit {
   fetchData(): void {
     const providerId = this.currentProviderId;
     if (!providerId) return;
-
     this.loading = true;
     this.error = null;
-
     forkJoin({
-      // Traemos las peticiones del proveedor, los técnicos y los sitios (para los nombres en la tabla)
       requests: this.serviceRequestApi.getRequestsForProviderQuery(providerId as any),
       techs: this.techniciansApi.getTechniciansByProvider(providerId as any),
       sites: this.assetsManagementApi.getSites()
     }).subscribe({
-      next: (res) => {
-        const allRequests = res.requests;
-        const context = { technicians: res.techs, sites: res.sites };
+      next: (res: any) => {
+
+        const allRequests =
+          res.requests?.data ??
+          res.requests?.serviceRequests ??
+          res.requests ??
+          [];
+
+        const sites =
+          res.sites?.data ??
+          res.sites ??
+          [];
+
+        const technicians =
+          res.techs?.data ??
+          res.techs ??
+          [];
+
+        const context = {
+          sites,
+          technicians
+        };
+
         const assembler = new ServiceRequestAssembler();
-
-        // Filtramos solo los completados y los ensamblamos
         this.completedRequests = allRequests
-          .filter((r: any) => r.status === 'completed')
-          .map((r: any) => assembler.toEntityFromResource(r, context));
-
+          .map((r: any) => assembler.toEntityFromResource(r, context))
+          .filter((r: any) =>
+            (r.status ?? '').toLowerCase().trim() === 'completed'
+          );
         this.loading = false;
       },
       error: (e) => {

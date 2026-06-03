@@ -4,7 +4,8 @@ import {
   inject,
   OnInit,
   ViewChild,
-  AfterViewInit
+  AfterViewInit,
+  ChangeDetectorRef
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -25,6 +26,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ServiceRequestStore } from '../../../application/service-request-store';
 import { ServiceRequest } from '../../../domain/model/service-request.entity';
 import { TranslatePipe } from '@ngx-translate/core';
+import { FeedbackApiService } from '../../../../feedback/infrastructure/feedback-api.service';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-service-request-list',
@@ -43,7 +46,8 @@ import { TranslatePipe } from '@ngx-translate/core';
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    TranslatePipe
+    TranslatePipe,
+    MatInput,
   ],
   templateUrl: './service-request-list.html',
   styleUrl: './service-request-list.css'
@@ -53,6 +57,8 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
   private readonly router = inject(Router);
   private readonly store = inject(ServiceRequestStore);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly reviewsApi = inject(FeedbackApiService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -60,7 +66,15 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
   readonly loading = this.store.loading;
   readonly error = this.store.error;
 
-  readonly displayedColumns = [
+  dataSource = new MatTableDataSource<ServiceRequest>([]);
+
+  selectedStatus = '';
+  selectedType = '';
+
+  readonly statusOptions = ['', 'pending', 'accepted', 'inProgress', 'completed', 'canceled', 'rejected'];
+  readonly typeOptions = ['', 'corrective', 'preventive'];
+
+  displayedColumns = [
     'orderNumber',
     'createdAt',
     'equipmentName',
@@ -69,38 +83,25 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
     'actions'
   ];
 
-  dataSource = new MatTableDataSource<ServiceRequest>([]);
+  reviewDialogOpen = false;
+  reviewReadOnly = false;
+  selectedRequest: ServiceRequest | null = null;
 
-  selectedStatus = '';
-  selectedType = '';
-
-  readonly statusOptions = [
-    '',
-    'pending',
-    'accepted',
-    'inProgress',
-    'completed',
-    'canceled',
-    'rejected'
-  ];
-
-  readonly typeOptions = [
-    '',
-    'corrective',
-    'preventive'
-  ];
+  reviewForm = {
+    rating: 0,
+    comment: ''
+  };
 
   constructor() {
     effect(() => {
       const requests = this.store.serviceRequests();
       if (!requests) return;
-
       this.applyFilters();
     });
   }
 
   ngOnInit(): void {
-    this.store.loadAll();
+    this.store.loadAll().subscribe();
   }
 
   ngAfterViewInit(): void {
@@ -108,23 +109,18 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  private safeDate(date: any): number {
-    if (!date) return 0;
+  navigateToDetail(request: ServiceRequest): void {
+    this.router.navigate(['/services', request.id]);
+  }
 
-    const parsed = new Date(date);
-    return isNaN(parsed.getTime()) ? 0 : parsed.getTime();
+  navigateToNew(): void {
+    this.router.navigate(['/services/new']);
   }
 
   applyFilters(): void {
     let list: ServiceRequest[] = this.store.serviceRequests() ?? [];
 
     list = [...list];
-
-    list.sort(
-      (a, b) =>
-        this.safeDate(b.createdAt) -
-        this.safeDate(a.createdAt)
-    );
 
     if (this.selectedStatus) {
       list = list.filter(r => r.status === this.selectedStatus);
@@ -140,10 +136,7 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
     }));
 
     this.dataSource.data = list;
-
-    if (this.paginator) {
-      this.paginator.firstPage();
-    }
+    this.cdr.detectChanges();
   }
 
   statusClass(status: string): string {
@@ -159,21 +152,59 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
 
   formatDate(date: any): string {
     if (!date) return '-';
+    const d = new Date(date);
+    return isNaN(d.getTime()) ? '-' : d.toLocaleDateString();
+  }
 
-    const parsed = new Date(date);
+  openReview(request: ServiceRequest): void {
+    this.selectedRequest = request;
+    this.reviewForm = { rating: 0, comment: '' };
+    this.reviewReadOnly = false;
+    this.reviewDialogOpen = true;
+  }
 
-    if (isNaN(parsed.getTime())) {
-      return '-';
+  async viewReview(request: ServiceRequest): Promise<void> {
+    this.selectedRequest = request;
+    this.reviewReadOnly = true;
+    this.reviewForm = { rating: 0, comment: '' };
+
+    try {
+      const review: any = await this.reviewsApi
+        .getReviewById((request as any).reviewId)
+        .toPromise();
+
+      this.reviewForm = {
+        rating: review.rating,
+        comment: review.comment
+      };
+    } catch (err) {
+      console.error('Failed to load review:', err);
     }
 
-    return parsed.toLocaleDateString();
+    this.reviewDialogOpen = true;
   }
 
-  navigateToDetail(request: ServiceRequest): void {
-    this.router.navigate(['/services', request.id]);
-  }
+  async submitReview(): Promise<void> {
+    if (!this.selectedRequest || this.reviewForm.rating === 0) return;
 
-  navigateToNew(): void {
-    this.router.navigate(['/services/new']);
+    try {
+      await this.reviewsApi.createReview({
+        serviceRequestId: this.selectedRequest.id,
+        technicianId: (this.selectedRequest as any).technicianId,
+        rating: this.reviewForm.rating,
+        comment: this.reviewForm.comment,
+        createdAt: new Date().toISOString()
+      }).toPromise();
+
+      this.snackBar.open('Review submitted', 'Close', { duration: 3000 });
+      this.reviewDialogOpen = false;
+      this.selectedRequest = null;
+
+      await this.store.loadAll().toPromise();
+
+    } catch (err) {
+      console.error(err);
+      this.snackBar.open('Error submitting review', 'Close', { duration: 3000 });
+    }
   }
 }

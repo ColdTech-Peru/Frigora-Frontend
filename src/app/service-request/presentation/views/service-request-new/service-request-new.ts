@@ -63,7 +63,7 @@ export class ServiceRequestNewComponent implements OnInit {
   form = {
     siteId: null as number | string | null,
     equipmentId: null as number | string | null,
-    assignedTo: null as number | string | null,  // ← agregado
+    assignedTo: null as number | string | null,
     type: 'corrective',
     priority: 'medium',
     description: '',
@@ -88,7 +88,7 @@ export class ServiceRequestNewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.loadAll();
+    this.store.loadAll().subscribe();
     this.loadProviders();
   }
 
@@ -119,7 +119,7 @@ export class ServiceRequestNewComponent implements OnInit {
     this.store.createRequest({
       siteId: this.form.siteId,
       equipmentId: this.form.equipmentId,
-      assignedTo: this.form.assignedTo,  // ← agregado
+      assignedTo: this.form.assignedTo,
       origin: 'Manual',
       type: this.form.type,
       priority: this.form.priority,

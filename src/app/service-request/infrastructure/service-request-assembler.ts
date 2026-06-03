@@ -28,6 +28,12 @@ export class ServiceRequestAssembler {
     const sites = context?.sites ?? [];
     const equipments = context?.equipments ?? [];
 
+    const users = context?.users ?? [];
+
+    const requester = users.find(
+      (u: any) => String(u.id) === String(resource.requesterId)
+    );
+
     const site = sites.find(
       (s: any) => String(s.id) === String(resource.siteId)
     );
@@ -35,6 +41,11 @@ export class ServiceRequestAssembler {
     const equipment = equipments.find(
       (e: any) => String(e.id) === String(resource.equipmentId)
     );
+
+
+    const technicianName =
+      context?.technicians?.find((t: any) => t.id === resource.technicianId)?.name ?? 'N/A';
+
 
     return new ServiceRequest({
       id: resource.id,
@@ -53,7 +64,9 @@ export class ServiceRequestAssembler {
       technicianId: resource.technicianId,
       interventions: resource.interventions ?? [],
       siteName: site?.name ?? 'N/A',
-      equipmentName: equipment?.name ?? 'N/A'
+      equipmentName: equipment?.name ?? 'N/A',
+      technicianName,
+      requesterName: requester?.username ?? 'N/A',
     });
   }
   /**

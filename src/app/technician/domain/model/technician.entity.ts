@@ -1,4 +1,3 @@
-// src/app/technician-management/domain/model/technician.entity.ts
 
 export class Technician {
   id?: number;

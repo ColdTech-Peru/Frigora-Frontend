@@ -32,7 +32,8 @@
     "services_hub": "Services Hub",
     "service-list": "Service List",
     "completed-services": "Completed Services",
-    "rejected-canceled": "Rejected & Canceled Services"
+    "rejected-canceled": "Rejected & Canceled Services",
+    "in-progress": "In-Progress Services"
   },
 
   "auth": {
@@ -374,7 +375,18 @@
       },
       "status": {
         "rejected": "Rejected",
-        "canceled": "Canceled"
+        "canceled": "Canceled",
+        "completed": "Completed",
+        "pending": "Pending"
+      },
+      "in-progress": {
+        "title": "In Progress Service Requests",
+        "id": "Id",
+        "description": "Description",
+        "status": "Status",
+        "technician": "Technician",
+        "actions": "Actions",
+        "empty": "There are no in progress service requests"
       }
     },
     "technicians": {

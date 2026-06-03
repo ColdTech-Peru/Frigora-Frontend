@@ -47,7 +47,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'common.title' | translate }} </th>
         <td mat-cell *matCellDef="let element">
           <mat-chip [ngClass]="'chip-' + element.status">
-            {{ 'services.status.' + element.status | translate }}
+            {{ 'provider.services.status.' + element.status | translate }}
           </mat-chip>
         </td>
       </ng-container>

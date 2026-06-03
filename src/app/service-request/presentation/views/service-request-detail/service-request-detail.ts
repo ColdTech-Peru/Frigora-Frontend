@@ -13,20 +13,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { ServiceRequestsApi } from '../../../infrastructure/service-request-api';
 import { ServiceRequestStore } from '../../../application/service-request-store';
 import { MonitoringApiService } from '../../../../monitoring/infrastructure/monitoring-api.service';
 import { AssetsManagementApi } from '../../../../assets-management/infrastructure/assets-management-api';
-import { AuthStoreService } from '../../../../iam/application/iam.store'; // 👈 ROLE STORE
-import { TranslatePipe } from '@ngx-translate/core';
+import { AuthStoreService } from '../../../../iam/application/iam.store';
+import { IamApi } from '../../../../iam/infrastructure/iam-api';
+import { TechniciansService } from '../../../../technician/infrastructure/technicians.service';
 
-/**
- * @component ServiceRequestDetailComponent
- * @description Displays detailed information of a service request including its status,
- * priority, description, and interventions log. Allows registering new interventions
- * and deleting the request after confirmation.
- * @author Alejandro Galindo
- */
 @Component({
   selector: 'app-service-request-detail',
   standalone: true,
@@ -45,7 +40,6 @@ import { TranslatePipe } from '@ngx-translate/core';
     MatDividerModule,
     MatTooltipModule,
     MatSnackBarModule,
-    TranslatePipe,
   ],
   templateUrl: './service-request-detail.html',
   styleUrl: './service-request-detail.css'
@@ -56,67 +50,44 @@ export class ServiceRequestDetailComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly api = inject(ServiceRequestsApi);
   private readonly store = inject(ServiceRequestStore);
-
-  /**
-   * @description MonitoringApiService used only in the fallback path
-   * when the store does not have the request cached.
-   */
   private readonly monitoringApi = inject(MonitoringApiService);
-
-  /**
-   * @description AssetsManagementApi used only in the fallback path
-   * to enrich the request with the site name.
-   */
   private readonly assetsManagementApi = inject(AssetsManagementApi);
-
-  /**
-   * @description Auth store used to determine user role (Owner / Provider)
-   */
-  private readonly authStore = inject(AuthStoreService);
-
+  private readonly techniciansApi = inject(TechniciansService);
+  private readonly iamApi = inject(IamApi);
+  protected readonly authStore = inject(AuthStoreService);
   private readonly snackBar = inject(MatSnackBar);
 
-  /**
-   * @description Role flags used to control UI and permissions
-   */
-  readonly isProvider = computed(
-    () => this.authStore.currentUserRole === 'Provider'
+  readonly isProvider = computed(() =>
+    this.authStore.currentUserRole === 'Provider'
   );
 
-  readonly isOwner = computed(
-    () => this.authStore.currentUserRole === 'Owner'
+  readonly isOwner = computed(() =>
+    this.authStore.currentUserRole === 'Owner'
   );
 
-  readonly requestId = computed(() => this.route.snapshot.paramMap.get('requestId') ?? '');
+  readonly requestId = computed(() =>
+    String(this.route.snapshot.paramMap.get('requestId'))
+  );
 
   isLoading = false;
-  isDeleting = false;
+
   serviceRequest: any = null;
   interventions: any[] = [];
+  technicians: any[] = [];
 
-  // Equipment dialog
   displayEquipmentDialog = false;
   selectedEquipment: any = null;
 
-  /**
-   * @description Controls visibility of the delete confirmation dialog.
-   */
-  displayDeleteConfirm = false;
-
-  // New intervention form
   newIntervention = {
+    technicianId: null as any,
     summary: '',
     startTime: '',
     endTime: '',
     photoUrls: [] as string[]
   };
+
   newPhotoUrl = '';
 
-  /**
-   * @description Angular lifecycle hook.
-   * Tries to get enriched data from the store first.
-   * Falls back to direct API calls if the store does not have the request cached.
-   */
   ngOnInit(): void {
     const id = this.requestId();
 
@@ -131,21 +102,34 @@ export class ServiceRequestDetailComponent implements OnInit {
       this.fetchRequestDetails();
     }
 
-    /**
-     * @description Safety check in case route guard is bypassed
-     */
+    this.loadTechnicians();
+
     if (!this.isProvider() && !this.isOwner()) {
       this.snackBar.open('Unauthorized access', 'Close', { duration: 3000 });
       this.router.navigate(['/dashboard']);
     }
   }
 
-  /**
-   * @description Fallback method that loads the request details directly from the API
-   * and enriches it with equipment and site names in parallel.
-   */
+  async loadTechnicians(): Promise<void> {
+    try {
+      if (!this.isProvider()) return;
+
+      const providerId = this.authStore.currentUserId;
+      if (providerId === null) return;
+
+      const res: any = await this.techniciansApi
+        .getTechniciansByProvider(providerId)
+        .toPromise();
+
+      this.technicians = res ?? [];
+    } catch (error) {
+      console.error('Failed to load technicians', error);
+    }
+  }
+
   async fetchRequestDetails(): Promise<void> {
     this.isLoading = true;
+
     try {
       const [requestRes, equipmentsRes, sitesRes]: any[] = await Promise.all([
         this.api.getServiceRequestDetailsQuery(this.requestId()).toPromise(),
@@ -156,144 +140,83 @@ export class ServiceRequestDetailComponent implements OnInit {
       const equipment = equipmentsRes?.find(
         (e: any) => String(e.id) === String(requestRes.equipmentId)
       );
+
       const site = sitesRes?.find(
         (s: any) => String(s.id) === String(requestRes.siteId)
       );
 
       this.serviceRequest = {
         ...requestRes,
-        equipmentName: equipment?.name ?? requestRes.equipmentId ?? 'N/A',
-        siteName: site?.name ?? requestRes.siteId ?? 'N/A',
+        equipmentName: equipment?.name ?? 'N/A',
+        siteName: site?.name ?? 'N/A',
       };
 
       await this.fetchInterventions();
 
     } catch (error) {
-      console.error('Failed to fetch request details:', error);
-      this.snackBar.open('Failed to load request details', 'Close', { duration: 3000 });
+      console.error(error);
+      this.snackBar.open('Failed to load request', 'Close', { duration: 3000 });
     } finally {
       this.isLoading = false;
     }
   }
 
-  /**
-   * @description Loads the interventions for the current service request
-   * from the interventions collection using serviceRequestId as filter.
-   */
   async fetchInterventions(): Promise<void> {
-    this.isLoading = true;
     try {
       const res: any = await this.api
         .getInterventionsByRequestQuery(this.requestId())
         .toPromise();
+
       this.interventions = res ?? [];
     } catch (error) {
-      console.error('Failed to fetch interventions:', error);
-    } finally {
-      this.isLoading = false;
+      console.error(error);
     }
   }
 
-  /**
-   * @description Fetches full equipment details and opens the equipment dialog.
-   */
   async openEquipmentDialog(): Promise<void> {
     if (!this.serviceRequest?.equipmentId) return;
+
     try {
-      const response: any = await this.monitoringApi
+      const res: any = await this.monitoringApi
         .getEquipmentById(this.serviceRequest.equipmentId)
         .toPromise();
-      this.selectedEquipment = response;
+
+      this.selectedEquipment = res;
       this.displayEquipmentDialog = true;
-    } catch (error) {
-      console.error('Failed to fetch equipment details:', error);
-      this.snackBar.open('Failed to load equipment details', 'Close', { duration: 3000 });
-    }
-  }
-
-  /**
-   * @description Opens the delete confirmation dialog.
-   */
-  confirmDelete(): void {
-    this.displayDeleteConfirm = true;
-  }
-
-  /**
-   * @description Deletes the current service request after user confirmation.
-   * Navigates back to /services on success.
-   */
-  async deleteRequest(): Promise<void> {
-    const id = this.requestId();
-
-    if (!id) {
-      this.snackBar.open('Invalid request ID', 'Close', { duration: 3000 });
-      this.displayDeleteConfirm = false;
-      return;
-    }
-
-    this.isDeleting = true;
-    this.displayDeleteConfirm = false;
-
-    try {
-      await this.api.sendRejectRequestCommand(id).toPromise();
-
-      this.snackBar.open(
-        'Service request deleted successfully',
-        'Close',
-        { duration: 3000 }
-      );
-
-      this.router.navigate(['/services']);
 
     } catch (error) {
-      console.error('Failed to delete service request:', error);
-      this.snackBar.open(
-        'Failed to delete service request',
-        'Close',
-        { duration: 3000 }
-      );
-    } finally {
-      this.isDeleting = false;
+      console.error(error);
     }
   }
 
-  /**
-   * @description Adds a photo URL to the new intervention form.
-   */
   addPhotoUrl(): void {
     const url = this.newPhotoUrl.trim();
-    if (url && !this.newIntervention.photoUrls.includes(url)) {
+    if (!url) return;
+
+    if (!this.newIntervention.photoUrls.includes(url)) {
       this.newIntervention.photoUrls.push(url);
-      this.newPhotoUrl = '';
     }
+
+    this.newPhotoUrl = '';
   }
 
-  /**
-   * @description Removes a photo URL from the new intervention form.
-   * @param url - The URL to remove.
-   */
   removePhotoUrl(url: string): void {
     this.newIntervention.photoUrls =
-      this.newIntervention.photoUrls.filter(u => u !== url);
+      this.newIntervention.photoUrls.filter(x => x !== url);
   }
 
-  /**
-   * @description Submits a new intervention for the current service request.
-   */
   async registerIntervention(): Promise<void> {
 
-    if (!this.isProvider()) {
-      this.snackBar.open('Only providers can perform this action', 'Close', { duration: 3000 });
-      return;
-    }
+    if (!this.isProvider()) return;
 
     if (!this.newIntervention.summary.trim()) {
-      this.snackBar.open('Please provide a summary', 'Close', { duration: 3000 });
+      this.snackBar.open('Summary required', 'Close', { duration: 3000 });
       return;
     }
 
     const payload = {
       serviceRequestId: this.requestId(),
+      technicianId: this.newIntervention.technicianId,
       summary: this.newIntervention.summary,
       startTime: this.newIntervention.startTime
         ? new Date(this.newIntervention.startTime).toISOString()
@@ -307,51 +230,51 @@ export class ServiceRequestDetailComponent implements OnInit {
 
     try {
       await this.api.sendRecordInterventionCommand(payload).toPromise();
-      this.newIntervention = { summary: '', startTime: '', endTime: '', photoUrls: [] };
-      this.snackBar.open('Intervention registered', 'Close', { duration: 3000 });
+
+      this.newIntervention = {
+        technicianId: null,
+        summary: '',
+        startTime: '',
+        endTime: '',
+        photoUrls: []
+      };
+
       await this.fetchInterventions();
+
+      this.snackBar.open('Intervention registered', 'Close', { duration: 3000 });
+
     } catch (error) {
-      console.error('Failed to register intervention:', error);
-      this.snackBar.open('Failed to register intervention', 'Close', { duration: 3000 });
+      console.error(error);
+      this.snackBar.open('Error registering intervention', 'Close', { duration: 3000 });
     }
   }
 
-  /**
-   * @description Navigates to the detail view of a specific intervention.
-   * @param intervention - The intervention to navigate to.
-   */
   navigateToIntervention(intervention: any): void {
-    this.router.navigate(['/services', this.requestId(), 'interventions', intervention.id]);
+    this.router.navigate([
+      '/provider/services',
+      this.requestId(),
+      'interventions',
+      intervention.id
+    ]);
   }
 
-  /**
-   * @description Returns the CSS class for a given status chip.
-   * @param status - The status string.
-   */
   statusClass(status: string): string {
     const map: Record<string, string> = {
       pending: 'chip-pending',
       accepted: 'chip-accepted',
-      inProgress: 'chip-in-progress',
+      inprogress: 'chip-in-progress',
       completed: 'chip-completed',
       canceled: 'chip-canceled',
       rejected: 'chip-rejected',
     };
+
     return map[status?.toLowerCase()] ?? '';
   }
 
-  /**
-   * @description Formats a date value to a locale date string.
-   * @param date - The date to format.
-   */
   formatDate(date: string | Date): string {
     return new Date(date).toLocaleDateString();
   }
 
-  /**
-   * @description Formats a date value to a locale date-time string.
-   * @param date - The date to format.
-   */
   formatDateTime(date: string | Date): string {
     return new Date(date).toLocaleString();
   }

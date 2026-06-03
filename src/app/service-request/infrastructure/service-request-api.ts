@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseApi } from '../../shared/infrastructure/base-api';
 import { environment } from '../../../environments/environment';
@@ -13,7 +13,6 @@ export class ServiceRequestsApi extends BaseApi {
   constructor(protected http: HttpClient) {
     super();
   }
-
   sendNewRequestCommand(command: object): Observable<any> {
     return this.http.post(this.basePath, command);
   }
@@ -37,11 +36,6 @@ export class ServiceRequestsApi extends BaseApi {
   sendCompleteRequestCommand(requestId: string | number): Observable<any> {
     return this.http.patch(`${this.basePath}/${requestId}/complete`, {});
   }
-
-  // ==========================================
-  // SERVICE REQUESTS - QUERIES
-  // ==========================================
-
   getAllServiceRequestsQuery(): Observable<any[]> {
     return this.http.get<any[]>(this.basePath);
   }
@@ -53,22 +47,29 @@ export class ServiceRequestsApi extends BaseApi {
   getRequestsByRequesterQuery(requesterId: string | number): Observable<any[]> {
     return this.http.get<any[]>(`${this.basePath}/requester/${requesterId}`);
   }
-
-  getRequestsForProviderQuery(providerId: string | number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.basePath}/provider/${providerId}`);
+  getRequestsForProviderQuery(
+    providerId: string | number,
+    status: string | null = null
+  ): Observable<any[]> {
+    let params = new HttpParams();
+    if (status) {
+      params = params.set('status', status);
+    }
+    return this.http.get<any[]>(
+      `${this.basePath}/provider/${providerId}`,
+      { params }
+    );
   }
-
 
   sendRecordInterventionCommand(command: object): Observable<any> {
     return this.http.post(this.interventionsPath, command);
   }
 
-
   getInterventionsByRequestQuery(serviceRequestId: string | number): Observable<any[]> {
     return this.http.get<any[]>(`${this.interventionsPath}/serviceRequest/${serviceRequestId}`);
   }
 
-  getInterventionByIdQuery(interventionId: string | number): Observable<any> {
+  getInterventionsDetailQuery(interventionId: string | number): Observable<any> {
     return this.http.get(`${this.interventionsPath}/${interventionId}`);
   }
 }

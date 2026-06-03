@@ -7,12 +7,10 @@ import { Layout } from './shared/presentation/components/layout/layout';
 import {roleGuard} from './iam/application/role.guard';
 
 export const routes: Routes = [
-  // 1. IAM (Públicas)
   { path: 'login', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: 'register', redirectTo: 'auth/register', pathMatch: 'full' },
   { path: 'auth', children: authRoutes, data: { public: true } },
 
-  // 2. Rutas Protegidas (Layout)
   {
     path: '',
     component: Layout,
@@ -34,14 +32,11 @@ export const routes: Routes = [
         data: { roleRequired: 'Owner' },
         canActivate: [roleGuard]
       },
-      // Inyección de monitoreo para Owner
       ...monitoringRoutes.map(r => ({
         ...r,
         data: { ...r.data, roleRequired: 'Owner' },
         canActivate: [roleGuard]
       })),
-
-      // Servicios (Owner)
       {
         path: 'services',
         loadChildren: () => import('./service-request/presentation/service-request-routes').then(m => m.serviceRequestsRoutes),
@@ -85,10 +80,31 @@ export const routes: Routes = [
         loadComponent: () => import('./technician/presentation/technician-management.component').then(m => m.TechnicianManagementComponent),
         data: { roleRequired: 'Provider' },
         canActivate: [roleGuard]
+      },
+      {
+        path: 'provider/services/in-progress',
+        loadComponent: () => import('./service-request/presentation/views/in-progress-services/in-progress-services').then(m => m.InProgressServicesComponent),
+        data: { roleRequired: 'Provider' },
+        canActivate: [roleGuard]
+      },
+      {
+        path: 'provider/services/:requestId',
+        loadComponent: () =>
+          import('./service-request/presentation/views/service-request-detail/service-request-detail')
+            .then(m => m.ServiceRequestDetailComponent),
+        data: { roleRequired: 'Provider' },
+        canActivate: [roleGuard]
+      },
+      {
+        path: 'provider/services/:requestId/interventions/:interventionId',
+        loadComponent: () =>
+          import('./service-request/presentation/views/intervention-detail/intervention-detail')
+            .then(m => m.InterventionDetailComponent),
+        data: { roleRequired: 'Provider' },
+        canActivate: [roleGuard]
       }
     ]
   },
 
-  // 3. Comodín
   { path: '**', redirectTo: 'auth/login' }
 ];

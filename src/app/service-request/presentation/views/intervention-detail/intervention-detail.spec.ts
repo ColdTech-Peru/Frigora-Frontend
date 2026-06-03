@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProviderDashboardComponent } from './provider-dashboard';
+import { InterventionDetailComponent } from './intervention-detail';
 
-describe('ProviderDashboard', () => {
-  let component: ProviderDashboardComponent;
-  let fixture: ComponentFixture<ProviderDashboardComponent>;
+describe('InterventionDetail', () => {
+  let component: InterventionDetailComponent;
+  let fixture: ComponentFixture<InterventionDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProviderDashboardComponent]
+      imports: [InterventionDetailComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProviderDashboardComponent);
+    fixture = TestBed.createComponent(InterventionDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
