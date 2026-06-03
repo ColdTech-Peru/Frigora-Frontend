@@ -8,7 +8,7 @@
         <mat-select [(ngModel)]="filters.status" (selectionChange)="applyFilters()">
           <mat-option value="">{{ 'common.all' | translate }}</mat-option>
           <mat-option *ngFor="let s of statusOptions.slice(1)" [value]="s">
-            {{ 'services.status.' + s | translate }}
+            {{ 'provider.services.status.' + s | translate }}
           </mat-option>
         </mat-select>
       </mat-form-field>

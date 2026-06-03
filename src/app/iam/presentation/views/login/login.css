@@ -1,8 +1,13 @@
 .login-page {
   min-height: 100vh;
   display: flex;
+  position: relative;
 }
-
+.language-switcher{
+  position: absolute;
+  top: 20px;
+  right: 24px;
+}
 .login-brand {
   flex: 1;
   background: #7bc3e8;

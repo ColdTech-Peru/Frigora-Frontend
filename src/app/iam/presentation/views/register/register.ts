@@ -12,6 +12,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthStoreService } from '../../../application/iam.store';
+import {LanguageSwitcher} from '../../../../shared/presentation/components/language-switcher/language-switcher';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +28,8 @@ import { AuthStoreService } from '../../../application/iam.store';
     MatButtonModule,
     MatRadioModule,
     MatProgressSpinnerModule,
-    MatIconModule
+    MatIconModule,
+    LanguageSwitcher
   ],
   templateUrl: './register.html',
   styleUrl: './register.css',

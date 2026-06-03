@@ -11,6 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthStoreService } from '../../../application/iam.store';
+import {LanguageSwitcher} from '../../../../shared/presentation/components/language-switcher/language-switcher';
 
 @Component({
   selector: 'app-login',
@@ -25,8 +26,9 @@ import { AuthStoreService } from '../../../application/iam.store';
     MatInputModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatIconModule
-    ],
+    MatIconModule,
+    LanguageSwitcher
+  ],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

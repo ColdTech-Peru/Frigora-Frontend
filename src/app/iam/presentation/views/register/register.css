@@ -1,6 +1,13 @@
 .register-page {
   min-height: 100vh;
   display: flex;
+  position: relative;
+}
+
+.language-switcher{
+  position: absolute;
+  top: 20px;
+  right: 24px;
 }
 
 .register-brand {

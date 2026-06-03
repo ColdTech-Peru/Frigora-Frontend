@@ -14,7 +14,8 @@
     "view": "Ver",
     "all": "Todo",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "required-field": "Campo requerido"
   },
 
   "nav": {
@@ -379,7 +380,9 @@
         "rejected": "Rechazado",
         "canceled": "Cancelado",
         "completed": "Completado",
-        "pending": "Pendiente"
+        "pending": "Pendiente",
+        "accepted": "Aceptado",
+        "inProgress": "En Progreso"
       },
       "in-progress": {
         "title": "Solicitudes De Servicio En Progreso",
