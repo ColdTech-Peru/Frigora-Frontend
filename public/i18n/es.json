@@ -385,7 +385,7 @@
         "inProgress": "En Progreso"
       },
       "in-progress": {
-        "title": "Solicitudes De Servicio En Progreso",
+        "title": "Servicios En Progreso",
         "id": "Id",
         "description": "Descripción",
         "status": "Estado",

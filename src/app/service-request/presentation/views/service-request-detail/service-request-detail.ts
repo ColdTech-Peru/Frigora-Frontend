@@ -1,26 +1,26 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-
-import { ServiceRequestsApi } from '../../../infrastructure/service-request-api';
-import { ServiceRequestStore } from '../../../application/service-request-store';
-import { MonitoringApiService } from '../../../../monitoring/infrastructure/monitoring-api.service';
-import { AssetsManagementApi } from '../../../../assets-management/infrastructure/assets-management-api';
-import { AuthStoreService } from '../../../../iam/application/iam.store';
-import { IamApi } from '../../../../iam/infrastructure/iam-api';
-import { TechniciansService } from '../../../../technician/infrastructure/technicians.service';
+import {ChangeDetectorRef, Component, computed, inject, OnInit} from '@angular/core';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {firstValueFrom} from 'rxjs';
+import {ServiceRequestsApi} from '../../../infrastructure/service-request-api';
+import {ServiceRequestStore} from '../../../application/service-request-store';
+import {MonitoringApiService} from '../../../../monitoring/infrastructure/monitoring-api.service';
+import {AssetsManagementApi} from '../../../../assets-management/infrastructure/assets-management-api';
+import {AuthStoreService} from '../../../../iam/application/iam.store';
+import {IamApi} from '../../../../iam/infrastructure/iam-api';
+import {TechniciansService} from '../../../../technician/infrastructure/technicians.service';
 
 @Component({
   selector: 'app-service-request-detail',
@@ -54,6 +54,7 @@ export class ServiceRequestDetailComponent implements OnInit {
   private readonly assetsManagementApi = inject(AssetsManagementApi);
   private readonly techniciansApi = inject(TechniciansService);
   private readonly iamApi = inject(IamApi);
+  private readonly cdr = inject(ChangeDetectorRef);
   protected readonly authStore = inject(AuthStoreService);
   private readonly snackBar = inject(MatSnackBar);
 
@@ -88,26 +89,28 @@ export class ServiceRequestDetailComponent implements OnInit {
 
   newPhotoUrl = '';
 
-  ngOnInit(): void {
-    const id = this.requestId();
+  async ngOnInit(): Promise<void> {
+    if (!this.isProvider() && !this.isOwner()) {
+      this.snackBar.open('Unauthorized access', 'Close', { duration: 3000 });
+      await this.router.navigate(['/dashboard']);
+      return;
+    }
 
+    const id = this.requestId();
     const fromStore = this.store.serviceRequests().find(
       sr => String(sr.id) === String(id)
     );
 
     if (fromStore) {
       this.serviceRequest = fromStore;
-      this.fetchInterventions();
+      await this.fetchInterventions();
     } else {
-      this.fetchRequestDetails();
+      await this.fetchRequestDetails();
     }
 
-    this.loadTechnicians();
+    await this.loadTechnicians();
 
-    if (!this.isProvider() && !this.isOwner()) {
-      this.snackBar.open('Unauthorized access', 'Close', { duration: 3000 });
-      this.router.navigate(['/dashboard']);
-    }
+    this.cdr.markForCheck();
   }
 
   async loadTechnicians(): Promise<void> {
@@ -117,11 +120,12 @@ export class ServiceRequestDetailComponent implements OnInit {
       const providerId = this.authStore.currentUserId;
       if (providerId === null) return;
 
-      const res: any = await this.techniciansApi
-        .getTechniciansByProvider(providerId)
-        .toPromise();
+      const res: any = await firstValueFrom(
+        this.techniciansApi.getTechniciansByProvider(providerId)
+      );
 
       this.technicians = res ?? [];
+      this.cdr.markForCheck();
     } catch (error) {
       console.error('Failed to load technicians', error);
     }
@@ -129,12 +133,13 @@ export class ServiceRequestDetailComponent implements OnInit {
 
   async fetchRequestDetails(): Promise<void> {
     this.isLoading = true;
+    this.cdr.markForCheck();
 
     try {
       const [requestRes, equipmentsRes, sitesRes]: any[] = await Promise.all([
-        this.api.getServiceRequestDetailsQuery(this.requestId()).toPromise(),
-        this.monitoringApi.getEquipments().toPromise(),
-        this.assetsManagementApi.getSites().toPromise(),
+        firstValueFrom(this.api.getServiceRequestDetailsQuery(this.requestId())),
+        firstValueFrom(this.monitoringApi.getEquipments()),
+        firstValueFrom(this.assetsManagementApi.getSites()),
       ]);
 
       const equipment = equipmentsRes?.find(
@@ -158,16 +163,18 @@ export class ServiceRequestDetailComponent implements OnInit {
       this.snackBar.open('Failed to load request', 'Close', { duration: 3000 });
     } finally {
       this.isLoading = false;
+      this.cdr.markForCheck();
     }
   }
 
   async fetchInterventions(): Promise<void> {
     try {
-      const res: any = await this.api
-        .getInterventionsByRequestQuery(this.requestId())
-        .toPromise();
+      const res: any = await firstValueFrom(
+        this.api.getInterventionsByRequestQuery(this.requestId())
+      );
 
       this.interventions = res ?? [];
+      this.cdr.markForCheck();
     } catch (error) {
       console.error(error);
     }
@@ -177,13 +184,11 @@ export class ServiceRequestDetailComponent implements OnInit {
     if (!this.serviceRequest?.equipmentId) return;
 
     try {
-      const res: any = await this.monitoringApi
-        .getEquipmentById(this.serviceRequest.equipmentId)
-        .toPromise();
-
-      this.selectedEquipment = res;
+      this.selectedEquipment = await firstValueFrom(
+        this.monitoringApi.getEquipmentById(this.serviceRequest.equipmentId)
+      );
       this.displayEquipmentDialog = true;
-
+      this.cdr.markForCheck();
     } catch (error) {
       console.error(error);
     }
@@ -206,7 +211,6 @@ export class ServiceRequestDetailComponent implements OnInit {
   }
 
   async registerIntervention(): Promise<void> {
-
     if (!this.isProvider()) return;
 
     if (!this.newIntervention.summary.trim()) {
@@ -229,7 +233,7 @@ export class ServiceRequestDetailComponent implements OnInit {
     };
 
     try {
-      await this.api.sendRecordInterventionCommand(payload).toPromise();
+      await firstValueFrom(this.api.sendRecordInterventionCommand(payload));
 
       this.newIntervention = {
         technicianId: null,
@@ -250,12 +254,10 @@ export class ServiceRequestDetailComponent implements OnInit {
   }
 
   navigateToIntervention(intervention: any): void {
-    this.router.navigate([
-      '/provider/services',
-      this.requestId(),
-      'interventions',
-      intervention.id
-    ]);
+    this.router.navigate(
+      ['interventions', intervention.id],
+      { relativeTo: this.route }
+    );
   }
 
   statusClass(status: string): string {

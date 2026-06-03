@@ -2,12 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-
-// Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-
-// Servicios (Ajusta las rutas de importación a tu estructura)
 import { AuthStoreService } from '../../../../iam/application/iam.store';
 import { ServiceRequestsApi } from '../../../infrastructure/service-request-api';
 
@@ -39,7 +35,6 @@ export class ProviderServicesHubComponent implements OnInit {
   };
 
   get currentProviderId(): string | number | null {
-    // Si estás probando sin login, pon un ID fijo aquí como '14qTsdO' o 'public'
     return this.authStore.currentUserId || 'public';
   }
 
@@ -61,9 +56,8 @@ export class ProviderServicesHubComponent implements OnInit {
   }
 
   navigate(status: string): void {
-    // Ajusta estas rutas según las que hayas definido en tu app.routes.ts
     const routeNames: Record<string, string> = {
-      'pending': '/provider/services/pending',
+      'pending': '/provider/dashboard',
       'in-progress': '/provider/services/in-progress',
       'completed': '/provider/services/completed',
       'rejected-canceled': '/provider/services/rejected-canceled'

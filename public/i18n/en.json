@@ -383,7 +383,7 @@
         "inProgress": "In Progress"
       },
       "in-progress": {
-        "title": "In Progress Service Requests",
+        "title": "In-Progress Services",
         "id": "Id",
         "description": "Description",
         "status": "Status",
