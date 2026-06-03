@@ -58,7 +58,7 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
   private readonly store = inject(ServiceRequestStore);
   private readonly snackBar = inject(MatSnackBar);
   private readonly reviewsApi = inject(FeedbackApiService);
-  private readonly api = inject(ServiceRequestsApi); // ← AÑADIDO
+  private readonly api = inject(ServiceRequestsApi);
   private readonly cdr = inject(ChangeDetectorRef);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

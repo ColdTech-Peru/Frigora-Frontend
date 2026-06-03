@@ -391,7 +391,11 @@
         "status": "Estado",
         "technician": "Técnico",
         "actions": "Acciones",
-        "empty": "No hay solicitudes de servicio en progreso"
+        "empty": "No hay solicitudes de servicio en progreso",
+        "not-assigned": "No Asignado",
+        "complete": "Marcar como completado",
+        "select-technician": "Seleccionar Técnico",
+        "assign": "Asignar"
       }
     },
 

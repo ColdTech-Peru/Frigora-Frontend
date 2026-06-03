@@ -389,7 +389,11 @@
         "status": "Status",
         "technician": "Technician",
         "actions": "Actions",
-        "empty": "There are no in progress service requests"
+        "empty": "There are no in progress service requests",
+        "not-assigned": "Not Assigned",
+        "complete": "Mark as completed",
+        "select-technician": "Select Technician",
+        "assign": "Assign"
       }
     },
     "technicians": {
