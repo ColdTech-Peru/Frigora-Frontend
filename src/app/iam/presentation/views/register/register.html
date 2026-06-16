@@ -4,21 +4,28 @@
   <div class="register-brand">
     <img src="/freezer.png" alt="Logo">
   </div>
+
   <div class="language-switcher">
     <app-language-switcher />
   </div>
+
   <div class="register-form-container">
     <div class="register-content">
+
       <h1>{{ 'auth.register.title' | translate }}</h1>
+
       <p class="login-link">
         {{ 'auth.register.alreadyHaveAccountText' | translate }}
         <a routerLink="/auth/login">
           {{ 'auth.register.alreadyHaveAccount' | translate }}
         </a>
       </p>
+
       <form [formGroup]="registerForm"
             (ngSubmit)="onSubmit()"
             class="auth-form">
+
+        <!-- ROLE -->
         <div class="role-section">
 
           <label class="role-label">
@@ -26,7 +33,7 @@
           </label>
 
           <mat-radio-group
-            formControlName="role"
+            formControlName="roles"
             class="role-group">
 
             <mat-radio-button
@@ -42,10 +49,13 @@
                   {{ option.description }}
                 </span>
               </div>
+
             </mat-radio-button>
+
           </mat-radio-group>
         </div>
 
+        <!-- NAME -->
         <mat-form-field appearance="outline">
           <mat-label>
             {{ 'auth.login.firstName' | translate }}
@@ -53,6 +63,7 @@
           <input matInput formControlName="name">
         </mat-form-field>
 
+        <!-- USERNAME -->
         <mat-form-field appearance="outline">
           <mat-label>
             {{ 'auth.login.username' | translate }}
@@ -60,16 +71,15 @@
           <input matInput formControlName="username">
         </mat-form-field>
 
+        <!-- PASSWORD -->
         <mat-form-field appearance="outline">
           <mat-label>
             {{ 'auth.login.password' | translate }}
           </mat-label>
-          <input
-            matInput
-            type="password"
-            formControlName="password">
+          <input matInput type="password" formControlName="password">
         </mat-form-field>
 
+        <!-- BUTTON -->
         <button
           mat-flat-button
           color="primary"
@@ -81,11 +91,10 @@
             {{ 'auth.register.cta' | translate }}
           </span>
 
-          <mat-spinner
-            *ngIf="loading"
-            diameter="24">
-          </mat-spinner>
+          <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+
         </button>
+
       </form>
     </div>
   </div>

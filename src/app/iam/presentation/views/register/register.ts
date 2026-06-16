@@ -45,7 +45,7 @@ export class Register {
   localErrors: { message: string }[] = [];
 
   registerForm = this.fb.nonNullable.group({
-    role: [0, Validators.required],
+    roles: ['Owner', Validators.required],
     name: ['', Validators.required],
     username: ['', Validators.required],
     password: ['', Validators.required]
@@ -54,12 +54,12 @@ export class Register {
   roleOptions = [
     {
       label: this.translate.instant('auth.register.roles.owner'),
-      value: 0,
+      value: 'Owner',
       description: this.translate.instant('auth.register.roles.ownerDesc')
     },
     {
       label: this.translate.instant('auth.register.roles.provider'),
-      value: 1,
+      value: 'Provider',
       description: this.translate.instant('auth.register.roles.providerDesc')
     }
   ];
