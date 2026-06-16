@@ -367,7 +367,7 @@
       },
       "rejected-canceled": {
         "title": "Canceled Services",
-        "no-rejected-services": "Servicios No Cancelados",
+        "no-rejected-canceled-services": "There are no cancelled services",
         "id": "Id",
         "description": "Description",
         "site": "Site",

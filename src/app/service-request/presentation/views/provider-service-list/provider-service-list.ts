@@ -21,6 +21,7 @@ import { AssetsManagementApi } from '../../../../assets-management/infrastructur
 import { AuthStoreService } from '../../../../iam/application/iam.store';
 import { MonitoringApiService } from '../../../../monitoring/infrastructure/monitoring-api.service';
 import { ServiceRequestAssembler } from '../../../infrastructure/service-request-assembler';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-provider-service-list',
@@ -38,7 +39,8 @@ import { ServiceRequestAssembler } from '../../../infrastructure/service-request
     MatIconModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatTooltip
   ],
   templateUrl: './provider-service-list.html',
   styleUrl: './provider-service-list.css'
@@ -113,5 +115,24 @@ export class ProviderServiceListComponent implements OnInit {
       rejected: 'secondary'
     };
     return map[status] || 'secondary';
+  }
+
+  deleteRequest(request: any): void {
+
+    const confirmed = confirm(
+      'Are you sure you want to delete this service request?'
+    );
+
+    if (!confirmed) return;
+
+    this.serviceRequestApi.deleteServiceRequest(request.id)
+      .subscribe({
+        next: () => {
+          this.fetchData();
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
   }
 }

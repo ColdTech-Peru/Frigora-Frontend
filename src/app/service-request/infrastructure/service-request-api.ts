@@ -40,6 +40,12 @@ export class ServiceRequestsApi extends BaseApi {
     return this.http.get<any[]>(this.basePath);
   }
 
+  deleteServiceRequest(requestId: string | number) {
+    return this.http.delete(
+      `${this.basePath}/${requestId}`
+    );
+  }
+
   getServiceRequestDetailsQuery(requestId: string | number): Observable<any> {
     return this.http.get(`${this.basePath}/${requestId}`);
   }

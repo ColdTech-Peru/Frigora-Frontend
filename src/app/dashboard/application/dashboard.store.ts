@@ -1,99 +1,83 @@
 import { computed, Injectable, signal, DestroyRef, inject } from '@angular/core';
 import { DashboardSnapshot } from '../domain/model/dashboard-snapshot.entity';
 import { AlertView } from '../domain/model/alert-view.entity';
-import { DashboardApi } from '../infrastructure/dashboard-api';
+import { MonitoringApiService } from '../../monitoring/infrastructure/monitoring-api.service';
+import { ServiceRequestsApi } from '../../service-request/infrastructure/service-request-api';
 import { AuthStoreService } from '../../iam/application/iam.store';
+import { forkJoin } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardStore {
   private readonly destroyRef = inject(DestroyRef);
-  private readonly dashboardApi = inject(DashboardApi);
+  private readonly monitoringApi = inject(MonitoringApiService);
+  private readonly serviceRequestsApi = inject(ServiceRequestsApi);
   private readonly authStore = inject(AuthStoreService);
 
   private readonly snapshotSignal = signal<DashboardSnapshot | null>(null);
   private readonly alertsSignal = signal<AlertView[]>([]);
-  private readonly loadingSnapshotSignal = signal<boolean>(false);
-  private readonly loadingAlertsSignal = signal<boolean>(false);
+  private readonly loadingSignal = signal<boolean>(false);
   private readonly errorSignal = signal<string | null>(null);
 
   readonly snapshot = this.snapshotSignal.asReadonly();
   readonly alerts = this.alertsSignal.asReadonly();
-  readonly loading = computed(() => this.loadingSnapshotSignal() || this.loadingAlertsSignal());
+  readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
 
-  readonly kpis = computed(() => this.snapshot()?.kpis ?? {});
   readonly temperatureChart = computed(() => this.snapshot()?.temperatureChartData);
   readonly avgTemperature = computed(() => this.snapshot()?.avgTemperature ?? 0);
 
-  readonly criticalAlerts = computed(() =>
-    this.alerts().filter(alert => alert.severity.toLowerCase() === 'critical')
-  );
-  readonly criticalAlertsCount = computed(() => this.criticalAlerts().length);
-
-  loadSnapshot(): void {
-    const userId = this.authStore.currentUserId;
-    if (!userId) return;
-
-    this.loadingSnapshotSignal.set(true);
+  loadFullDashboard(): void {
+    this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    this.dashboardApi.getDashboardConfigByUser(userId)
+    forkJoin({
+      equipments: this.monitoringApi.getEquipments(),
+      alerts: this.monitoringApi.getAlerts(),
+      serviceRequests: this.serviceRequestsApi.getRequestsByRequesterQuery(this.authStore.currentUserId!),
+      readings: this.monitoringApi.getReadings()
+    })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.loadingSnapshotSignal.set(false))
+        finalize(() => this.loadingSignal.set(false))
       )
       .subscribe({
-        next: (data) => {
-          if (data) {
-            this.snapshotSignal.set(new DashboardSnapshot(data));
-          } else {
-            this.snapshotSignal.set(null);
-          }
-        },
-        error: (err) => {
-          console.error('Error loading snapshot', err);
-          this.errorSignal.set('Failed to load dashboard snapshot');
-        }
-      });
-  }
+        next: ({ equipments, alerts, serviceRequests, readings }) => {
+          console.log('readings[0]:', readings[0]);
+          console.log('serviceRequests:', serviceRequests);
+          const snapshot = new DashboardSnapshot({
+            kpis: {
+              totalEquipments: equipments.length,
+              openAlerts: alerts.filter((a: any) => a.status?.toLowerCase() === 'active').length,
+              activeRequests: serviceRequests.length
+            },
+            trends: {
+              temperature: {
+                labels: readings.map((r: any) => r.timestamp ?? r.createdAt),
+                avg: readings.map((r: any) => r.temperature ?? r.value)
+              }
+            }
+          });
+          this.snapshotSignal.set(snapshot);
 
-  loadAlerts(): void {
-    const tenantId = this.authStore.currentTenantId;
-
-    this.loadingAlertsSignal.set(true);
-    this.errorSignal.set(null);
-
-    this.dashboardApi.getAlerts(tenantId ?? undefined)
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.loadingAlertsSignal.set(false))
-      )
-      .subscribe({
-        next: (alertsData) => {
-          const alertInstances = alertsData.map(data => new AlertView({
-            id: data.id,
-            createdAt: data.createdAt,
-            equipmentId: data.equipmentId,
-            siteId: data.siteId,
-            severity: data.severity,
-            status: data.status,
-            equipmentName: data.equipmentName,
-            siteName: data.siteName
+          const alertInstances = alerts.map((a: any) => new AlertView({
+            id: a.id,
+            createdAt: a.createdAt,
+            equipmentId: a.equipmentId,
+            siteId: a.siteId,
+            severity: a.severity,
+            status: a.status,
+            equipmentName: a.equipmentName,
+            siteName: a.siteName
           }));
           this.alertsSignal.set(alertInstances);
         },
         error: (err) => {
-          console.error('Error loading alerts', err);
-          this.errorSignal.set('Failed to load alerts');
+          console.error('Error loading dashboard', err);
+          this.errorSignal.set('Failed to load dashboard data');
         }
       });
-  }
-
-  loadFullDashboard(): void {
-    this.loadSnapshot();
-    this.loadAlerts();
   }
 
   clearStore(): void {

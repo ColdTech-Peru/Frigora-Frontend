@@ -14,12 +14,12 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {firstValueFrom} from 'rxjs';
+
 import {ServiceRequestsApi} from '../../../infrastructure/service-request-api';
 import {ServiceRequestStore} from '../../../application/service-request-store';
 import {MonitoringApiService} from '../../../../monitoring/infrastructure/monitoring-api.service';
 import {AssetsManagementApi} from '../../../../assets-management/infrastructure/assets-management-api';
 import {AuthStoreService} from '../../../../iam/application/iam.store';
-import {IamApi} from '../../../../iam/infrastructure/iam-api';
 import {TechniciansService} from '../../../../technician/infrastructure/technicians.service';
 
 @Component({
@@ -53,7 +53,6 @@ export class ServiceRequestDetailComponent implements OnInit {
   private readonly monitoringApi = inject(MonitoringApiService);
   private readonly assetsManagementApi = inject(AssetsManagementApi);
   private readonly techniciansApi = inject(TechniciansService);
-  private readonly iamApi = inject(IamApi);
   private readonly cdr = inject(ChangeDetectorRef);
   protected readonly authStore = inject(AuthStoreService);
   private readonly snackBar = inject(MatSnackBar);
@@ -109,7 +108,6 @@ export class ServiceRequestDetailComponent implements OnInit {
     }
 
     await this.loadTechnicians();
-
     this.cdr.markForCheck();
   }
 
@@ -127,7 +125,7 @@ export class ServiceRequestDetailComponent implements OnInit {
       this.technicians = res ?? [];
       this.cdr.markForCheck();
     } catch (error) {
-      console.error('Failed to load technicians', error);
+      console.error(error);
     }
   }
 
@@ -222,13 +220,12 @@ export class ServiceRequestDetailComponent implements OnInit {
       serviceRequestId: this.requestId(),
       technicianId: this.newIntervention.technicianId,
       summary: this.newIntervention.summary,
-      startTime: this.newIntervention.startTime
-        ? new Date(this.newIntervention.startTime).toISOString()
-        : new Date().toISOString(),
-      endTime: this.newIntervention.endTime
-        ? new Date(this.newIntervention.endTime).toISOString()
-        : null,
+
+      startTime: this.newIntervention.startTime || null,
+      endTime: this.newIntervention.endTime || null,
+
       status: this.newIntervention.endTime ? 'completed' : 'pending',
+
       photoUrls: this.newIntervention.photoUrls,
     };
 

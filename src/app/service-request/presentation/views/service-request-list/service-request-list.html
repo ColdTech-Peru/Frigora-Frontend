@@ -40,26 +40,46 @@
     <table mat-table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="orderNumber">
-        <th mat-header-cell *matHeaderCellDef>#</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          #
+        </th>
         <td mat-cell *matCellDef="let row">{{ row.orderNumber }}</td>
       </ng-container>
 
       <ng-container matColumnDef="equipmentName">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ 'service-request.equipment' | translate }}
         </th>
         <td mat-cell *matCellDef="let row">{{ row.equipmentName }}</td>
       </ng-container>
 
       <ng-container matColumnDef="siteName">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ 'service-request.site' | translate }}
         </th>
         <td mat-cell *matCellDef="let row">{{ row.siteName }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="provider">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Provider
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ providersMap[row.assignedTo] || '-' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="technician">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Technician
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ techniciansMap[row.technicianId] || 'Unassigned' }}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ 'service-request.status' | translate }}
         </th>
         <td mat-cell *matCellDef="let row">
@@ -70,7 +90,7 @@
       </ng-container>
 
       <ng-container matColumnDef="completedAt">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ 'service-request.date' | translate }}
         </th>
         <td mat-cell *matCellDef="let row">

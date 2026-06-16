@@ -6,9 +6,34 @@
 
 .full-width-table { width: 100%; }
 
-.chip-pending { background-color: #ffebee; color: #c62828; }
-.chip-accepted { background-color: #fff8e1; color: #f57f17; }
-.chip-inProgress { background-color: #e3f2fd; color: #1565c0; }
-.chip-completed { background-color: #e8f5e9; color: #2e7d32; }
+::ng-deep .chip-pending {
+  background: #ffebee !important;
+  color: #c62828 !important;
+}
+
+::ng-deep .chip-accepted {
+  background: #fff8e1 !important;
+  color: #f57f17 !important;
+}
+
+::ng-deep .chip-inProgress {
+  background: #e3f2fd !important;
+  color: #1565c0 !important;
+}
+
+::ng-deep .chip-completed {
+  background: #e8f5e9 !important;
+  color: #2e7d32 !important;
+}
+
+::ng-deep .chip-canceled {
+  background: #eeeeee !important;
+  color: #616161 !important;
+}
+
+::ng-deep .chip-rejected {
+  background: #fce4ec !important;
+  color: #ad1457 !important;
+}
 
 mat-form-field { width: 250px; }

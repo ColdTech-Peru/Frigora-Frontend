@@ -24,10 +24,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
 import { ServiceRequestStore } from '../../../application/service-request-store';
 import { ServiceRequest } from '../../../domain/model/service-request.entity';
-import { ServiceRequestsApi } from '../../../infrastructure/service-request-api'; // ← AÑADIDO
+import { ServiceRequestsApi } from '../../../infrastructure/service-request-api';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FeedbackApiService } from '../../../../feedback/infrastructure/feedback-api.service';
 import { MatInput } from '@angular/material/input';
+import {IamApi} from '../../../../iam/infrastructure/iam-api';
+import {TechniciansService} from '../../../../technician/infrastructure/technicians.service';
 
 @Component({
   selector: 'app-service-request-list',
@@ -56,6 +58,8 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
 
   private readonly router = inject(Router);
   private readonly store = inject(ServiceRequestStore);
+  private readonly iamApi = inject(IamApi);
+  private readonly techniciansService = inject(TechniciansService);
   private readonly snackBar = inject(MatSnackBar);
   private readonly reviewsApi = inject(FeedbackApiService);
   private readonly api = inject(ServiceRequestsApi);
@@ -79,6 +83,8 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
     'orderNumber',
     'equipmentName',
     'siteName',
+    'provider',
+    'technician',
     'status',
     'completedAt',
     'actions'
@@ -87,6 +93,8 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
   reviewDialogOpen = false;
   reviewReadOnly = false;
   selectedRequest: ServiceRequest | null = null;
+  providersMap: Record<number, string> = {};
+  techniciansMap: Record<number, string> = {};
 
   reviewForm = {
     rating: 0,
@@ -102,9 +110,49 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.store.loadAll().subscribe();
-  }
 
+    this.iamApi.getAllUsers().subscribe(users => {
+      this.providersMap = users.reduce((acc: any, user: any) => {
+        acc[user.id] = user.username;
+        return acc;
+      }, {});
+    });
+
+    this.store.loadAll().subscribe(async () => {
+
+      const requests = this.store.serviceRequests() ?? [];
+
+      for (const request of requests) {
+
+        if ((request as any).technicianId) {
+
+          try {
+
+            const technician: any = await firstValueFrom(
+              this.techniciansService.getTechnicianById(
+                (request as any).technicianId
+              )
+            );
+
+            this.techniciansMap[(request as any).technicianId] =
+              technician.name ||
+              technician.fullName ||
+              technician.firstName ||
+              `Technician ${(request as any).technicianId}`;
+
+          } catch (err) {
+
+            console.error(
+              `Could not load technician ${(request as any).technicianId}`,
+              err
+            );
+          }
+        }
+      }
+
+      this.applyFilters();
+    });
+  }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -120,7 +168,8 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
 
   applyFilters(): void {
     let list: ServiceRequest[] = this.store.serviceRequests() ?? [];
-
+    console.log('REQUESTS:', list);
+    console.log('TECHNICIANS MAP:', this.techniciansMap);
     list = [...list];
 
     if (this.selectedStatus) {
@@ -130,7 +179,6 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
     if (this.selectedType) {
       list = list.filter(r => (r as any).type === this.selectedType);
     }
-
     list = list.map((req, index) => ({
       ...req,
       orderNumber: index + 1

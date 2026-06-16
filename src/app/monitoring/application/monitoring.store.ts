@@ -68,13 +68,16 @@ export class MonitoringStore {
 
   createEquipment(equipment: any, callback: () => void): void {
     const newEquipment = {
-      ...equipment,
-      tenantId: equipment.tenantId ?? 't1',
-      siteId: equipment.siteId ?? 's1',
-      installedAt: equipment.installed,
-      setpointC: Number(equipment.setPoint),
-      lastSeenAt: equipment.lastSeen || new Date().toISOString(),
-      powerState: equipment.online ? 'on' : 'off'
+      name: equipment.name,
+      model: equipment.model,
+      type: equipment.type,
+      serial: equipment.serial,
+      status: 'active',
+      installed: equipment.installed ? new Date(equipment.installed).toISOString() : new Date().toISOString(),
+      lastSeen: equipment.lastSeen ? new Date(equipment.lastSeen).toISOString() : new Date().toISOString(),
+      setPoint: Number(equipment.setPoint),
+      manufacturer: equipment.manufacturer,
+      online: equipment.online ?? true
     };
 
     this.monitoringApi.createEquipment(newEquipment).subscribe({
