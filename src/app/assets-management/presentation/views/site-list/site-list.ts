@@ -154,7 +154,9 @@ export class SiteList {
       console.error(error);
     }
   }
-
+  deleteSite(id: string): void {
+    this.store.deleteSite(id);
+  }
   closeDialog(): void {
     this.dialogRef?.close();
   }

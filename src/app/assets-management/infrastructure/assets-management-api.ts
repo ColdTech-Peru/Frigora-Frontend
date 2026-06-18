@@ -22,6 +22,8 @@ export class AssetsManagementApi extends BaseApi {
     return this.sitesEndpoint.create(site);
   }
 
-
+  deleteSite(id: string): Observable<void> {
+    return this.sitesEndpoint.delete(id);
+  }
 
 }

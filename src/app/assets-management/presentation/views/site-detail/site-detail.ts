@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AssetsManagementStore } from '../../../application/assets-management.store';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {MatIcon} from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-site-detail',
@@ -27,6 +27,7 @@ export class SiteDetail {
 
   private store = inject(AssetsManagementStore);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   public siteId =
     this.route.snapshot.paramMap.get('id') ?? '';

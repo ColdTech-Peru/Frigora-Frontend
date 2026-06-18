@@ -55,6 +55,24 @@ export class AssetsManagementStore{
     });
   }
 
+  deleteSite(id: string, onSuccess?: () => void): void {
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+    this.assetsManagementApi.deleteSite(id).subscribe({
+      next: () => {
+        this.sitesSignal.update(sites =>
+          sites.filter(s => String(s.id) !== String(id))
+        );
+        this.loadingSignal.set(false);
+        onSuccess?.();
+      },
+      error: error => {
+        this.errorSignal.set(this.formatError(error, 'Failed to delete site'));
+        this.loadingSignal.set(false);
+      }
+    });
+  }
+
   private formatError(error: any, fallback: string): string {
     if (error instanceof Error) {
       return error.message.includes('Resource not found') ? `${fallback}: Not found` : error.message;

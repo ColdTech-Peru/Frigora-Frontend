@@ -1,70 +1,51 @@
 <section class="site-detail-container">
 
   <div class="header">
-    <button
-      mat-icon-button
-      routerLink="/sites">
+    <button mat-icon-button routerLink="/sites">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <h1>
-      {{ 'sites.detail.title' | translate }}
-    </h1>
+    <h1>{{ 'sites.detail.title' | translate }}</h1>
   </div>
-  <mat-card
-    *ngIf="site() as currentSite"
-    class="detail-card">
 
-    <mat-card-header>
+  <mat-card *ngIf="site() as currentSite" class="detail-card">
 
-      <mat-card-title>
-        {{ currentSite.name }}
-      </mat-card-title>
-
-      <mat-card-subtitle>
-        {{ currentSite.address }}
-      </mat-card-subtitle>
-
-    </mat-card-header>
+    <div class="card-header-content">
+      <div class="site-avatar">{{ currentSite.name | slice:0:2 | uppercase }}</div>
+      <div>
+        <mat-card-title>{{ currentSite.name }}</mat-card-title>
+        <mat-card-subtitle>
+          <mat-icon class="location-icon">location_on</mat-icon>
+          {{ currentSite.address }}
+        </mat-card-subtitle>
+      </div>
+    </div>
 
     <mat-card-content>
+
+      <p class="section-label">{{ 'sites.details.contactInfo' | translate }}</p>
 
       <div class="detail-grid">
 
         <div class="detail-item">
           <span class="label">
+            <mat-icon class="field-icon">person</mat-icon>
             {{ 'sites.detail.contactName' | translate }}
           </span>
-          <span class="value">
-            {{ currentSite.contactName }}
-          </span>
+          <span class="value">{{ currentSite.contactName }}</span>
         </div>
 
         <div class="detail-item">
           <span class="label">
+            <mat-icon class="field-icon">phone</mat-icon>
             {{ 'sites.detail.contactPhone' | translate }}
           </span>
-          <span class="value">
-            {{ currentSite.phone }}
-          </span>
+          <span class="value">{{ currentSite.phone }}</span>
         </div>
 
-        <div class="detail-item">
-          <span class="label">
-            {{ 'sites.detail.createdAt' | translate }}
-          </span>
-          <span class="value">
-            {{ currentSite.created }}
-          </span>
-        </div>
-        <div class="detail-item">
-          <span class="label">
-            {{ 'sites.detail.updatedAt' | translate }}
-          </span>
-          <span class="value">
-            {{ currentSite.updated }}
-          </span>
-        </div>
       </div>
+
     </mat-card-content>
+
   </mat-card>
+
 </section>

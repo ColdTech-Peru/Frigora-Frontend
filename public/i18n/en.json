@@ -174,13 +174,15 @@
   },
 
   "sites": {
+    "details": {
+      "contactInfo": "Contact Info"
+    },
     "list": {
       "title": "Sites",
       "name": "Site Name",
       "address": "Address",
       "empty": "No sites found."
     },
-
     "new": {
       "title": "New Site",
       "name": "Name",

@@ -89,6 +89,14 @@
 
           </button>
 
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="deleteSite(site.id)"
+            [matTooltip]="'common.delete' | translate">
+            <mat-icon>delete</mat-icon>
+          </button>
+
         </td>
       </ng-container>
 
