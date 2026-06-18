@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 export class MonitoringApiService {
   private equipmentsEndpoint = `${environment.apiBaseUrl}${environment.equipmentsEndpointPath}`;
   private alertsEndpoint = `${environment.apiBaseUrl}${environment.alertsEndpointPath}`;
-  private readingsEndpoint = `${environment.apiBaseUrl}/readings`;
+  private readingsEndpoint = `${environment.apiBaseUrl}/equipment`;
 
   constructor(private http: HttpClient) {}
 

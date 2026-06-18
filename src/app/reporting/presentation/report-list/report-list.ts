@@ -9,21 +9,12 @@ import { Router, RouterModule } from '@angular/router';
 import { ReportEntity } from '../../domain/model/report.entity';
 
 import { ReportingService } from '../../application/reporting.service';
-
-/* Angular Material */
-
 import { MatTableModule } from '@angular/material/table';
-
 import { MatButtonModule } from '@angular/material/button';
-
 import { MatIconModule } from '@angular/material/icon';
-
 import { MatPaginatorModule } from '@angular/material/paginator';
-
 import { MatFormFieldModule } from '@angular/material/form-field';
-
 import { MatSelectModule } from '@angular/material/select';
-
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -36,9 +27,6 @@ import { TranslatePipe } from '@ngx-translate/core';
     CommonModule,
     RouterModule,
     FormsModule,
-
-    /* Material */
-
     MatTableModule,
     MatButtonModule,
     MatIconModule,

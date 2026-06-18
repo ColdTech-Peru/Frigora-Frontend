@@ -1,26 +1,38 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { AssetsManagementStore } from '../../../application/assets-management.store';
-import { MatTableModule } from '@angular/material/table';
+
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-site-detail',
-  // This is a standalone component so it can be lazy-loaded via loadComponent
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
-    MatTableModule,
-    MatButtonModule],
+    MatButtonModule,
+    MatCardModule,
+    MatIcon
+  ],
   templateUrl: './site-detail.html',
-  styleUrls: ['./site-detail.css'],
+  styleUrls: ['./site-detail.css']
 })
 export class SiteDetail {
-  public store = inject(AssetsManagementStore);
-  // Definimos las columnas que se renderizarán en la tabla de Material
-  displayedColumns: string[] = ['contactName', 'phone', 'created', 'updated'];
+
+  private store = inject(AssetsManagementStore);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
+  public siteId =
+    this.route.snapshot.paramMap.get('id') ?? '';
+
+  public site =
+    this.store.getSitesById(this.siteId);
+
 }

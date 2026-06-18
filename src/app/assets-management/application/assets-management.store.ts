@@ -1,7 +1,6 @@
 import { computed, Injectable, Signal, signal } from '@angular/core';
 import { Sites } from '../domain/model/sites.entity';
 import { AssetsManagementApi } from '../infrastructure/assets-management-api';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root'})
 export class AssetsManagementStore{
@@ -34,7 +33,11 @@ export class AssetsManagementStore{
   }
 
   getSitesById(id: string): Signal<Sites | undefined> {
-    return computed(()=> id ? this.sites().find(c => c.id === id) : undefined);
+    return computed(() =>
+      this.sites().find(
+        site => String(site.id) === id
+      )
+    );
   }
 
   addSite(site: Sites): void {
@@ -47,6 +50,24 @@ export class AssetsManagementStore{
       },
       error: error => {
         this.errorSignal.set(this.formatError(error, 'Failed to create site'));
+        this.loadingSignal.set(false);
+      }
+    });
+  }
+
+  deleteSite(id: string, onSuccess?: () => void): void {
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+    this.assetsManagementApi.deleteSite(id).subscribe({
+      next: () => {
+        this.sitesSignal.update(sites =>
+          sites.filter(s => String(s.id) !== String(id))
+        );
+        this.loadingSignal.set(false);
+        onSuccess?.();
+      },
+      error: error => {
+        this.errorSignal.set(this.formatError(error, 'Failed to delete site'));
         this.loadingSignal.set(false);
       }
     });

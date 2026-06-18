@@ -7,21 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ReportEntity } from '../../domain/model/report.entity';
-
 import { ReportingService } from '../../application/reporting.service';
-
-/* Angular Material */
-
 import { MatButtonModule } from '@angular/material/button';
-
 import { MatIconModule } from '@angular/material/icon';
-
 import { MatCardModule } from '@angular/material/card';
-
 import { MatFormFieldModule } from '@angular/material/form-field';
-
 import { MatInputModule } from '@angular/material/input';
-
 import { MatSelectModule } from '@angular/material/select';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -33,9 +24,6 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [
     CommonModule,
     FormsModule,
-
-    /* Material */
-
     MatButtonModule,
     MatIconModule,
     MatCardModule,

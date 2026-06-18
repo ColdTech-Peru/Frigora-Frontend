@@ -1,0 +1,57 @@
+<div class="login-page">
+
+  <!-- Panel izquierdo -->
+  <div class="login-brand">
+    <img src="/logo.png" alt="Logo">
+  </div>
+
+  <div class="language-switcher">
+    <app-language-switcher />
+  </div>
+
+  <!-- Panel derecho -->
+  <div class="login-form-container">
+    <div class="login-content">
+
+      <h1>{{ 'auth.login.title' | translate }}</h1>
+
+      <p class="register-link">
+        {{ 'auth.login.noAccount' | translate }}
+        <a routerLink="/auth/register">
+          {{ 'auth.login.createAccount' | translate }}
+        </a>
+      </p>
+
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        class="auth-form">
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'auth.login.username' | translate }}</mat-label>
+          <input matInput formControlName="username">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'auth.login.password' | translate }}</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password">
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          class="submit-button">
+
+          {{ 'auth.login.cta' | translate }}
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

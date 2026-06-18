@@ -3,42 +3,85 @@
     "appName": "Frigora",
     "actions": "Acciones",
     "cancel": "Cancelar",
-    "view-details": "Ver Detalles"
-  },
-
-  "nav": {
-    "dashboard": "Dashboard",
+    "view-details": "Ver detalles",
     "save": "Guardar",
     "update": "Actualizar",
-    "cancel": "Cancelar",
-    "back": "Volver",
+    "back": "Atrás",
     "close": "Cerrar",
     "delete": "Eliminar",
     "edit": "Editar",
+    "title": "Estado",
     "view": "Ver",
-    "actions": "Acciones",
-    "all": "Todos",
+    "all": "Todo",
     "yes": "Sí",
     "no": "No",
+    "required-field": "Campo requerido"
+  },
+
+  "nav": {
+    "dashboard": "Panel",
     "sites": "Sitios",
     "equipments": "Equipos",
     "services": "Servicios",
     "alerts": "Alertas",
-    "reports": "Reportes"
+    "reports": "Reportes",
+    "monitoring": "Monitoreo",
+    "reporting": "Reportes",
+    "provider_dashboard": "Panel de Proveedor",
+    "provider_services": "Servicios de Proveedor",
+    "technician_management": "Gestión de Técnicos",
+    "services_hub": "Centro de Servicios",
+    "service-list": "Lista de Servicios",
+    "completed-services": "Servicios Completados",
+    "rejected-canceled": "Servicios Rechazados y Cancelados",
+    "in-progress": "Servicios En Progreso"
+  },
+
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "firstName": "Nombre",
+      "username": "Usuario",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "cta": "Iniciar sesión",
+      "submit": "Iniciar sesión",
+      "error": "Usuario o contraseña inválidos",
+      "noAccount": "¿Aún no estás registrado?",
+      "createAccount": "Crear una cuenta"
+    },
+    "register": {
+      "alreadyHaveAccountText": "¿Ya tienes una cuenta?",
+      "title": "Crear cuenta",
+      "alreadyHaveAccount": "Iniciar sesión",
+      "selectRole": "Selecciona tu rol",
+      "cta": "Registrarse",
+      "signIn": "Iniciar sesión",
+      "roles": {
+        "owner": "Propietario",
+        "ownerDesc": "Administra tus sitios y equipos",
+        "provider": "Proveedor de servicios",
+        "providerDesc": "Ofrece servicios a propietarios"
+      }
+    },
+    "errors": {
+      "invalidCredentials": "Correo o contraseña incorrectos.",
+      "occurred": "Ocurrió un error"
+    }
   },
 
   "dashboard": {
-    "title": "Panel de Control",
-    "recentAlerts": "Alertas Recientes",
-    "chartTitle": "Tendencia de Temperatura",
+    "title": "Panel",
+    "recentAlerts": "Alertas recientes",
+    "chartTitle": "Tendencia de temperatura",
     "kpis": {
       "equipments": "Equipos",
-      "alerts": "Alertas Activas",
-      "orders": "Órdenes de Trabajo",
-      "avgTemp": "Temp. Promedio"
+      "alerts": "Alertas activas",
+      "orders": "Órdenes de trabajo",
+      "avgTemp": "Temp. promedio"
     },
     "trends": {
-      "temperature": "Tendencia de Temperatura"
+      "temperature": "Tendencia de temperatura"
     },
     "alerts": {
       "date": "Fecha",
@@ -59,14 +102,15 @@
       "severities": {
         "critical": "Crítico",
         "warning": "Advertencia",
-        "info": "Info",
+        "info": "Información",
         "High": "Alto"
       },
       "statuses": {
-        "open": "Abierta",
-        "acknowledged": "Reconocida",
-        "resolved": "Resuelta",
-        "closed": "Cerrada"
+        "open": "Abierto",
+        "acknowledged": "Reconocido",
+        "resolved": "Resuelto",
+        "closed": "Cerrado",
+        "active": "Activo"
       },
       "actions": {
         "acknowledge": "Reconocer"
@@ -77,7 +121,7 @@
   "monitoring": {
     "equipment": {
       "title": "Equipos monitoreados",
-      "subtitle": "Visualiza el estado actual de los equipos de refrigeración.",
+      "subtitle": "Ver el estado actual de los equipos de refrigeración.",
       "add": "Agregar equipo",
       "alerts": "Ver alertas",
       "detail": "Ver detalle",
@@ -87,16 +131,16 @@
       "serial": "Serie",
       "status": "Estado",
       "currentTemperature": "Temperatura actual",
-      "setPoint": "Set Point",
-      "online": "Online",
-      "offline": "Offline"
+      "setPoint": "Punto de ajuste",
+      "online": "En línea",
+      "offline": "Fuera de línea"
     },
 
     "form": {
       "title": "Agregar equipo",
-      "subtitle": "Registra un nuevo equipo de refrigeración para monitoreo.",
+      "subtitle": "Registrar un nuevo equipo de refrigeración para monitoreo.",
       "back": "Volver a equipos",
-      "equipmentId": "ID de equipo",
+      "equipmentId": "ID del equipo",
       "name": "Nombre",
       "model": "Modelo",
       "type": "Tipo",
@@ -104,7 +148,7 @@
       "status": "Estado",
       "manufacturer": "Fabricante",
       "installed": "Fecha de instalación",
-      "setPoint": "Set Point",
+      "setPoint": "Punto de ajuste",
       "currentTemperature": "Temperatura actual",
       "connectionStatus": "Estado de conexión",
       "save": "Guardar equipo",
@@ -120,47 +164,45 @@
       "status": "Estado",
       "created": "Creado",
       "acknowledge": "Reconocer",
-      "delete": "Eliminar",
-      "loading": "Cargando alertas..."
+      "delete": "Eliminar"
     },
 
     "reports": "Reportes",
-    "provider_dashboard": "Inicio",
+    "provider_dashboard": "Panel",
     "provider_services": "Servicios",
     "technician_management": "Técnicos"
   },
 
   "sites": {
+    "details": {
+      "contactInfo": "Info de contacto"
+    },
     "list": {
       "title": "Sitios",
-      "name": "Nombre del Sitio",
+      "name": "Nombre del sitio",
       "address": "Dirección",
-      "empty": "No se encontraron sitios registrados."
+      "empty": "No se encontraron sitios."
     },
 
     "new": {
-      "title": "Nuevo Sitio",
+      "title": "Nuevo sitio",
       "name": "Nombre",
       "address": "Dirección",
-      "contact-name": "Nombre de Contacto",
+      "contact-name": "Nombre de contacto",
       "phone": "Teléfono",
       "register": "Registrar",
-      "alert-required-fields": "Por favor, complete todos los campos obligatorios.",
-      "alert-site-created": "Sitio creado con éxito.",
-      "alert-create-error": "Ocurrió un error al crear el sitio."
+      "alert-required-fields": "Por favor completa todos los campos obligatorios.",
+      "alert-site-created": "Sitio creado correctamente.",
+      "alert-create-error": "Error al crear el sitio."
     },
 
     "detail": {
-      "title": "Detalles del Sitio",
-      "contactName": "Nombre de Contacto",
-      "contactPhone": "Teléfono de Contacto",
-      "createdAt": "Fecha de Creación",
-      "updatedAt": "Última Actualización"
+      "title": "Detalles del sitio",
+      "contactName": "Nombre de contacto",
+      "contactPhone": "Teléfono de contacto",
+      "createdAt": "Creado el",
+      "updatedAt": "Actualizado el"
     }
-  },
-
-  "errors": {
-    "occurred": "Ocurrió un error"
   },
 
   "reports": {
@@ -205,14 +247,14 @@
       "content": "Contenido",
       "url": "URL",
       "status": "Estado",
-      "generatedAt": "Fecha de generación"
+      "generatedAt": "Generado el"
     },
 
     "placeholders": {
-      "title": "Ingrese el título del reporte",
-      "summary": "Ingrese un resumen del reporte",
-      "content": "Ingrese el contenido del reporte",
-      "url": "Ingrese la URL del reporte"
+      "title": "Ingresa el título del reporte",
+      "summary": "Ingresa un resumen del reporte",
+      "content": "Ingresa el contenido del reporte",
+      "url": "Ingresa la URL del reporte"
     },
 
     "validation": {
@@ -248,9 +290,9 @@
   },
 
   "service-request": {
-    "requests": "Mis Solicitudes de Servicio",
-    "button": "Nueva Solicitud de Servicio",
-    "newService": "Nueva Solicitud de Servicio",
+    "requests": "Mis solicitudes de servicio",
+    "button": "Nueva solicitud de servicio",
+    "newService": "Nueva solicitud de servicio",
     "site": "Sitio",
     "equipment": "Equipo",
     "requestType": "Tipo de solicitud",
@@ -262,14 +304,151 @@
     "status": "Estado",
     "actions": "Acciones",
     "requestDetails": "Detalles de la solicitud",
-    "createdAt": "Creado en",
-    "completedAt": "Completado en",
-    "request": "Solicitud de Servicio",
-    "equipmentDetails": "Ver Detalles Del Equipo"
+    "createdAt": "Creado el",
+    "completedAt": "Completado el",
+    "request": "Solicitud de servicio",
+    "equipmentDetails": "Ver detalles del equipo"
   },
 
   "footer": {
     "rights": "Todos los derechos reservados.",
     "powered-by": "Desarrollado por"
+  },
+
+  "provider": {
+    "dashboard": {
+      "title": "Panel",
+      "new-requests": "Nuevas solicitudes",
+      "active-services": "Servicios activos",
+      "my-technicians": "Mis técnicos",
+      "all-services": "Todos los servicios",
+      "all-services-description": "Ir a la lista completa de servicios.",
+      "view-all-services": "Ver todos los servicios",
+      "pending-requests": "Solicitudes pendientes",
+      "refresh-list": "Actualizar lista",
+      "id": "ID",
+      "description": "Descripción",
+      "site": "Sitio",
+      "priority": "Prioridad",
+      "actions": "Acciones",
+      "accept": "Aceptar",
+      "reject": "Rechazar",
+      "no-pending-requests": "No hay solicitudes pendientes."
+    },
+
+    "services": {
+      "title": "Solicitudes de servicio de técnicos",
+      "hub": {
+        "title": "Centro de gestión de servicios",
+        "pending-requests": "Solicitudes pendientes",
+        "pending-requests-description": "Esperando aceptación",
+        "in-progress": "En progreso",
+        "in-progress-description": "Aceptado o asignado",
+        "completed": "Completado",
+        "completed-description": "Servicios finalizados",
+        "rejected-canceled": "Rechazados / Cancelados",
+        "rejected-canceled-description": "No continuarán"
+      },
+      "list": {
+        "status": "Estado:",
+        "client": "Cliente:",
+        "search-by-client": "Buscar por nombre del cliente",
+        "order-number": "Orden #",
+        "site": "Sitio",
+        "actions": "Acciones",
+        "view-details": "Ver detalles"
+      },
+      "requests": {
+        "equipment": "Equipo"
+      },
+      "completed": {
+        "title": "Servicios Completados",
+        "no-completed-services": "Servicios Incompletos",
+        "id": "Id",
+        "description": "Descripción",
+        "site": "Sitio",
+        "technician": "Técnico",
+        "completed-at": "Completado en"
+      },
+      "rejected-canceled": {
+        "title": "Servicios Cancelados",
+        "no-rejected-canceled-services": "No hay servicios cancelados",
+        "id": "Id",
+        "description": "Descripción",
+        "site": "Sitio",
+        "status": "Estado",
+        "date": "Fecha"
+      },
+      "status": {
+        "rejected": "Rechazado",
+        "canceled": "Cancelado",
+        "completed": "Completado",
+        "pending": "Pendiente",
+        "accepted": "Aceptado",
+        "inProgress": "En Progreso"
+      },
+      "in-progress": {
+        "title": "Servicios En Progreso",
+        "id": "Id",
+        "description": "Descripción",
+        "status": "Estado",
+        "technician": "Técnico",
+        "actions": "Acciones",
+        "empty": "No hay solicitudes de servicio en progreso",
+        "not-assigned": "No Asignado",
+        "complete": "Marcar como completado",
+        "select-technician": "Seleccionar Técnico",
+        "assign": "Asignar"
+      }
+    },
+
+    "technicians": {
+      "title": "Gestión de técnicos",
+      "register-new": "Registrar nuevo técnico",
+      "name": "Nombre",
+      "specialty": "Especialidad",
+      "phone": "Teléfono",
+      "register": "Registrar",
+      "my-technicians": "Mis técnicos",
+      "average-rating": "Calificación promedio",
+      "actions": "Acciones",
+      "no-technicians": "No hay técnicos. Registra uno para comenzar.",
+      "edit-technician": "Editar técnico",
+      "confirm-delete": "¿Estás seguro de que deseas eliminar a {name}?",
+      "confirm-delete-header": "Confirmar eliminación"
+    }
+  },
+
+  "validation": {
+    "required": "{field} es obligatorio",
+    "email": "Ingresa un correo válido",
+    "min": "Mínimo {min}",
+    "max": "Máximo {max}"
+  },
+
+  "dates": {
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "period": "{start} – {end}"
+  },
+
+  "notifications": {
+    "title": "Notificaciones",
+    "empty": "¡Estás al día!",
+    "markAllRead": "Marcar todo como leído"
+  },
+
+  "table": {
+    "rows": "{count, plural, one {# fila} other {# filas}}"
+  },
+
+  "errors": {
+    "occurred": "Ocurrió un error"
+  },
+
+  "map": {
+    "selected-location": "Ubicación seleccionada",
+    "address": "Dirección",
+    "coordinates": "Coordenadas"
   }
 }

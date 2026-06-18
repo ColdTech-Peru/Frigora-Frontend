@@ -1,0 +1,101 @@
+<div class="register-page">
+
+  <!-- Panel izquierdo -->
+  <div class="register-brand">
+    <img src="/freezer.png" alt="Logo">
+  </div>
+
+  <div class="language-switcher">
+    <app-language-switcher />
+  </div>
+
+  <div class="register-form-container">
+    <div class="register-content">
+
+      <h1>{{ 'auth.register.title' | translate }}</h1>
+
+      <p class="login-link">
+        {{ 'auth.register.alreadyHaveAccountText' | translate }}
+        <a routerLink="/auth/login">
+          {{ 'auth.register.alreadyHaveAccount' | translate }}
+        </a>
+      </p>
+
+      <form [formGroup]="registerForm"
+            (ngSubmit)="onSubmit()"
+            class="auth-form">
+
+        <!-- ROLE -->
+        <div class="role-section">
+
+          <label class="role-label">
+            {{ 'auth.register.selectRole' | translate }}
+          </label>
+
+          <mat-radio-group
+            formControlName="roles"
+            class="role-group">
+
+            <mat-radio-button
+              *ngFor="let option of roleOptions"
+              [value]="option.value">
+
+              <div class="role-option-content">
+                <span class="role-title">
+                  {{ option.label }}
+                </span>
+
+                <span class="role-desc">
+                  {{ option.description }}
+                </span>
+              </div>
+
+            </mat-radio-button>
+
+          </mat-radio-group>
+        </div>
+
+        <!-- NAME -->
+        <mat-form-field appearance="outline">
+          <mat-label>
+            {{ 'auth.login.firstName' | translate }}
+          </mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+
+        <!-- USERNAME -->
+        <mat-form-field appearance="outline">
+          <mat-label>
+            {{ 'auth.login.username' | translate }}
+          </mat-label>
+          <input matInput formControlName="username">
+        </mat-form-field>
+
+        <!-- PASSWORD -->
+        <mat-form-field appearance="outline">
+          <mat-label>
+            {{ 'auth.login.password' | translate }}
+          </mat-label>
+          <input matInput type="password" formControlName="password">
+        </mat-form-field>
+
+        <!-- BUTTON -->
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+          [disabled]="registerForm.invalid || loading">
+
+          <span *ngIf="!loading">
+            {{ 'auth.register.cta' | translate }}
+          </span>
+
+          <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>

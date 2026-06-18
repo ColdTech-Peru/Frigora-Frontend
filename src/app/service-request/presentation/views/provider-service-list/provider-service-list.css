@@ -1,0 +1,39 @@
+.list-container { padding: 24px; background-color: #fcfaf8; min-height: 100vh; }
+.page-title { font-size: 28px; font-weight: 700; color: #4a4242; margin-bottom: 24px; }
+
+.filter-card, .table-card { border-radius: 12px !important; margin-bottom: 24px; box-shadow: 0 4px 16px rgba(200, 195, 195, 0.2) !important; }
+.filter-content { display: flex; gap: 16px; align-items: center; }
+
+.full-width-table { width: 100%; }
+
+::ng-deep .chip-pending {
+  background: #ffebee !important;
+  color: #c62828 !important;
+}
+
+::ng-deep .chip-accepted {
+  background: #fff8e1 !important;
+  color: #f57f17 !important;
+}
+
+::ng-deep .chip-inProgress {
+  background: #e3f2fd !important;
+  color: #1565c0 !important;
+}
+
+::ng-deep .chip-completed {
+  background: #e8f5e9 !important;
+  color: #2e7d32 !important;
+}
+
+::ng-deep .chip-canceled {
+  background: #eeeeee !important;
+  color: #616161 !important;
+}
+
+::ng-deep .chip-rejected {
+  background: #fce4ec !important;
+  color: #ad1457 !important;
+}
+
+mat-form-field { width: 250px; }

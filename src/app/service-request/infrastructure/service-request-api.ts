@@ -1,86 +1,81 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { BaseApi } from '../../shared/infrastructure/base-api';
-import { ServiceRequest } from '../domain/model/service-request.entity';
-import { ServiceRequestsApiEndpoint } from './service-request-api-endpoint';
 import { environment } from '../../../environments/environment';
 
-const interventionsPath =
-  `${environment.apiBaseUrl}${environment.interventionsEndpointPath}`;
-
-/**
- * @class ServiceRequestsApi
- * @description A class for interacting with the service requests API.
- * @extends BaseApi
- * @author Alejandro Galindo
- */
 @Injectable({ providedIn: 'root' })
 export class ServiceRequestsApi extends BaseApi {
 
-  private readonly servicesEndpoint: ServiceRequestsApiEndpoint;
+  private readonly basePath = `${environment.apiBaseUrl}/service-requests`;
+  private readonly interventionsPath = `${environment.apiBaseUrl}/interventions`;
 
   constructor(protected http: HttpClient) {
     super();
-    this.servicesEndpoint = new ServiceRequestsApiEndpoint(http);
+  }
+  sendNewRequestCommand(command: object): Observable<any> {
+    return this.http.post(this.basePath, command);
   }
 
-  /**
-   * @description Send a command to create a new service request.
-   * @param command - The new request command.
-   */
-  sendNewRequestCommand(command: object): Observable<ServiceRequest> {
-    return this.servicesEndpoint.create(command as ServiceRequest);
+  sendAcceptRequestCommand(requestId: string | number): Observable<any> {
+    return this.http.patch(`${this.basePath}/${requestId}/accept`, {});
   }
 
-  /**
-   * @description Send a command to cancel a service request.
-   * @param requestId - The ID of the request to cancel.
-   */
-  sendCancelRequestCommand(requestId: string | number): Observable<object> {
-    return this.http.patch(
-      `${this.servicesEndpoint.resourcePath}/${requestId}/cancel`, {}
+  sendRejectRequestCommand(requestId: string | number): Observable<any> {
+    return this.http.patch(`${this.basePath}/${requestId}/reject`, {});
+  }
+
+  sendCancelRequestCommand(requestId: string | number): Observable<any> {
+    return this.http.patch(`${this.basePath}/${requestId}/cancel`, {});
+  }
+
+  sendAssignTechnicianCommand(requestId: string | number, technicianId: string | number): Observable<any> {
+    return this.http.patch(`${this.basePath}/${requestId}/assign-technician`, { technicianId });
+  }
+
+  sendCompleteRequestCommand(requestId: string | number): Observable<any> {
+    return this.http.patch(`${this.basePath}/${requestId}/complete`, {});
+  }
+  getAllServiceRequestsQuery(): Observable<any[]> {
+    return this.http.get<any[]>(this.basePath);
+  }
+
+  deleteServiceRequest(requestId: string | number) {
+    return this.http.delete(
+      `${this.basePath}/${requestId}`
     );
   }
 
-  /**
-   * @description Send a command to delete a service request permanently.
-   * Uses the base endpoint delete method which performs a DELETE HTTP request.
-   * @param requestId - The ID of the request to delete.
-   */
-  sendDeleteRequestCommand(requestId: string | number): Observable<void> {
-    return this.servicesEndpoint.delete(requestId);
+  getServiceRequestDetailsQuery(requestId: string | number): Observable<any> {
+    return this.http.get(`${this.basePath}/${requestId}`);
   }
 
-  /**
-   * @description Send a command to record a new intervention.
-   * @param command - The new intervention command payload.
-   */
-  sendRecordInterventionCommand(command: object): Observable<object> {
-    return this.http.post(interventionsPath, command);
+  getRequestsByRequesterQuery(requesterId: string | number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.basePath}/requester/${requesterId}`);
+  }
+  getRequestsForProviderQuery(
+    providerId: string | number,
+    status: string | null = null
+  ): Observable<any[]> {
+    let params = new HttpParams();
+    if (status) {
+      params = params.set('status', status);
+    }
+    return this.http.get<any[]>(
+      `${this.basePath}/provider/${providerId}`,
+      { params }
+    );
   }
 
-  /**
-   * @description Retrieves all service requests.
-   */
-  getAllServiceRequestsQuery(): Observable<ServiceRequest[]> {
-    return this.servicesEndpoint.getAll();
+  sendRecordInterventionCommand(command: object): Observable<any> {
+    return this.http.post(this.interventionsPath, command);
   }
 
-  /**
-   * @description Retrieves a service request by ID.
-   * @param requestId - The service request ID.
-   */
-  getServiceRequestDetailsQuery(requestId: string | number): Observable<ServiceRequest> {
-    return this.servicesEndpoint.getById(requestId);
+  getInterventionsByRequestQuery(serviceRequestId: string | number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.interventionsPath}/serviceRequest/${serviceRequestId}`);
   }
 
-  /**
-   * @description Get all interventions for a specific service request.
-   * @param serviceRequestId - The ID of the service request.
-   */
-  getInterventionsByRequestQuery(serviceRequestId: string | number): Observable<object> {
-    return this.http.get(`${interventionsPath}?serviceRequestId=${serviceRequestId}`);
+  getInterventionsDetailQuery(interventionId: string | number): Observable<any> {
+    return this.http.get(`${this.interventionsPath}/${interventionId}`);
   }
 }

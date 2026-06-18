@@ -1,6 +1,6 @@
 .dashboard-container {
   min-height: 100vh;
-  background-color: #f8f9fa; /* Un fondo gris muy claro para resaltar las tarjetas blancas */
+  background-color: #f8f9fa;
 }
 
 .relative-container {
@@ -14,7 +14,6 @@
   z-index: 1000;
 }
 
-/* Colores personalizados para los chips de temperatura */
 .bg-blue-100 {
   background-color: #e3f2fd !important;
 }
@@ -23,7 +22,6 @@
   background-color: #fff3e0 !important;
 }
 
-/* Clases de utilidad si no usas PrimeFlex */
 .flex { display: flex; }
 .flex-column { flex-direction: column; }
 .align-items-center { align-items: center; }

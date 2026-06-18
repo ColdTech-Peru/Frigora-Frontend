@@ -1,65 +1,51 @@
-<section class="p-4">
-  <h1 class="text-2xl font-semibold mb-4">{{ 'sites.detail.title' | translate }}</h1>
+<section class="site-detail-container">
 
-  <div class="flex flex-col gap-4">
+  <div class="header">
+    <button mat-icon-button routerLink="/sites">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ 'sites.detail.title' | translate }}</h1>
+  </div>
 
-    <!-- Contenedor para aplicar algo de sombra/estilo opcional -->
-    <div class="mat-elevation-z8 overflow-x-auto">
+  <mat-card *ngIf="site() as currentSite" class="detail-card">
 
-      <!-- Tabla de Angular Material. dataSource lee nuestro Signal -->
-      <table mat-table [dataSource]="store.sites()" class="w-full">
+    <div class="card-header-content">
+      <div class="site-avatar">{{ currentSite.name | slice:0:2 | uppercase }}</div>
+      <div>
+        <mat-card-title>{{ currentSite.name }}</mat-card-title>
+        <mat-card-subtitle>
+          <mat-icon class="location-icon">location_on</mat-icon>
+          {{ currentSite.address }}
+        </mat-card-subtitle>
+      </div>
+    </div>
 
-        <!-- Columna: Contact Name -->
-        <ng-container matColumnDef="contactName">
-          <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.contactName' | translate }} </th>
-          <td mat-cell *matCellDef="let site"> {{ site.contactName }} </td>
-        </ng-container>
+    <mat-card-content>
 
-        <!-- Columna: Contact Phone -->
-        <ng-container matColumnDef="phone">
-          <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.contactPhone' | translate }} </th>
-          <td mat-cell *matCellDef="let site">
-            <span style="font-weight: bold;">{{ site.phone }}</span>
-          </td>
-        </ng-container>
+      <p class="section-label">{{ 'sites.details.contactInfo' | translate }}</p>
 
-        <!-- Columna: Created At -->
-        <ng-container matColumnDef="created">
-          <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.createdAt' | translate }} </th>
-          <td mat-cell *matCellDef="let site"> {{ site.created }} </td>
-        </ng-container>
+      <div class="detail-grid">
 
-        <!-- Columna: Updated At -->
-        <ng-container matColumnDef="updated">
-          <th mat-header-cell *matHeaderCellDef> {{ 'sites.detail.updatedAt' | translate }} </th>
-          <td mat-cell *matCellDef="let site"> {{ site.updated }} </td>
-        </ng-container>
+        <div class="detail-item">
+          <span class="label">
+            <mat-icon class="field-icon">person</mat-icon>
+            {{ 'sites.detail.contactName' | translate }}
+          </span>
+          <span class="value">{{ currentSite.contactName }}</span>
+        </div>
 
-        <!-- Filas Header y Data -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+        <div class="detail-item">
+          <span class="label">
+            <mat-icon class="field-icon">phone</mat-icon>
+            {{ 'sites.detail.contactPhone' | translate }}
+          </span>
+          <span class="value">{{ currentSite.phone }}</span>
+        </div>
 
-      <!-- Mensaje de Loading -->
-      <div *ngIf="store.loading()" class="p-4 text-center">
-        Cargando datos...
       </div>
 
-    </div>
+    </mat-card-content>
 
-    <!-- Mensaje de Error -->
-    <div *ngIf="store.error()" class="text-red-500 mt-2">
-      {{ 'errors.occurred' | translate }}: {{ store.error() }}
-    </div>
+  </mat-card>
 
-    <!-- Botón de Angular Material -->
-    <div>
-      <a [routerLink]="['/sites']">
-        <button mat-raised-button color="primary">
-          {{ 'sites.list.title' | translate }}
-        </button>
-      </a>
-    </div>
-
-  </div>
 </section>

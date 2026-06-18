@@ -11,8 +11,18 @@
 
       <div class="form-grid">
 
+        <!-- Provider — igual que en Vue -->
         <mat-form-field appearance="outline">
-          <mat-label>{{ 'service-request.site' | translate}}</mat-label>
+          <mat-label>{{ 'service-request.provider' | translate }}</mat-label>
+          <mat-select [(ngModel)]="form.assignedTo" required>
+            <mat-option *ngFor="let p of providers" [value]="p.id">
+              {{ p.username }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'service-request.site' | translate }}</mat-label>
           <mat-select [(ngModel)]="form.siteId" required>
             <mat-option *ngFor="let s of sites()" [value]="s.id">
               {{ s.name }}
@@ -21,7 +31,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>{{ 'service-request.equipment' | translate}}</mat-label>
+          <mat-label>{{ 'service-request.equipment' | translate }}</mat-label>
           <mat-select [(ngModel)]="form.equipmentId" required>
             <mat-option *ngFor="let eq of equipments()" [value]="eq.id">
               {{ eq.name }}
@@ -30,7 +40,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>{{ 'service-request.requestType' | translate}}</mat-label>
+          <mat-label>{{ 'service-request.requestType' | translate }}</mat-label>
           <mat-select [(ngModel)]="form.type" required>
             <mat-option *ngFor="let t of typeOptions" [value]="t.value">
               {{ t.label }}
@@ -39,7 +49,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>{{'service-request.priority' | translate}}</mat-label>
+          <mat-label>{{ 'service-request.priority' | translate }}</mat-label>
           <mat-select [(ngModel)]="form.priority" required>
             <mat-option *ngFor="let p of priorityOptions" [value]="p.value">
               {{ p.label }}
@@ -48,7 +58,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>{{'service-request.description' | translate}}</mat-label>
+          <mat-label>{{ 'service-request.description' | translate }}</mat-label>
           <textarea matInput rows="5" [(ngModel)]="form.description" required></textarea>
         </mat-form-field>
 
@@ -62,17 +72,14 @@
     </mat-card-content>
 
     <mat-card-actions align="end">
-
       <button mat-stroked-button (click)="navigateBack()" [disabled]="isLoading()">
         Cancel
       </button>
-
       <button mat-flat-button color="primary" (click)="saveRequest()" [disabled]="isLoading()">
         <mat-spinner *ngIf="isLoading()" diameter="18" class="btn-spinner" />
         <mat-icon *ngIf="!isLoading()">check</mat-icon>
         Submit Request
       </button>
-
     </mat-card-actions>
   </mat-card>
 
