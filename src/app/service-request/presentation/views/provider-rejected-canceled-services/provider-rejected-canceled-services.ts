@@ -12,7 +12,6 @@ import { AssetsManagementApi } from '../../../../assets-management/infrastructur
 import { AuthStoreService } from '../../../../iam/application/iam.store';
 import { ServiceRequestAssembler } from '../../../infrastructure/service-request-assembler';
 
-
 @Component({
   selector: 'app-provider-rejected-canceled-services',
   standalone: true,
@@ -40,7 +39,6 @@ export class ProviderRejectedCanceledServicesComponent implements OnInit {
   public translate = inject(TranslateService);
 
   get currentProviderId(): string | number | null {
-    // Mantenemos el mismo ID de prueba (ej. '14qTsdO') para que lea tu db.json
     return this.authStore.currentUserId;
   }
 
@@ -57,14 +55,13 @@ export class ProviderRejectedCanceledServicesComponent implements OnInit {
 
     forkJoin({
       requests: this.serviceRequestApi.getRequestsForProviderQuery(providerId as any),
-      sites: this.assetsManagementApi.getSites() // Lo traemos para mapear el siteName
+      sites: this.assetsManagementApi.getSites()
     }).subscribe({
       next: (res) => {
         const allRequests = res.requests;
         const context = { sites: res.sites };
         const assembler = new ServiceRequestAssembler();
 
-        // Filtramos y ensamblamos en un solo paso limpio
         this.rejectedCanceledRequests = allRequests
           .filter((r: any) => r.status === 'rejected' || r.status === 'canceled')
           .map((r: any) => assembler.toEntityFromResource(r, context));
