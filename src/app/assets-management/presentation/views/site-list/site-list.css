@@ -20,3 +20,15 @@ mat-dialog-content form {
 mat-form-field {
   width: 100%;
 }
+
+.map-wrapper {
+  width: 100%;
+  height: 450px;
+  margin-top: 16px;
+}
+
+app-map-location-picker {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

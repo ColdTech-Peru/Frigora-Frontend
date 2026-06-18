@@ -111,13 +111,35 @@ table thead th {
   margin-top: 16px;
 }
 
-/* Status chips */
-mat-chip.chip-pending     { background-color: #fff3e0; color: #e65100; }
-mat-chip.chip-accepted    { background-color: #e3f2fd; color: #1565c0; }
-mat-chip.chip-in-progress { background-color: #e8eaf6; color: #283593; }
-mat-chip.chip-completed   { background-color: #e8f5e9; color: #2e7d32; }
-mat-chip.chip-canceled    { background-color: #f5f5f5; color: #616161; }
-mat-chip.chip-rejected    { background-color: #fce4ec; color: #880e4f; }
+.chip-pending {
+  background-color: #fff3cd !important;
+  color: #856404 !important;
+}
+
+.chip-accepted {
+  background-color: #cfe2ff !important;
+  color: #084298 !important;
+}
+
+.chip-in-progress {
+  background-color: #d1e7dd !important;
+  color: #0f5132 !important;
+}
+
+.chip-completed {
+  background-color: #d4edda !important;
+  color: #155724 !important;
+}
+
+.chip-canceled {
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+}
+
+.chip-rejected {
+  background-color: #f8d7da !important;
+  color: #721c24 !important;
+}
 
 /* Type chips */
 mat-chip.chip-corrective  { background-color: #ffebee; color: #c62828; }
@@ -163,6 +185,72 @@ mat-chip.chip-preventive  { background-color: #fff8e1; color: #f57f17; }
 .dialog-body {
   padding: 24px;
   display: flex;
+  .review-dialog-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+
+  .review-dialog {
+    width: 420px;
+    max-width: 90vw;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    animation: scaleIn 0.2s ease-in-out;
+  }
+
+  .review-dialog h2 {
+    margin: 0 0 16px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  .review-dialog mat-form-field {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .review-dialog .flex {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .review-dialog button[mat-button] {
+    color: #6b7280;
+  }
+
+  .review-dialog button[mat-flat-button] {
+    border-radius: 8px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
   flex-direction: column;
   gap: 8px;
   color: var(--text-primary);
@@ -180,3 +268,47 @@ mat-chip.chip-preventive  { background-color: #fff8e1; color: #f57f17; }
 .full-width {
   width: 100%;
 }
+
+.review-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+}
+
+.review-dialog {
+  width: 400px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.review-title {
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+

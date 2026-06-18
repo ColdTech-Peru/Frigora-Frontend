@@ -1,0 +1,114 @@
+<div class="dashboard-container">
+  <h1 class="page-title">{{ 'provider.dashboard.title' | translate }}</h1>
+
+  <div class="kpi-grid">
+    <mat-card class="kpi-card pastel-blue">
+      <mat-card-header>
+        <mat-card-subtitle>{{ 'provider.dashboard.new-requests' | translate }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="kpi-content">
+        <mat-icon class="kpi-icon text-blue">inbox</mat-icon>
+        <span class="kpi-value text-blue">{{ kpis.pending }}</span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card pastel-orange">
+      <mat-card-header>
+        <mat-card-subtitle>{{ 'provider.dashboard.active-services' | translate }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="kpi-content">
+        <mat-icon class="kpi-icon text-orange">settings</mat-icon>
+        <span class="kpi-value text-orange">{{ kpis.active }}</span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card pastel-teal">
+      <mat-card-header>
+        <mat-card-subtitle>{{ 'provider.dashboard.my-technicians' | translate }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="kpi-content">
+        <mat-icon class="kpi-icon text-teal">group</mat-icon>
+        <span class="kpi-value text-teal">{{ kpis.technicians }}</span>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card pastel-purple action-card">
+      <mat-card-header>
+        <mat-card-subtitle>{{ 'provider.dashboard.all-services' | translate }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="action-desc">{{ 'provider.dashboard.all-services-description' | translate }}</p>
+        <button mat-button color="primary" (click)="navigateToList()">
+          {{ 'provider.dashboard.view-all-services' | translate }}
+          <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="table-card">
+    <mat-card-header class="table-header">
+      <mat-card-title>{{ 'provider.dashboard.pending-requests' | translate }}</mat-card-title>
+      <button mat-icon-button (click)="fetchData()" [matTooltip]="'provider.dashboard.refresh-list' | translate">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="loading" class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+
+      <table mat-table [dataSource]="pendingRequests" class="full-width-table" *ngIf="!loading">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> {{ 'provider.dashboard.id' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> {{ 'provider.dashboard.description' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="siteName">
+          <th mat-header-cell *matHeaderCellDef> {{ 'provider.dashboard.site' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{element.siteName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="equipmentName">
+          <th mat-header-cell *matHeaderCellDef> {{ 'provider.services.requests.equipment' | translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{element.equipmentName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="priority">
+          <th mat-header-cell *matHeaderCellDef> {{ 'provider.dashboard.priority' | translate }} </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip-set>
+              <mat-chip [ngClass]="'chip-' + element.priority">{{ element.priority }}</mat-chip>
+            </mat-chip-set>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> {{ 'provider.dashboard.actions' | translate }} </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="action-btn accept-btn" (click)="handleAccept(element.id)" [matTooltip]="'provider.dashboard.accept' | translate">
+              <mat-icon>check_circle</mat-icon>
+            </button>
+            <button mat-icon-button class="action-btn reject-btn" (click)="handleReject(element.id)" [matTooltip]="'provider.dashboard.reject' | translate">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell empty-state" colspan="6">{{ 'provider.dashboard.no-pending-requests' | translate }}</td>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

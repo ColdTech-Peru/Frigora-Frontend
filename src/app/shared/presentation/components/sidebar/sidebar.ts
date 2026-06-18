@@ -1,11 +1,10 @@
-import { Component, Input, inject } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { Router } from '@angular/router'
-import {TranslatePipe, TranslateService} from '@ngx-translate/core'
+import { TranslatePipe } from '@ngx-translate/core'
 import { CommonModule } from '@angular/common'
 import { MatExpansionModule } from '@angular/material/expansion'
 import { MatIconModule } from '@angular/material/icon'
-
-export type UserRole = 'Owner' | 'Provider'
+import { AuthStoreService } from '../../../../iam/application/iam.store'
 
 interface NavItem {
   labelKey: string
@@ -28,52 +27,55 @@ interface NavItem {
 })
 export class Sidebar {
 
-  @Input() set role(value: UserRole) {
-    this._role = value
-    this.buildMenu()
-  }
-
-  protected items: NavItem[] = []
-  protected router = inject(Router)
-
-  private _role: UserRole = 'Owner'
+  items: NavItem[] = []
+  router = inject(Router)
+  private auth = inject(AuthStoreService)
 
   constructor() {
     this.buildMenu()
   }
 
   private buildMenu(): void {
-    if (this._role === 'Provider') {
+    const role = this.auth.currentUserRole
+
+    if (role === 'Provider') {
       this.items = [
-        { labelKey: 'nav.provider_dashboard',    icon: 'dashboard',   route: '/provider-dashboard' },
+        { labelKey: 'provider.dashboard.title', icon: 'dashboard', route: '/provider/dashboard' },
+        { labelKey: 'nav.technician_management', icon: 'group', route: '/provider/technicians' },
+        { labelKey: 'nav.services_hub', icon: 'hub', route: '/provider/services-hub' },
         {
-          labelKey: 'nav.provider_services',
-          icon: 'work',
+          labelKey: 'nav.services', icon: 'build',
           children: [
-            { labelKey: 'nav.services_hub',  icon: 'account_tree', route: '/provider-services-hub' },
-            { labelKey: 'nav.all_services',  icon: 'list',         route: '/provider-services-list' },
+            { labelKey: 'nav.service-list', icon: 'list', route: '/provider/services' },
+            { labelKey: 'nav.completed-services', icon: 'check_circle', route: '/provider/services/completed' },
+            { labelKey: 'nav.rejected-canceled', icon: 'cancel', route: '/provider/services/rejected-canceled' },
+            { labelKey: 'nav.in-progress', icon: 'autorenew', route: '/provider/services/in-progress' }
           ]
         },
-        { labelKey: 'nav.technician_management', icon: 'group',      route: '/provider-technicians' },
       ]
-      return
+    } else {
+      // Owner
+      this.items = [
+        { labelKey: 'nav.dashboard', icon: 'dashboard', route: '/dashboard' },
+        { labelKey: 'nav.sites', icon: 'location_on', route: '/sites' },
+        {
+          labelKey: 'nav.monitoring', icon: 'monitor_heart',
+          children: [
+            { labelKey: 'nav.equipments', icon: 'settings', route: '/equipments' },
+            { labelKey: 'nav.alerts', icon: 'notifications', route: '/alerts' },
+          ]
+        },
+        { labelKey: 'nav.services', icon: 'build', route: '/services' },
+        { labelKey: 'nav.reporting', icon: 'bar_chart', route: '/reporting' },
+      ]
     }
-
-    this.items = [
-      { labelKey: 'nav.dashboard',  icon: 'home',          route: '/dashboard' },
-      { labelKey: 'nav.sites',      icon: 'business',      route: '/sites' },
-      { labelKey: 'nav.equipments', icon: 'dns',           route: '/equipments' },
-      { labelKey: 'nav.services',   icon: 'work',          route: '/services' },
-      { labelKey: 'nav.alerts',     icon: 'notifications', route: '/alerts' },
-      { labelKey: 'nav.reports',    icon: 'bar_chart',     route: '/reporting' },
-    ]
   }
 
-  protected navigate(route: string): void {
+  navigate(route: string): void {
     this.router.navigate([route])
   }
 
-  protected hasChildren(item: NavItem): boolean {
+  hasChildren(item: NavItem): boolean {
     return !!item.children?.length
   }
 }

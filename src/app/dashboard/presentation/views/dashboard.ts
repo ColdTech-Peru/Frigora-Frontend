@@ -40,7 +40,7 @@ export class DashboardView implements OnInit {
   }
 
   refreshDashboard(): void {
-    this.store.loadFullDashboard('t1');
+    this.store.loadFullDashboard();
   }
 
   clearErrors(): void {

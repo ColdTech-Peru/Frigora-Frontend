@@ -1,31 +1,36 @@
-import { Component, effect, inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatInputModule } from '@angular/material/input';
-
+import { firstValueFrom } from 'rxjs';
 import { ServiceRequestStore } from '../../../application/service-request-store';
 import { ServiceRequest } from '../../../domain/model/service-request.entity';
+import { ServiceRequestsApi } from '../../../infrastructure/service-request-api';
 import { TranslatePipe } from '@ngx-translate/core';
+import { FeedbackApiService } from '../../../../feedback/infrastructure/feedback-api.service';
+import { MatInput } from '@angular/material/input';
+import {IamApi} from '../../../../iam/infrastructure/iam-api';
+import {TechniciansService} from '../../../../technician/infrastructure/technicians.service';
 
-/**
- * @component ServiceRequestListComponent
- * @description Displays the paginated and filterable list of service requests.
- * @author Alejandro Galindo
- */
 @Component({
   selector: 'app-service-request-list',
   standalone: true,
@@ -38,14 +43,13 @@ import { TranslatePipe } from '@ngx-translate/core';
     MatChipsModule,
     MatSelectModule,
     MatFormFieldModule,
-    MatDialogModule,
     MatPaginatorModule,
     MatSortModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatInputModule,
-    TranslatePipe
+    TranslatePipe,
+    MatInput,
   ],
   templateUrl: './service-request-list.html',
   styleUrl: './service-request-list.css'
@@ -54,161 +58,216 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
 
   private readonly router = inject(Router);
   private readonly store = inject(ServiceRequestStore);
+  private readonly iamApi = inject(IamApi);
+  private readonly techniciansService = inject(TechniciansService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly reviewsApi = inject(FeedbackApiService);
+  private readonly api = inject(ServiceRequestsApi);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  /**
-   * @description Loading state bound directly to the store signal.
-   */
   readonly loading = this.store.loading;
-
-  /**
-   * @description Error message bound directly to the store signal.
-   */
   readonly error = this.store.error;
 
-  /**
-   * @description Columns to display in the table.
-   */
-  readonly displayedColumns = [
-    'orderNumber',
-    'createdAt',
-    'equipmentName',
-    'siteName',
-    'assignedToName',
-    'type',
-    'status',
-    'actions'
-  ];
-
   dataSource = new MatTableDataSource<ServiceRequest>([]);
-
-  /**
-   * @description Available status filter options.
-   */
-  readonly statusOptions = ['', 'pending', 'accepted', 'inProgress', 'completed', 'canceled', 'rejected'];
-
-  /**
-   * @description Available type filter options.
-   */
-  readonly typeOptions = ['', 'corrective', 'preventive'];
 
   selectedStatus = '';
   selectedType = '';
 
+  readonly statusOptions = ['', 'pending', 'accepted', 'inProgress', 'completed', 'canceled', 'rejected'];
+  readonly typeOptions = ['', 'corrective', 'preventive'];
+
+  displayedColumns = [
+    'orderNumber',
+    'equipmentName',
+    'siteName',
+    'provider',
+    'technician',
+    'status',
+    'completedAt',
+    'actions'
+  ];
+
+  reviewDialogOpen = false;
+  reviewReadOnly = false;
+  selectedRequest: ServiceRequest | null = null;
+  providersMap: Record<number, string> = {};
+  techniciansMap: Record<number, string> = {};
+
+  reviewForm = {
+    rating: 0,
+    comment: ''
+  };
+
   constructor() {
-    /**
-     * @description Reactive effect that re-applies filters whenever
-     * the store updates its service requests signal.
-     * Ensures enriched fields (equipmentName, siteName) are
-     * reflected in the table after the forkJoin completes.
-     */
     effect(() => {
-      this.store.serviceRequests(); // track signal
+      const requests = this.store.serviceRequests();
+      if (!requests) return;
       this.applyFilters();
     });
   }
 
-  /**
-   * @description Angular lifecycle hook.
-   * Triggers the store to load all requests, equipments and sites in parallel.
-   */
   ngOnInit(): void {
-    this.store.loadAll();
-  }
 
-  /**
-   * @description Angular lifecycle hook.
-   * Binds paginator and sort to the table data source after view init.
-   */
+    this.iamApi.getAllUsers().subscribe(users => {
+      this.providersMap = users.reduce((acc: any, user: any) => {
+        acc[user.id] = user.username;
+        return acc;
+      }, {});
+    });
+
+    this.store.loadAll().subscribe(async () => {
+
+      const requests = this.store.serviceRequests() ?? [];
+
+      for (const request of requests) {
+
+        if ((request as any).technicianId) {
+
+          try {
+
+            const technician: any = await firstValueFrom(
+              this.techniciansService.getTechnicianById(
+                (request as any).technicianId
+              )
+            );
+
+            this.techniciansMap[(request as any).technicianId] =
+              technician.name ||
+              technician.fullName ||
+              technician.firstName ||
+              `Technician ${(request as any).technicianId}`;
+
+          } catch (err) {
+
+            console.error(
+              `Could not load technician ${(request as any).technicianId}`,
+              err
+            );
+          }
+        }
+      }
+
+      this.applyFilters();
+    });
+  }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  /**
-   * @description Reads requests from the store, assigns order numbers,
-   * applies active filters and updates the table data source.
-   */
+  navigateToDetail(request: ServiceRequest): void {
+    this.router.navigate(['/services', request.id]);
+  }
+
+  navigateToNew(): void {
+    this.router.navigate(['/services/new']);
+  }
+
   applyFilters(): void {
-    const requests = this.store.serviceRequests();
-
-    let list = [...requests];
-
-    list.sort(
-      (a, b) =>
-        new Date(a.createdAt as string).getTime() -
-        new Date(b.createdAt as string).getTime()
-    );
-
-    list = list.map((req, index) => ({
-      ...req,
-      orderNumber: index + 1
-    }));
+    let list: ServiceRequest[] = this.store.serviceRequests() ?? [];
+    console.log('REQUESTS:', list);
+    console.log('TECHNICIANS MAP:', this.techniciansMap);
+    list = [...list];
 
     if (this.selectedStatus) {
       list = list.filter(r => r.status === this.selectedStatus);
     }
 
     if (this.selectedType) {
-      list = list.filter(r => r.type === this.selectedType);
+      list = list.filter(r => (r as any).type === this.selectedType);
     }
-
-    list.sort(
-      (a, b) =>
-        new Date(b.createdAt as string).getTime() -
-        new Date(a.createdAt as string).getTime()
-    );
+    list = list.map((req, index) => ({
+      ...req,
+      orderNumber: index + 1
+    }));
 
     this.dataSource.data = list;
+    this.cdr.detectChanges();
   }
 
-  /**
-   * @description Returns the CSS class for a given status chip.
-   * @param status - The status string.
-   */
   statusClass(status: string): string {
-    const map: Record<string, string> = {
+    return {
       pending: 'chip-pending',
       accepted: 'chip-accepted',
       inProgress: 'chip-in-progress',
       completed: 'chip-completed',
       canceled: 'chip-canceled',
-      rejected: 'chip-rejected',
-    };
-    return map[status] ?? '';
+      rejected: 'chip-rejected'
+    }[status] ?? '';
   }
 
-  /**
-   * @description Formats a date value to a locale date string.
-   * @param date - The date to format.
-   */
-  formatDate(date: string | Date): string {
-    return new Date(date).toLocaleDateString();
+  formatDate(request: any): string {
+    const date = request?.completedAt ?? request?.canceledAt ?? null;
+    if (!date) return '-';
+    const d = new Date(date);
+    return isNaN(d.getTime()) ? '-' : d.toLocaleDateString();
   }
 
-  /**
-   * @description Returns whether a request can be canceled based on its status.
-   * @param status - The current status of the request.
-   */
-  canCancel(status: string): boolean {
-    return ['pending', 'accepted'].includes(status);
+  async cancelRequest(request: ServiceRequest): Promise<void> {
+    try {
+      await firstValueFrom(this.api.sendCancelRequestCommand(request.id));
+      this.snackBar.open('Request cancelled', 'Close', { duration: 3000 });
+      await firstValueFrom(this.store.loadAll());
+    } catch (err) {
+      console.error(err);
+      this.snackBar.open('Error cancelling request', 'Close', { duration: 3000 });
+    }
   }
 
-  /**
-   * @description Navigates to the new service request form.
-   */
-  navigateToNew(): void {
-    this.router.navigate(['/services/new']);
+  openReview(request: ServiceRequest): void {
+    this.selectedRequest = request;
+    this.reviewForm = { rating: 0, comment: '' };
+    this.reviewReadOnly = false;
+    this.reviewDialogOpen = true;
   }
 
-  /**
-   * @description Navigates to the detail view of a service request.
-   * @param request - The service request to view.
-   */
-  navigateToDetail(request: ServiceRequest): void {
-    this.router.navigate(['/services', request.id]);
+  async viewReview(request: ServiceRequest): Promise<void> {
+    this.selectedRequest = request;
+    this.reviewReadOnly = true;
+    this.reviewForm = { rating: 0, comment: '' };
+
+    try {
+      const review: any = await firstValueFrom(
+        this.reviewsApi.getReviewById((request as any).reviewId)
+      );
+
+      this.reviewForm = {
+        rating: review.rating,
+        comment: review.comment
+      };
+    } catch (err) {
+      console.error('Failed to load review:', err);
+    }
+
+    this.reviewDialogOpen = true;
+  }
+
+  async submitReview(): Promise<void> {
+    if (!this.selectedRequest || this.reviewForm.rating === 0) return;
+
+    try {
+      await firstValueFrom(
+        this.reviewsApi.createReview({
+          serviceRequestId: this.selectedRequest.id,
+          technicianId: (this.selectedRequest as any).technicianId,
+          rating: this.reviewForm.rating,
+          comment: this.reviewForm.comment,
+          createdAt: new Date().toISOString()
+        })
+      );
+
+      this.snackBar.open('Review submitted', 'Close', { duration: 3000 });
+      this.reviewDialogOpen = false;
+      this.selectedRequest = null;
+
+      await firstValueFrom(this.store.loadAll());
+
+    } catch (err) {
+      console.error(err);
+      this.snackBar.open('Error submitting review', 'Close', { duration: 3000 });
+    }
   }
 }

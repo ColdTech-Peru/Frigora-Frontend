@@ -170,8 +170,6 @@ button mat-icon {
   margin-right: 6px;
 }
 
-/* RESPONSIVE */
-
 @media (max-width: 900px) {
   .page-container {
     padding: 20px;

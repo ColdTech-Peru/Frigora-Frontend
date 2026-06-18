@@ -36,7 +36,6 @@ export class TrendChart {
   labels = computed<string[]>(() => this.chartData()?.labels || []);
   values = computed<number[]>(() => this.chartData()?.datasets?.[0]?.data || []);
 
-  // Lógica matemática intacta para dibujar la línea nativa
   svgPoints = computed(() => {
     const data = this.values();
     if (data.length === 0) return '';

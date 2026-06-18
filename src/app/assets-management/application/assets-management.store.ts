@@ -1,7 +1,6 @@
 import { computed, Injectable, Signal, signal } from '@angular/core';
 import { Sites } from '../domain/model/sites.entity';
 import { AssetsManagementApi } from '../infrastructure/assets-management-api';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root'})
 export class AssetsManagementStore{
@@ -34,7 +33,11 @@ export class AssetsManagementStore{
   }
 
   getSitesById(id: string): Signal<Sites | undefined> {
-    return computed(()=> id ? this.sites().find(c => c.id === id) : undefined);
+    return computed(() =>
+      this.sites().find(
+        site => String(site.id) === id
+      )
+    );
   }
 
   addSite(site: Sites): void {

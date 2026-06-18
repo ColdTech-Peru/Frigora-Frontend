@@ -10,10 +10,12 @@
     "close": "Close",
     "delete": "Delete",
     "edit": "Edit",
+    "title": "Status",
     "view": "View",
     "all": "All",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "required-field": "Required field"
   },
 
   "nav": {
@@ -22,7 +24,50 @@
     "equipments": "Equipment",
     "services": "Services",
     "alerts": "Alerts",
-    "reports": "Reports"
+    "reports": "Reports",
+    "monitoring": "Monitoring",
+    "reporting": "Reporting",
+    "provider_dashboard": "Provider Dashboard",
+    "provider_services": "Provider Services",
+    "technician_management": "Technician Management",
+    "services_hub": "Services Hub",
+    "service-list": "Service List",
+    "completed-services": "Completed Services",
+    "rejected-canceled": "Rejected & Canceled Services",
+    "in-progress": "In-Progress Services"
+  },
+
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "firstName": "First Name",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "cta": "Sign in",
+      "submit": "Sign In",
+      "error": "Invalid username or password",
+      "noAccount": "Aren't you already registered?",
+      "createAccount": "Create an account"
+    },
+    "register": {
+      "alreadyHaveAccountText": "Already have an account?",
+      "title": "Create account",
+      "alreadyHaveAccount": "Log In",
+      "selectRole": "Select your role",
+      "cta": "Register",
+      "signIn": "Sign in",
+      "roles": {
+        "owner": "Owner",
+        "ownerDesc": "Manage your sites and equipment",
+        "provider": "Service Provider",
+        "providerDesc": "Provide services to owners"
+      }
+    },
+    "errors": {
+      "invalidCredentials": "Email or password is incorrect.",
+      "occurred": "An error occurred"
+    }
   },
 
   "dashboard": {
@@ -64,7 +109,8 @@
         "open": "Open",
         "acknowledged": "Acknowledged",
         "resolved": "Resolved",
-        "closed": "Closed"
+        "closed": "Closed",
+        "active": "Active"
       },
       "actions": {
         "acknowledge": "Acknowledge"
@@ -154,10 +200,6 @@
       "createdAt": "Created At",
       "updatedAt": "Updated At"
     }
-  },
-
-  "errors": {
-    "occurred": "An error occurred"
   },
 
   "reports": {
@@ -268,5 +310,133 @@
   "footer": {
     "rights": "All rights reserved.",
     "powered-by": "Powered by"
+  },
+  "provider": {
+    "dashboard": {
+      "title": "Dashboard",
+      "new-requests": "New Requests",
+      "active-services": "Active Services",
+      "my-technicians": "My Technicians",
+      "all-services": "All Services",
+      "all-services-description": "Go to the complete list of your services.",
+      "view-all-services": "View All Services",
+      "pending-requests": "Pending Requests",
+      "refresh-list": "Refresh List",
+      "id": "ID",
+      "description": "Description",
+      "site": "Site",
+      "priority": "Priority",
+      "actions": "Actions",
+      "accept": "Accept",
+      "reject": "Reject",
+      "no-pending-requests": "No pending requests found."
+    },
+    "services": {
+      "title": "Technician Service Requests",
+      "hub": {
+        "title": "Service Management Hub",
+        "pending-requests": "Pending Requests",
+        "pending-requests-description": "Awaiting acceptance",
+        "in-progress": "In-Progress",
+        "in-progress-description": "Accepted or assigned",
+        "completed": "Completed",
+        "completed-description": "Finished services",
+        "rejected-canceled": "Rejected / Canceled",
+        "rejected-canceled-description": "Not proceeding"
+      },
+      "list": {
+        "status": "Status:",
+        "client": "Client:",
+        "search-by-client": "Search by client name",
+        "order-number": "Order #",
+        "site": "Site",
+        "actions": "Actions",
+        "view-details": "View Details"
+      },
+      "requests": {
+        "equipment": "Equipment"
+      },
+      "completed": {
+        "title": "Completed Services",
+        "no-completed-services": "No Completed Services",
+        "id": "Id",
+        "description": "Description",
+        "site": "Site",
+        "technician": "Technician",
+        "completed-at": "Completed At"
+      },
+      "rejected-canceled": {
+        "title": "Canceled Services",
+        "no-rejected-canceled-services": "There are no cancelled services",
+        "id": "Id",
+        "description": "Description",
+        "site": "Site",
+        "status": "Status",
+        "date": "Date"
+      },
+      "status": {
+        "rejected": "Rejected",
+        "canceled": "Canceled",
+        "completed": "Completed",
+        "pending": "Pending",
+        "accepted": "Accepted",
+        "inProgress": "In Progress"
+      },
+      "in-progress": {
+        "title": "In-Progress Services",
+        "id": "Id",
+        "description": "Description",
+        "status": "Status",
+        "technician": "Technician",
+        "actions": "Actions",
+        "empty": "There are no in progress service requests",
+        "not-assigned": "Not Assigned",
+        "complete": "Mark as completed",
+        "select-technician": "Select Technician",
+        "assign": "Assign"
+      }
+    },
+    "technicians": {
+      "title": "Technician Management",
+      "register-new": "Register New Technician",
+      "name": "Name",
+      "specialty": "Specialty",
+      "phone": "Phone",
+      "register": "Register",
+      "my-technicians": "My Technicians",
+      "average-rating": "Average Rating",
+      "actions": "Actions",
+      "no-technicians": "No technicians found. Register one to get started.",
+      "edit-technician": "Edit Technician",
+      "confirm-delete": "Are you sure you want to delete {name}?",
+      "confirm-delete-header": "Confirm Deletion"
+    }
+  },
+  "validation": {
+    "required": "{field} is required",
+    "email": "Enter a valid email",
+    "min": "Minimum {min}",
+    "max": "Maximum {max}"
+  },
+  "dates": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "period": "{start} – {end}"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "You're all caught up!",
+    "markAllRead": "Mark all as read"
+  },
+  "table": {
+    "rows": "{count, plural, one {# row} other {# rows}}"
+  },
+  "errors": {
+    "occurred": "An error occurred"
+  },
+  "map": {
+    "selected-location": "Selected Location",
+    "address": "Address",
+    "coordinates": "Coordinates"
   }
 }
