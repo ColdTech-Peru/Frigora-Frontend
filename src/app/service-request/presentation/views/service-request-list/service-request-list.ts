@@ -248,18 +248,20 @@ export class ServiceRequestListComponent implements OnInit, AfterViewInit {
   async submitReview(): Promise<void> {
     if (!this.selectedRequest || this.reviewForm.rating === 0) return;
 
+    const payload = {
+      serviceRequestId: this.selectedRequest?.id,
+      technicianId: (this.selectedRequest as any)?.technicianId,
+      rating: this.reviewForm.rating,
+      comment: this.reviewForm.comment,
+      createdAt: new Date().toISOString()
+    };
     try {
       await firstValueFrom(
-        this.reviewsApi.createReview({
-          serviceRequestId: this.selectedRequest.id,
-          technicianId: (this.selectedRequest as any).technicianId,
-          rating: this.reviewForm.rating,
-          comment: this.reviewForm.comment,
-          createdAt: new Date().toISOString()
-        })
+        this.reviewsApi.createReview(payload)
       );
 
       this.snackBar.open('Review submitted', 'Close', { duration: 3000 });
+
       this.reviewDialogOpen = false;
       this.selectedRequest = null;
 
