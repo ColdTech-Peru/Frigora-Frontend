@@ -24,36 +24,29 @@ export class TrendChart implements OnDestroy {
 
   isLoading = input<boolean>(false);
 
-  private data: number[] = [
-    22.0, 22.3, 22.6, 22.9, 23.1, 23.4, 23.7
-  ];
-
-  private labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  chartData = input<number[]>([]);
 
   private intervalId: any;
 
   constructor() {
-    this.startLiveUpdates();
+    this.startFallbackDemo();
   }
 
-  private startLiveUpdates() {
+  private startFallbackDemo() {
     this.intervalId = setInterval(() => {
-      const last = this.data[this.data.length - 1];
+      const data = this.chartData();
+
+      if (data && data.length > 0) return;
 
       const variation = Math.random() * 0.4 - 0.2;
-      const next = Number((last + variation).toFixed(2));
+      const next = Number((22 + variation).toFixed(2));
 
-      this.data = [...this.data.slice(1), next];
     }, 1500);
   }
 
-  // ===== COMPUTED =====
+  values = computed(() => this.chartData());
 
-  labelsComputed = computed(() => this.labels);
-
-  values = computed(() => this.data);
-
-  hasValidData = computed(() => this.data.length > 0);
+  hasValidData = computed(() => this.values().length > 0);
 
   noDataMessage = computed(() => {
     return this.isLoading()
@@ -85,8 +78,6 @@ export class TrendChart implements OnDestroy {
       return `${x},${y}`;
     }).join(' ');
   });
-
-  // ===== CLEANUP =====
 
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
