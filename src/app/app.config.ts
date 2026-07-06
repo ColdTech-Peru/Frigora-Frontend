@@ -7,6 +7,16 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 import { authInterceptor } from './iam/application/auth.interceptor';
 
+import * as L from 'leaflet';
+
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconUrl: '/leaflet/marker-icon.png',
+  iconRetinaUrl: '/leaflet/marker-icon-2x.png',
+  shadowUrl: '/leaflet/marker-shadow.png'
+});
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
