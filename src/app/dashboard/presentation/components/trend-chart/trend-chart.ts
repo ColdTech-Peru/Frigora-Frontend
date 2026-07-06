@@ -26,23 +26,9 @@ export class TrendChart implements OnDestroy {
 
   chartData = input<number[]>([]);
 
-  private intervalId: any;
-
-  constructor() {
-    this.startFallbackDemo();
-  }
-
-  private startFallbackDemo() {
-    this.intervalId = setInterval(() => {
-      const data = this.chartData();
-
-      if (data && data.length > 0) return;
-
-      const variation = Math.random() * 0.4 - 0.2;
-      const next = Number((22 + variation).toFixed(2));
-
-    }, 1500);
-  }
+  labels = input<string[]>([
+    'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
+  ]);
 
   values = computed(() => this.chartData());
 
@@ -80,6 +66,5 @@ export class TrendChart implements OnDestroy {
   });
 
   ngOnDestroy(): void {
-    clearInterval(this.intervalId);
   }
 }
