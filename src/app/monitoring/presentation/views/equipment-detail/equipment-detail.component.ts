@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MonitoringStore } from '../../../application/monitoring.store';
 import { EquipmentsEntity } from '../../../domain/model/equipments.entity';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-equipment-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe],
   templateUrl: './equipment-detail.component.html',
   styleUrl: './equipment-detail.component.css'
 })

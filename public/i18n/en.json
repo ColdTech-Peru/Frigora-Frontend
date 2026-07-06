@@ -16,7 +16,9 @@
     "yes": "Yes",
     "no": "No",
     "required-field": "Required field",
-    "viewDetails": "View details"
+    "viewDetails": "View details",
+    "online": "Online",
+    "offline": "Offline"
   },
 
   "nav": {
@@ -166,7 +168,8 @@
       "status": "Status",
       "created": "Created",
       "acknowledge": "Acknowledge",
-      "delete": "Delete"
+      "delete": "Delete",
+      "loading": "Loading alerts"
     },
 
     "reports": "Reports",
@@ -460,7 +463,19 @@
     "serial": "Serial",
     "type": "Type",
     "status": "Status",
-    "installed": "Installed date"
+    "installed": "Installed date",
+    "back_to_list": "Back to equipment list",
+    "general_info": "General information",
+    "manufacturer": "Manufacturer",
+    "monitoring": "Monitoring",
+    "current_temperature": "Current temperature",
+    "set_point": "Set point",
+    "last_connection": "Last connection",
+    "dates": "Dates",
+    "created": "Created",
+    "updated": "Updated",
+    "view_alerts": "View alerts",
+    "not_found": "No equipment information found."
   },
 
   "validation": {
