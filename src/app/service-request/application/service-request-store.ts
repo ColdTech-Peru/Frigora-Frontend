@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import {forkJoin, Observable, map, tap, switchMap, of} from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { ServiceRequest } from '../domain/model/service-request.entity';
 import { ServiceRequestsApi } from '../infrastructure/service-request-api';
 import { MonitoringApiService } from '../../monitoring/infrastructure/monitoring-api.service';
@@ -100,6 +100,47 @@ export class ServiceRequestStore {
           }),
           map(() => void 0)
         );
+      })
+    );
+  }
+  loadFormData(): Observable<void> {
+    const ownerId = this.authStore.currentUserId;
+
+    if (!ownerId) {
+      this.errorSignal.set('No user ID found');
+      return of(void 0);
+    }
+
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
+
+    return forkJoin({
+      equipments: this.monitoringApi.getEquipmentsByOwner(ownerId),
+      sites: this.assetsManagementApi.getSitesByOwner(ownerId),
+    }).pipe(
+      tap(({ equipments, sites }: any) => {
+        this.equipmentsSignal.set(
+          equipments.map((e: any) => ({
+            id: e.id,
+            name: e.name,
+          }))
+        );
+
+        this.sitesSignal.set(
+          sites.map((s: any) => ({
+            id: s.id,
+            name: s.name,
+          }))
+        );
+
+        this.loadingSignal.set(false);
+      }),
+      map(() => void 0),
+      catchError(err => {
+        console.error(err);
+        this.errorSignal.set('Failed to load form data');
+        this.loadingSignal.set(false);
+        return of(void 0);
       })
     );
   }
