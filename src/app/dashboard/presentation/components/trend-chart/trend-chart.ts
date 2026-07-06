@@ -1,4 +1,4 @@
-import { Component, computed, input, OnDestroy } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   MatCard,
@@ -20,25 +20,36 @@ import {
   templateUrl: './trend-chart.html',
   styleUrl: './trend-chart.css'
 })
-export class TrendChart implements OnDestroy {
+export class TrendChart {
 
-  isLoading = input<boolean>(false);
-
-  chartData = input<number[]>([]);
-
-  labels = input<string[]>([
-    'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
-  ]);
-
-  values = computed(() => this.chartData());
-
-  hasValidData = computed(() => this.values().length > 0);
-
-  noDataMessage = computed(() => {
-    return this.isLoading()
-      ? 'Cargando datos...'
-      : 'Sin datos de tendencia disponibles';
+  chartData = signal({
+    labels: [
+      '10:00', '10:01', '10:02', '10:03',
+      '10:04', '10:05', '10:06', '10:07'
+    ],
+    datasets: [
+      {
+        data: [21.5, 21.8, 22.1, 22.0, 22.4, 22.9, 23.1, 22.7]
+      }
+    ]
   });
+
+  isLoading = signal(false);
+
+  hasValidData = computed(() => {
+    const data = this.chartData();
+    return !!data?.datasets?.[0]?.data?.length;
+  });
+
+  noDataMessage = computed(() =>
+    this.isLoading()
+      ? 'Cargando datos...'
+      : 'Sin datos de tendencia disponibles'
+  );
+
+  labels = computed(() => this.chartData().labels || []);
+
+  values = computed(() => this.chartData().datasets[0].data || []);
 
   svgPoints = computed(() => {
     const data = this.values();
@@ -48,23 +59,19 @@ export class TrendChart implements OnDestroy {
     const max = Math.max(...data);
     const range = max === min ? 1 : max - min;
 
-    const svgWidth = 400;
-    const svgHeight = 200;
+    const width = 400;
+    const height = 200;
     const padding = 20;
 
-    return data.map((val, index) => {
-      const x = data.length === 1
-        ? svgWidth / 2
-        : (index / (data.length - 1)) * svgWidth;
+    return data
+      .map((val, i) => {
+        const x = (i / (data.length - 1)) * width;
+        const y =
+          height -
+          (((val - min) / range) * (height - padding * 2) + padding);
 
-      const y =
-        svgHeight -
-        (((val - min) / range) * (svgHeight - padding * 2) + padding);
-
-      return `${x},${y}`;
-    }).join(' ');
+        return `${x},${y}`;
+      })
+      .join(' ');
   });
-
-  ngOnDestroy(): void {
-  }
 }

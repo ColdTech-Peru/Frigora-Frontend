@@ -27,7 +27,8 @@ import { RecentAlertsTableComponent } from '../components/recent-alerts-table/re
     MatTooltipModule,
     KpiCards,
     TrendChart,
-    RecentAlertsTableComponent
+    RecentAlertsTableComponent,
+    TrendChart
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
