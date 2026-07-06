@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {Component, OnInit, inject, ChangeDetectorRef} from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
@@ -37,6 +37,7 @@ export class ProviderCompletedServicesComponent implements OnInit {
   private assetsManagementApi = inject(AssetsManagementApi);
   private authStore = inject(AuthStoreService);
   public translate = inject(TranslateService);
+  private cdr = inject(ChangeDetectorRef);
 
   get currentProviderId(): string | number | null {
     const id = this.authStore.currentUserId;
@@ -58,46 +59,52 @@ export class ProviderCompletedServicesComponent implements OnInit {
     if (!providerId) return;
     this.loading = true;
     this.error = null;
+    this.cdr.markForCheck();
     forkJoin({
       requests: this.serviceRequestApi.getRequestsForProviderQuery(providerId as any),
       techs: this.techniciansApi.getTechniciansByProvider(providerId as any),
-      sites: this.assetsManagementApi.getSites()
     }).subscribe({
       next: (res: any) => {
+        const allRequests = res.requests?.data ?? res.requests?.serviceRequests ?? res.requests ?? [];
+        const technicians = res.techs?.data ?? res.techs ?? [];
 
-        const allRequests =
-          res.requests?.data ??
-          res.requests?.serviceRequests ??
-          res.requests ??
-          [];
+        if (!allRequests.length) {
+          this.completedRequests = [];
+          this.loading = false;
+          this.cdr.markForCheck();
+          return;
+        }
 
-        const sites =
-          res.sites?.data ??
-          res.sites ??
-          [];
+        const ownerIds = [...new Set(allRequests.map((r: any) => r.requesterId))] as number[];
 
-        const technicians =
-          res.techs?.data ??
-          res.techs ??
-          [];
+        forkJoin(
+          ownerIds.map(id => this.assetsManagementApi.getSitesByOwner(id))
+        ).subscribe({
+          next: (siteResults: any[]) => {
+            const sites = siteResults.flat();
+            const context = { sites, technicians };
+            const assembler = new ServiceRequestAssembler();
 
-        const context = {
-          sites,
-          technicians
-        };
+            this.completedRequests = allRequests
+              .map((r: any) => assembler.toEntityFromResource(r, context))
+              .filter((r: any) => (r.status ?? '').toLowerCase().trim() === 'completed');
 
-        const assembler = new ServiceRequestAssembler();
-        this.completedRequests = allRequests
-          .map((r: any) => assembler.toEntityFromResource(r, context))
-          .filter((r: any) =>
-            (r.status ?? '').toLowerCase().trim() === 'completed'
-          );
-        this.loading = false;
+            this.loading = false;
+            this.cdr.markForCheck();
+          },
+          error: (e) => {
+            this.error = 'Failed to load sites.';
+            this.loading = false;
+            this.cdr.markForCheck();
+            console.error(e);
+          }
+        });
       },
       error: (e) => {
         this.error = 'Failed to load completed services.';
-        console.error(e);
         this.loading = false;
+        this.cdr.markForCheck();
+        console.error(e);
       }
     });
   }

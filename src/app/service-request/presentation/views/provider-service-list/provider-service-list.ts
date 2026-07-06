@@ -22,6 +22,7 @@ import { AuthStoreService } from '../../../../iam/application/iam.store';
 import { MonitoringApiService } from '../../../../monitoring/infrastructure/monitoring-api.service';
 import { ServiceRequestAssembler } from '../../../infrastructure/service-request-assembler';
 import {MatTooltip} from '@angular/material/tooltip';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-provider-service-list',
@@ -69,23 +70,58 @@ export class ProviderServiceListComponent implements OnInit {
   }
 
   fetchData(): void {
-    const providerId = this.authStore.currentUserId || '14qTsdO'; // Fallback a ID de prueba
+    const providerId = this.authStore.currentUserId || '14qTsdO';
     this.loading = true;
 
     forkJoin({
       requests: this.serviceRequestApi.getRequestsForProviderQuery(providerId as any),
-      users: this.iamApi.getAllUsers(),      sites: this.assetsApi.getSites(),
-      equipments: this.monitoringApi.getEquipments()
+      users: this.iamApi.getAllUsers(),
     }).subscribe({
       next: (res: any) => {
-        const assembler = new ServiceRequestAssembler();
-        const context = { users: res.users, sites: res.sites, equipments: res.equipments };
+        const requests = res.requests ?? [];
 
-        const data = assembler.toEntitiesFromResponse({ serviceRequests: res.requests }, context);
+        if (!requests.length) {
+          this.dataSource.data = [];
+          this.loading = false;
+          return;
+        }
 
-        this.dataSource.data = data.map((req, index) => ({ ...req, orderNumber: index + 1 }));
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        // ── ownerIds únicos de los requests ──
+        const ownerIds = [...new Set(requests.map((r: any) => r.requesterId))] as number[];
+
+        forkJoin({
+          sites: forkJoin(ownerIds.map(id => this.assetsApi.getSitesByOwner(id))).pipe(
+            map((results: any[]) => results.flat())
+          ),
+          equipments: forkJoin(ownerIds.map(id => this.monitoringApi.getEquipmentsByOwner(id))).pipe(
+            map((results: any[]) => results.flat())
+          ),
+        }).subscribe({
+          next: (ownerData: any) => {
+            const assembler = new ServiceRequestAssembler();
+            const context = {
+              users: res.users,
+              sites: ownerData.sites,
+              equipments: ownerData.equipments
+            };
+
+            const data = assembler.toEntitiesFromResponse(
+              { serviceRequests: requests }, context
+            );
+
+            this.dataSource.data = data.map((req, index) => ({ ...req, orderNumber: index + 1 }));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            this.loading = false;
+          },
+          error: (err) => {
+            console.error(err);
+            this.loading = false;
+          }
+        });
+      },
+      error: (err) => {
+        console.error(err);
         this.loading = false;
       }
     });

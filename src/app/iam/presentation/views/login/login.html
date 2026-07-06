@@ -40,6 +40,12 @@
             formControlName="password">
         </mat-form-field>
 
+        <mat-checkbox
+          formControlName="rememberMe"
+          class="remember-me">
+          {{ 'auth.login.remember-me' | translate }}
+        </mat-checkbox>
+
         <button
           mat-flat-button
           color="primary"

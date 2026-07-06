@@ -1,6 +1,6 @@
 import {
   Component,
-  inject,
+  inject, OnInit,
   TemplateRef,
   ViewChild
 } from '@angular/core';
@@ -53,11 +53,15 @@ import {
   templateUrl: './site-list.html',
   styleUrls: ['./site-list.css']
 })
-export class SiteList {
+export class SiteList implements OnInit {
 
   public store = inject(AssetsManagementStore);
   private translate = inject(TranslateService);
   private dialog = inject(MatDialog);
+
+  ngOnInit(): void {
+    this.store.loadSites();
+  }
 
   displayedColumns: string[] = [
     'name',

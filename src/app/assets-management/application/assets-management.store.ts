@@ -3,7 +3,7 @@ import { Sites } from '../domain/model/sites.entity';
 import { AssetsManagementApi } from '../infrastructure/assets-management-api';
 
 @Injectable({ providedIn: 'root'})
-export class AssetsManagementStore{
+export class AssetsManagementStore {
   private readonly sitesSignal = signal<Sites[]>([]);
   private readonly loadingSignal = signal<boolean>(false);
   private readonly errorSignal = signal<string | null>(null);
@@ -12,11 +12,10 @@ export class AssetsManagementStore{
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
 
-  constructor(private assetsManagementApi:AssetsManagementApi ) {
-    this.loadSites();
+  constructor(private assetsManagementApi: AssetsManagementApi) {
   }
 
-  private loadSites() {
+  loadSites(): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
     this.assetsManagementApi.getSites().subscribe({
@@ -79,5 +78,4 @@ export class AssetsManagementStore{
     }
     return fallback;
   }
-
 }

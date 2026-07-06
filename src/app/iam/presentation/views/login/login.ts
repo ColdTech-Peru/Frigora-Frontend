@@ -12,6 +12,7 @@ import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthStoreService } from '../../../application/iam.store';
 import {LanguageSwitcher} from '../../../../shared/presentation/components/language-switcher/language-switcher';
+import {MatCheckbox} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,8 @@ import {LanguageSwitcher} from '../../../../shared/presentation/components/langu
     MatButtonModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    LanguageSwitcher
+    LanguageSwitcher,
+    MatCheckbox
   ],
   templateUrl: './login.html',
   styleUrl: './login.css',
@@ -40,17 +42,38 @@ export class Login {
   loading = false;
 
   loginForm = this.fb.nonNullable.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required]
+    username: [''],
+    password: [''],
+    rememberMe: [false]
   });
+
+  constructor() {
+    const rememberedUser = localStorage.getItem('rememberedUsername');
+
+    if (rememberedUser) {
+      this.loginForm.patchValue({
+        username: rememberedUser,
+        rememberMe: true
+      });
+    }
+  }
 
   async onSubmit(): Promise<void> {
     if (this.loginForm.invalid) return;
 
     this.loading = true;
-    const { username, password } = this.loginForm.getRawValue();
+
+    const { username, password, rememberMe } =
+      this.loginForm.getRawValue();
+
+    if (rememberMe) {
+      localStorage.setItem('rememberedUsername', username);
+    } else {
+      localStorage.removeItem('rememberedUsername');
+    }
 
     const success = await this.authStore.login(username, password);
+
     this.loading = false;
 
     if (success) {
@@ -58,3 +81,4 @@ export class Login {
     }
   }
 }
+

@@ -25,5 +25,8 @@ export class AssetsManagementApi extends BaseApi {
   deleteSite(id: string): Observable<void> {
     return this.sitesEndpoint.delete(id);
   }
+  getSitesByOwner(ownerId: number | string): Observable<any> {
+    return this.sitesEndpoint.getByOwner(ownerId);
+  }
 
 }

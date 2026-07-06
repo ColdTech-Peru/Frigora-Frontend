@@ -52,4 +52,7 @@ export class MonitoringApiService {
       status: 'acknowledged'
     });
   }
+  getEquipmentsByOwner(ownerId: number | string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.equipmentsEndpoint}/by-owner/${ownerId}`);
+  }
 }
