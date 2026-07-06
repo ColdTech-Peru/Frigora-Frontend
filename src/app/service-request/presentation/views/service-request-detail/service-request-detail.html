@@ -8,7 +8,7 @@
   <!-- Not found -->
   <div *ngIf="!isLoading && !serviceRequest" class="not-found">
     <mat-icon>search_off</mat-icon>
-    <p>Service request not found.</p>
+    <p>{{ 'serviceRequest.notFound' | translate }}</p>
   </div>
 
   <ng-container *ngIf="!isLoading && serviceRequest">
@@ -16,7 +16,7 @@
     <!-- HEADER -->
     <div class="page-header">
       <h1 class="page-title">
-        Service Request
+        {{ 'serviceRequest.title' | translate }}
         <span class="request-id">#{{ serviceRequest.id }}</span>
       </h1>
 
@@ -25,11 +25,11 @@
       </mat-chip>
     </div>
 
-    <!-- REQUEST DETAILS -->
+    <!-- DETAILS -->
     <mat-card class="detail-card mb-4">
 
       <mat-card-header>
-        <mat-card-title>Request Details</mat-card-title>
+        <mat-card-title>{{ 'serviceRequest.detailsTitle' | translate }}</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
@@ -37,39 +37,30 @@
         <div class="detail-grid">
 
           <div class="detail-item">
-            <span class="detail-label">Status</span>
+            <span class="detail-label">{{ 'serviceRequest.status' | translate }}</span>
             <mat-chip [ngClass]="statusClass(serviceRequest.status)">
               {{ serviceRequest.status }}
             </mat-chip>
           </div>
 
           <div class="detail-item">
-            <span class="detail-label">Priority</span>
+            <span class="detail-label">{{ 'serviceRequest.priority' | translate }}</span>
             <span class="detail-value">{{ serviceRequest.priority }}</span>
           </div>
 
           <div class="detail-item">
-            <span class="detail-label">Site</span>
+            <span class="detail-label">{{ 'serviceRequest.site' | translate }}</span>
             <span class="detail-value">{{ serviceRequest.siteName }}</span>
           </div>
 
           <div class="detail-item">
-            <span class="detail-label">Equipment</span>
+            <span class="detail-label">{{ 'serviceRequest.equipment' | translate }}</span>
             <span class="detail-value">{{ serviceRequest.equipmentName }}</span>
           </div>
 
-          <div class="detail-item">
-            <span class="detail-label">Created At</span>
-            <span class="detail-value">
-              {{ formatDateTime(serviceRequest.createdAt) }}
-            </span>
-          </div>
-
           <div class="detail-item full-width">
-            <span class="detail-label">Description</span>
-            <span class="detail-value">
-              {{ serviceRequest.description }}
-            </span>
+            <span class="detail-label">{{ 'serviceRequest.description' | translate }}</span>
+            <span class="detail-value">{{ serviceRequest.description }}</span>
           </div>
 
         </div>
@@ -77,7 +68,7 @@
         <div class="mt-3">
           <button mat-stroked-button (click)="openEquipmentDialog()">
             <mat-icon>memory</mat-icon>
-            Equipment Details
+            {{ 'serviceRequest.equipmentDetails' | translate }}
           </button>
         </div>
 
@@ -88,14 +79,14 @@
     <mat-card class="detail-card mb-4">
 
       <mat-card-header>
-        <mat-card-title>Interventions Log</mat-card-title>
+        <mat-card-title>{{ 'interventions.title' | translate }}</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
 
         <div *ngIf="interventions.length === 0" class="empty-state">
           <mat-icon>engineering</mat-icon>
-          <p>No interventions recorded yet.</p>
+          <p>{{ 'interventions.empty' | translate }}</p>
         </div>
 
         <div *ngIf="interventions.length > 0" class="timeline">
@@ -120,7 +111,7 @@
                 </mat-card-title>
 
                 <mat-card-subtitle>
-                  Technician ID: {{ item.technicianId }}
+                  {{ 'interventions.technician' | translate }}: {{ item.technicianId }}
                 </mat-card-subtitle>
               </mat-card-header>
 
@@ -130,7 +121,7 @@
 
               <mat-card-actions>
                 <button mat-button color="primary">
-                  View Details
+                  {{ 'common.viewDetails' | translate }}
                   <mat-icon>arrow_forward</mat-icon>
                 </button>
               </mat-card-actions>
@@ -144,21 +135,20 @@
       </mat-card-content>
     </mat-card>
 
-    <!--REGISTER INTERVENTION-->
+    <!-- REGISTER -->
     <mat-card class="detail-card mb-4"
               *ngIf="authStore.currentUserRole === 'Provider'">
 
       <mat-card-header>
-        <mat-card-title>Register Intervention</mat-card-title>
+        <mat-card-title>{{ 'interventions.registerTitle' | translate }}</mat-card-title>
       </mat-card-header>
 
       <mat-card-content>
 
         <div class="form-grid">
 
-          <!-- TECHNICIAN SELECT -->
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Technician</mat-label>
+            <mat-label>{{ 'interventions.technician' | translate }}</mat-label>
 
             <mat-select [(ngModel)]="newIntervention.technicianId" required>
               <mat-option *ngFor="let tech of technicians" [value]="tech.id">
@@ -168,71 +158,24 @@
 
           </mat-form-field>
 
-          <!-- SUMMARY -->
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Work Summary</mat-label>
+            <mat-label>{{ 'interventions.summary' | translate }}</mat-label>
             <textarea matInput rows="3"
                       [(ngModel)]="newIntervention.summary"
                       required></textarea>
           </mat-form-field>
 
-          <!-- START -->
           <mat-form-field appearance="outline">
-            <mat-label>Start Time</mat-label>
+            <mat-label>{{ 'interventions.startTime' | translate }}</mat-label>
             <input matInput type="datetime-local"
                    [(ngModel)]="newIntervention.startTime">
           </mat-form-field>
 
-          <!-- END -->
           <mat-form-field appearance="outline">
-            <mat-label>End Time</mat-label>
+            <mat-label>{{ 'interventions.endTime' | translate }}</mat-label>
             <input matInput type="datetime-local"
                    [(ngModel)]="newIntervention.endTime">
           </mat-form-field>
-
-
-          <div class="photo-section full-width">
-
-            <input
-              id="photoFileInput"
-              type="file"
-              accept="image/*"
-              style="display:none"
-              (change)="onFileSelected($event)"
-            />
-
-            <div class="photo-input-row">
-
-              <button mat-stroked-button type="button"
-                      (click)="triggerFileInput()"
-                      [disabled]="isUploadingPhoto">
-                <mat-icon>upload</mat-icon>
-                {{ isUploadingPhoto ? 'Uploading...' : 'Upload Photo' }}
-              </button>
-
-              <mat-form-field appearance="outline" class="photo-field">
-                <mat-label>Or paste URL</mat-label>
-                <input matInput [(ngModel)]="newPhotoUrl" (keyup.enter)="addPhotoUrl()">
-              </mat-form-field>
-
-              <button mat-icon-button type="button" (click)="addPhotoUrl()"
-                      [disabled]="!newPhotoUrl.trim()">
-                <mat-icon>add_link</mat-icon>
-              </button>
-
-            </div>
-
-            <!-- preview de fotos -->
-            <div class="photo-preview" *ngIf="newIntervention.photoUrls.length">
-              <div class="photo-thumb" *ngFor="let url of newIntervention.photoUrls">
-                <img [src]="url" alt="photo" />
-                <button mat-icon-button (click)="removePhotoUrl(url)">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </div>
-            </div>
-
-          </div>
 
         </div>
 
@@ -242,7 +185,7 @@
         <button mat-flat-button color="primary"
                 (click)="registerIntervention()">
           <mat-icon>add_task</mat-icon>
-          Register
+          {{ 'interventions.register' | translate }}
         </button>
       </mat-card-actions>
 
@@ -260,7 +203,7 @@
        (click)="$event.stopPropagation()">
 
     <div class="dialog-header">
-      <h2>Equipment Details</h2>
+      <h2>{{ 'equipment.title' | translate }}</h2>
       <button mat-icon-button (click)="displayEquipmentDialog = false">
         <mat-icon>close</mat-icon>
       </button>
@@ -271,34 +214,34 @@
       <div class="detail-grid">
 
         <div class="detail-item">
-          <span class="detail-label">Name</span>
+          <span class="detail-label">{{ 'equipment.name' | translate }}</span>
           <span class="detail-value">{{ selectedEquipment.name }}</span>
         </div>
 
         <div class="detail-item">
-          <span class="detail-label">Model</span>
+          <span class="detail-label">{{ 'equipment.model' | translate }}</span>
           <span class="detail-value">{{ selectedEquipment.model }}</span>
         </div>
 
         <div class="detail-item">
-          <span class="detail-label">Serial</span>
+          <span class="detail-label">{{ 'equipment.serial' | translate }}</span>
           <span class="detail-value">{{ selectedEquipment.serial }}</span>
         </div>
 
         <div class="detail-item">
-          <span class="detail-label">Type</span>
+          <span class="detail-label">{{ 'equipment.type' | translate }}</span>
           <span class="detail-value">{{ selectedEquipment.type }}</span>
         </div>
 
         <div class="detail-item">
-          <span class="detail-label">Status</span>
+          <span class="detail-label">{{ 'equipment.status' | translate }}</span>
           <mat-chip [ngClass]="statusClass(selectedEquipment.status)">
             {{ selectedEquipment.status }}
           </mat-chip>
         </div>
 
         <div class="detail-item">
-          <span class="detail-label">Installed</span>
+          <span class="detail-label">{{ 'equipment.installed' | translate }}</span>
           <span class="detail-value">
             {{ formatDate(selectedEquipment.installedAt) }}
           </span>
@@ -310,7 +253,7 @@
 
     <div class="dialog-footer">
       <button mat-stroked-button (click)="displayEquipmentDialog = false">
-        Close
+        {{ 'common.close' | translate }}
       </button>
     </div>
 

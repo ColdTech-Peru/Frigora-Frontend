@@ -11,12 +11,6 @@ table.w-full {
   width: 100%;
 }
 
-.severity-chip {
-  font-size: 0.75rem;
-  font-weight: 600;
-  min-height: 24px;
-}
-
 .text-center {
   text-align: center;
 }
@@ -24,4 +18,77 @@ table.w-full {
 .p-4 {
   padding: 1.5rem;
   color: #6c757d;
+}
+
+.severity-chip,
+.status-chip {
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-height: 24px;
+}
+
+.severity-low,
+.severity-info,
+.severity-warning,
+.severity-high,
+.severity-critical,
+.status-open,
+.status-acknowledged,
+.status-resolved,
+.status-closed,
+.status-active {
+  border-radius: 12px;
+}
+
+/* SEVERITY */
+.severity-low.mat-mdc-chip,
+.severity-low {
+  background-color: #e8f5e9 !important;
+  color: #2e7d32 !important;
+}
+
+.severity-info {
+  background-color: #e3f2fd !important;
+  color: #1565c0 !important;
+}
+
+.severity-warning {
+  background-color: #fff8e1 !important;
+  color: #f9a825 !important;
+}
+
+.severity-high {
+  background-color: #ffebee !important;
+  color: #c62828 !important;
+}
+
+.severity-critical {
+  background-color: #b71c1c !important;
+  color: white !important;
+}
+
+/* STATUS */
+.status-open {
+  background-color: #e3f2fd !important;
+  color: #1565c0 !important;
+}
+
+.status-acknowledged {
+  background-color: #e8f5e9 !important;
+  color: #f9a825 !important;
+}
+
+.status-resolved {
+  background-color: #e8f5e9 !important;
+  color: #2e7d32 !important;
+}
+
+.status-closed {
+  background-color: #eeeeee !important;
+  color: #424242 !important;
+}
+
+.status-active {
+  background-color: #e8f5e9 !important;
+  color: #2e7d32 !important;
 }

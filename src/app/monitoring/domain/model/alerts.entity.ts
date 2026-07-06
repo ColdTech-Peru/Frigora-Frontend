@@ -9,6 +9,8 @@ export class AlertsEntity {
     public message: string,
     public status: string,
     public createdAt: string,
+    public equipmentName?: string,
+    public siteName?: string,
     public resolvedAt?: string,
     public acknowledgedBy?: string
   ) {}

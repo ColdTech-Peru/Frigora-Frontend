@@ -273,12 +273,35 @@ button[mat-stroked-button].mat-primary:hover {
 }
 
 /* Status chips */
-mat-chip.chip-pending     { background-color: #fff3e0; color: #e65100; }
-mat-chip.chip-accepted    { background-color: #e3f2fd; color: #1565c0; }
-mat-chip.chip-in-progress { background-color: #e8eaf6; color: #283593; }
-mat-chip.chip-completed   { background-color: #e8f5e9; color: #2e7d32; }
-mat-chip.chip-canceled    { background-color: #f5f5f5; color: #616161; }
-mat-chip.chip-rejected    { background-color: #fce4ec; color: #880e4f; }
+.chip-pending {
+  background-color: #fff3e0 !important;
+  color: #e65100 !important;
+}
+
+.chip-accepted {
+  background-color: #e3f2fd !important;
+  color: #1565c0 !important;
+}
+
+.chip-in-progress {
+  background-color: #e8eaf6 !important;
+  color: #283593 !important;
+}
+
+.chip-completed {
+  background-color: #e8f5e9 !important;
+  color: #2e7d32 !important;
+}
+
+.chip-canceled {
+  background-color: #f5f5f5 !important;
+  color: #616161 !important;
+}
+
+.chip-rejected {
+  background-color: #fce4ec !important;
+  color: #880e4f !important;
+}
 
 
 .dialog-overlay {

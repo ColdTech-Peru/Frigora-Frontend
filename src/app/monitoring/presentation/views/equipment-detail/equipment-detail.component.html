@@ -62,7 +62,7 @@
 
         <div>
           <strong>Última conexión</strong>
-          <p>{{ equipment.lastSeen }}</p>
+          <p>{{ equipment.lastSeen | date: 'short' }}</p>
         </div>
       </div>
     </div>
@@ -73,17 +73,17 @@
       <div class="detail-grid">
         <div>
           <strong>Instalado</strong>
-          <p>{{ equipment.installed }}</p>
+          <p>{{ equipment.installed | date: 'short'}}</p>
         </div>
 
         <div>
           <strong>Creado</strong>
-          <p>{{ equipment.created }}</p>
+          <p>{{ equipment.created | date: 'short' }}</p>
         </div>
 
         <div>
           <strong>Actualizado</strong>
-          <p>{{ equipment.updated }}</p>
+          <p>{{ equipment.updated | date: 'short'}}</p>
         </div>
       </div>
     </div>
