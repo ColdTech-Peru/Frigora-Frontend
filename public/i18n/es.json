@@ -15,7 +15,8 @@
     "all": "Todo",
     "yes": "Sí",
     "no": "No",
-    "required-field": "Campo requerido"
+    "required-field": "Campo requerido",
+    "viewDetails": "Ver detalles"
   },
 
   "nav": {
@@ -37,6 +38,49 @@
     "in-progress": "Servicios En Progreso"
   },
 
+  "serviceRequest": {
+    "title": "Solicitud de servicio",
+    "notFound": "Solicitud de servicio no encontrada",
+    "detailsTitle": "Detalles de la solicitud",
+    "status": "Estado",
+    "priority": "Prioridad",
+    "site": "Sitio",
+    "equipment": "Equipo",
+    "description": "Descripción",
+    "equipmentDetails": "Detalles del equipo"
+  },
+  "interventions": {
+    "title": "Registro de intervenciones",
+    "empty": "No hay intervenciones registradas aún",
+    "technician": "Técnico",
+    "registerTitle": "Registrar intervención",
+    "summary": "Resumen del trabajo",
+    "startTime": "Hora de inicio",
+    "endTime": "Hora de fin",
+    "register": "Registrar intervención"
+  },
+  "intervention": {
+    "title": "Intervención",
+    "details": "Detalles",
+    "status": "Estado",
+    "technician": "Técnico",
+    "start": "Inicio",
+    "end": "Fin",
+    "summaryTitle": "Resumen de trabajo",
+    "evidence": "Evidencia",
+    "noPhotos": "No hay fotos disponibles",
+    "notFound": "Intervención no encontrada",
+    "notAssigned": "No asignado"
+  },
+  "equipment": {
+    "title": "Detalles del equipo",
+    "name": "Nombre",
+    "model": "Modelo",
+    "serial": "Serie",
+    "type": "Tipo",
+    "status": "Estado",
+    "installed": "Fecha de instalación"
+  },
   "auth": {
     "login": {
       "title": "Iniciar sesión",
@@ -301,6 +345,8 @@
     "description": "Descripción",
     "date": "Fecha",
     "provider": "Proveedor",
+    "technician": "Técnico",
+    "comment": "Comentar",
     "type": "Tipo",
     "status": "Estado",
     "actions": "Acciones",

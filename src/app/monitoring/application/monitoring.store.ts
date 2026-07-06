@@ -6,6 +6,7 @@ import { EquipmentsEntity } from '../domain/model/equipments.entity';
 import { AlertsEntity } from '../domain/model/alerts.entity';
 import { EquipmentsAssembler } from '../infrastructure/equipments.assembler';
 import { AlertsAssembler } from '../infrastructure/alerts.assembler';
+import { AssetsManagementApi } from '../../assets-management/infrastructure/assets-management-api';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,10 @@ export class MonitoringStore {
   errors$ = this.errorsSubject.asObservable();
   loading$ = this.loadingSubject.asObservable();
 
-  constructor(private monitoringApi: MonitoringApiService) {}
+  constructor(
+    private monitoringApi: MonitoringApiService,
+    private assetsManagementApi: AssetsManagementApi
+  ) {}
 
   fetchEquipments(): void {
     this.loadingSubject.next(true);
@@ -109,10 +113,32 @@ export class MonitoringStore {
   fetchAlerts(): void {
     this.loadingSubject.next(true);
 
-    this.monitoringApi.getAlerts().subscribe({
-      next: response => {
-        const alerts = AlertsAssembler.toEntitiesFromResponse(response);
-        this.alertsSubject.next(alerts);
+    forkJoin({
+      alerts: this.monitoringApi.getAlerts(),
+      equipments: this.monitoringApi.getEquipments(),
+      sites: this.assetsManagementApi.getSites()
+    }).subscribe({
+      next: ({ alerts, equipments, sites }) => {
+
+        const alertEntities = AlertsAssembler.toEntitiesFromResponse(alerts);
+
+        const mappedAlerts = alertEntities.map(alert => {
+          const equipment = equipments.find(
+            (e: any) => Number(e.id) === Number(alert.equipmentId)
+          );
+
+          const site = sites.find(
+            (s: any) => Number(s.id) === Number(alert.siteId)
+          );
+
+          return {
+            ...alert,
+            equipmentName: equipment?.name ?? 'Unknown',
+            siteName: site?.name ?? 'Unknown'
+          };
+        });
+
+        this.alertsSubject.next(mappedAlerts as AlertsEntity[]);
         this.loadingSubject.next(false);
       },
       error: () => {
@@ -136,12 +162,11 @@ export class MonitoringStore {
   }
 
   acknowledgeAlert(alert: AlertsEntity): void {
-    this.monitoringApi.acknowledgeAlert(alert.id, alert).subscribe({
-      next: response => {
+    this.monitoringApi.acknowledgeAlert(alert.id).subscribe({
+      next: (response) => {
         const updatedAlert = AlertsAssembler.toEntityFromResource(response);
-        const currentAlerts = this.alertsSubject.value;
 
-        const updatedAlerts = currentAlerts.map(item =>
+        const updatedAlerts = this.alertsSubject.value.map(item =>
           item.id === updatedAlert.id ? updatedAlert : item
         );
 

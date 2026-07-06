@@ -15,7 +15,8 @@
     "all": "All",
     "yes": "Yes",
     "no": "No",
-    "required-field": "Required field"
+    "required-field": "Required field",
+    "viewDetails": "View details"
   },
 
   "nav": {
@@ -300,6 +301,8 @@
     "description": "Description",
     "date": "Date",
     "provider": "Provider",
+    "technician": "Technician",
+    "comment": "Comment",
     "type": "Type",
     "status": "Status",
     "actions": "Actions",
@@ -415,6 +418,51 @@
       "confirm-delete-header": "Confirm Deletion"
     }
   },
+  "serviceRequest": {
+    "title": "Service request",
+    "notFound": "Service request not found",
+    "detailsTitle": "Request details",
+    "status": "Status",
+    "priority": "Priority",
+    "site": "Site",
+    "equipment": "Equipment",
+    "description": "Description",
+    "equipmentDetails": "Equipment details"
+  },
+
+  "interventions": {
+    "title": "Interventions log",
+    "empty": "No interventions recorded yet",
+    "technician": "Technician",
+    "registerTitle": "Register intervention",
+    "summary": "Work summary",
+    "startTime": "Start time",
+    "endTime": "End time",
+    "register": "Register intervention"
+  },
+  "intervention": {
+    "title": "Intervention",
+    "details": "Details",
+    "status": "Status",
+    "technician": "Technician",
+    "start": "Start",
+    "end": "End",
+    "summaryTitle": "Work summary",
+    "evidence": "Evidence",
+    "noPhotos": "No photos available",
+    "notFound": "Intervention not found",
+    "notAssigned": "Not assigned"
+  },
+  "equipment": {
+    "title": "Equipment details",
+    "name": "Name",
+    "model": "Model",
+    "serial": "Serial",
+    "type": "Type",
+    "status": "Status",
+    "installed": "Installed date"
+  },
+
   "validation": {
     "required": "{field} is required",
     "email": "Enter a valid email",

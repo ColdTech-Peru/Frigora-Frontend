@@ -46,11 +46,11 @@ export class MonitoringApiService {
     return this.http.delete<void>(`${this.alertsEndpoint}/${id}`);
   }
 
-  acknowledgeAlert(id: number, alert: any): Observable<any> {
-    return this.http.patch<any>(`${this.alertsEndpoint}/${id}`, {
-      ...alert,
-      status: 'acknowledged'
-    });
+  acknowledgeAlert(id: number): Observable<any> {
+    return this.http.patch<any>(
+      `${this.alertsEndpoint}/${id}/acknowledge`,
+      {}
+    );
   }
   getEquipmentsByOwner(ownerId: number | string): Observable<any[]> {
     return this.http.get<any[]>(`${this.equipmentsEndpoint}/by-owner/${ownerId}`);

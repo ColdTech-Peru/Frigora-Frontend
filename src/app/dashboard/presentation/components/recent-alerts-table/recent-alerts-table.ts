@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import {Component, inject, input} from '@angular/core';
+import {DatePipe, NgClass} from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatCard, MatCardHeader, MatCardTitle, MatCardContent } from '@angular/material/card';
 import {
@@ -18,6 +18,7 @@ import {
 import { MatChip } from '@angular/material/chips';
 import { MatButton } from '@angular/material/button';
 import { AlertView } from '../../../domain/model/alert-view.entity';
+import {MonitoringStore} from '../../../../monitoring/application/monitoring.store';
 
 @Component({
   selector: 'app-recent-alerts-table',
@@ -41,7 +42,8 @@ import { AlertView } from '../../../domain/model/alert-view.entity';
     MatRow,
     MatNoDataRow,
     MatChip,
-    MatButton
+    MatButton,
+    NgClass
   ],
   templateUrl: './recent-alerts-table.html',
   styleUrl: './recent-alerts-table.css'
@@ -49,14 +51,25 @@ import { AlertView } from '../../../domain/model/alert-view.entity';
 export class RecentAlertsTableComponent {
   items = input<AlertView[]>([]);
 
+  private monitoringStore = inject(MonitoringStore);
+
   displayedColumns: string[] = ['date', 'equipmentName', 'siteName', 'severity', 'status', 'action'];
 
-  getSeverityColor(severity: string): 'warn' | 'accent' | 'primary' | '' {
-    switch (severity?.toLowerCase()) {
-      case 'critical': return 'warn';
-      case 'warning': return 'accent';
-      case 'info': return 'primary';
-      default: return '';
-    }
+  getSeverityClass(severity: string): string {
+    if (!severity) return '';
+
+    return 'severity-' + severity.toLowerCase();
+  }
+
+  getStatusClass(status: string): string {
+    if (!status) return '';
+
+    return 'status-' + status.toLowerCase();
+  }
+
+  acknowledgeAlert(alert: any): void {
+    if (!alert?.id) return;
+
+    this.monitoringStore.acknowledgeAlert(alert);
   }
 }

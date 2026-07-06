@@ -26,10 +26,10 @@
       <p class="message">{{ alert.message }}</p>
 
       <div class="alert-info">
-        <p><strong>{{ 'monitoring.alerts.equipment' | translate }}:</strong> {{ alert.equipmentId }}</p>
-        <p><strong>{{ 'monitoring.alerts.site' | translate }}:</strong> {{ alert.siteId }}</p>
+        <p><strong>{{ 'monitoring.alerts.equipment' | translate }}:</strong> {{ alert.equipmentName }}</p>
+        <p><strong>{{ 'monitoring.alerts.site' | translate }}:</strong> {{ alert.siteName }}</p>
         <p><strong>{{ 'monitoring.alerts.status' | translate }}:</strong> {{ alert.status }}</p>
-        <p><strong>{{ 'monitoring.alerts.created' | translate }}:</strong> {{ alert.createdAt }}</p>
+        <p><strong>{{ 'monitoring.alerts.created' | translate }}:</strong> {{ alert.createdAt | date:'short'}}</p>
       </div>
 
       <div class="actions">

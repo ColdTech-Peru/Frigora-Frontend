@@ -10,6 +10,7 @@ import {ServiceRequestsApi} from '../../../infrastructure/service-request-api';
 import {IamApi} from '../../../../iam/infrastructure/iam-api';
 import {MatIcon} from '@angular/material/icon';
 import {TechniciansService} from '../../../../technician/infrastructure/technicians.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-intervention-detail',
@@ -21,7 +22,8 @@ import {TechniciansService} from '../../../../technician/infrastructure/technici
     MatChipsModule,
     MatProgressSpinnerModule,
     DatePipe,
-    MatIcon
+    MatIcon,
+    TranslatePipe
   ],
   templateUrl: './intervention-detail.html',
   styleUrl: './intervention-detail.css'

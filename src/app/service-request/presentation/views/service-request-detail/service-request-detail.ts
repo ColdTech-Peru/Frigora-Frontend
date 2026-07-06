@@ -22,6 +22,7 @@ import {AssetsManagementApi} from '../../../../assets-management/infrastructure/
 import {AuthStoreService} from '../../../../iam/application/iam.store';
 import {IamApi} from '../../../../iam/infrastructure/iam-api';
 import {TechniciansService} from '../../../../technician/infrastructure/technicians.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-service-request-detail',
@@ -41,6 +42,7 @@ import {TechniciansService} from '../../../../technician/infrastructure/technici
     MatDividerModule,
     MatTooltipModule,
     MatSnackBarModule,
+    TranslatePipe,
   ],
   templateUrl: './service-request-detail.html',
   styleUrl: './service-request-detail.css'
@@ -256,6 +258,7 @@ export class ServiceRequestDetailComponent implements OnInit {
       await firstValueFrom(this.api.sendRecordInterventionCommand(payload));
 
       this.newIntervention = {technicianId: null, summary: '', startTime: '', endTime: '', photoUrls: []};
+      await this.fetchRequestDetails();
       await this.fetchInterventions();
       this.snackBar.open('Intervention registered', 'Close', {duration: 3000});
     } catch (error) {

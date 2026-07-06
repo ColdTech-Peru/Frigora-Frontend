@@ -7,7 +7,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '@ngx-translate/core';
-
 import { DashboardStore } from '../../application/dashboard.store';
 import { KpiCards } from '../components/kpi-cards/kpi-cards';
 import { TrendChart } from '../components/trend-chart/trend-chart';
@@ -33,6 +32,7 @@ import { RecentAlertsTableComponent } from '../components/recent-alerts-table/re
   styleUrl: './dashboard.css'
 })
 export class DashboardView implements OnInit {
+
   readonly store = inject(DashboardStore);
 
   ngOnInit(): void {
@@ -43,6 +43,14 @@ export class DashboardView implements OnInit {
     this.store.loadFullDashboard();
   }
 
+  fakeTemperatureChart = {
+    labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+    datasets: [
+      {
+        data: [22, 24, 21, 26, 28, 27, 25]
+      }
+    ]
+  };
   clearErrors(): void {
     (this.store as any).errorSignal?.set(null);
   }

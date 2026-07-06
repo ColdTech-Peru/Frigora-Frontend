@@ -7,6 +7,11 @@ import {
   MatCardContent
 } from '@angular/material/card';
 
+export interface TrendChartData {
+  labels: string[];
+  datasets: { data: number[] }[];
+}
+
 @Component({
   selector: 'app-trend-chart',
   standalone: true,
@@ -21,37 +26,49 @@ import {
   styleUrl: './trend-chart.css'
 })
 export class TrendChart {
-  chartData = input<any>(null);
+
+  chartData = input<TrendChartData | null>(null);
   isLoading = input<boolean>(false);
 
-  hasValidData = computed(() => {
-    const data = this.chartData();
-    return !!data && data.datasets && data.datasets.length > 0 && data.datasets[0].data.length > 0;
-  });
+  labels = computed<string[]>(() =>
+    this.chartData()?.labels ?? []
+  );
 
-  noDataMessage = computed(() => {
-    return this.isLoading() ? 'Cargando datos...' : 'Sin datos de tendencia disponibles';
-  });
+  values = computed<number[]>(() =>
+    this.chartData()?.datasets?.[0]?.data ?? []
+  );
 
-  labels = computed<string[]>(() => this.chartData()?.labels || []);
-  values = computed<number[]>(() => this.chartData()?.datasets?.[0]?.data || []);
+  hasValidData = computed(() =>
+    this.values().length > 0
+  );
+
+  noDataMessage = computed(() =>
+    this.isLoading()
+      ? 'Cargando datos...'
+      : 'Sin datos de tendencia disponibles'
+  );
 
   svgPoints = computed(() => {
     const data = this.values();
-    if (data.length === 0) return '';
+    if (!data.length) return '0,0';
 
     const min = Math.min(...data);
     const max = Math.max(...data);
     const range = max === min ? 1 : max - min;
 
-    const svgWidth = 400;
-    const svgHeight = 200;
+    const width = 400;
+    const height = 200;
     const padding = 20;
 
-    return data.map((val, index) => {
-      const x = (index / (data.length - 1)) * svgWidth;
-      const y = svgHeight - (((val - min) / range) * (svgHeight - padding * 2) + padding);
-      return `${x},${y}`;
-    }).join(' ');
+    return data
+      .map((val, i) => {
+        const x = (i / (data.length - 1)) * width;
+        const y =
+          height -
+          (((val - min) / range) * (height - padding * 2) + padding);
+
+        return `${x},${y}`;
+      })
+      .join(' ');
   });
 }
