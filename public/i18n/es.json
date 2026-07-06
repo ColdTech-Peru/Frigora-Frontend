@@ -16,7 +16,9 @@
     "yes": "Sí",
     "no": "No",
     "required-field": "Campo requerido",
-    "viewDetails": "Ver detalles"
+    "viewDetails": "Ver detalles",
+    "online": "Online",
+    "offline": "Offline"
   },
 
   "nav": {
@@ -79,7 +81,19 @@
     "serial": "Serie",
     "type": "Tipo",
     "status": "Estado",
-    "installed": "Fecha de instalación"
+    "installed": "Fecha de instalación",
+    "back_to_list": "Volver a equipos",
+    "general_info": "Información general",
+    "manufacturer": "Fabricante",
+    "monitoring": "Monitoreo",
+    "current_temperature": "Temperatura actual",
+    "set_point": "Set Point",
+    "last_connection": "Última conexión",
+    "dates": "Fechas",
+    "created": "Creado",
+    "updated": "Actualizado",
+    "view_alerts": "Ver alertas",
+    "not_found": "No se encontró información del equipo."
   },
   "auth": {
     "login": {
@@ -209,7 +223,8 @@
       "status": "Estado",
       "created": "Creado",
       "acknowledge": "Reconocer",
-      "delete": "Eliminar"
+      "delete": "Eliminar",
+      "loading": "Cargando alertas"
     },
 
     "reports": "Reportes",
