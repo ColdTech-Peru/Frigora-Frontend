@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   MatCard,
@@ -6,6 +6,11 @@ import {
   MatCardTitle,
   MatCardContent
 } from '@angular/material/card';
+
+export interface TrendChartData {
+  labels: string[];
+  datasets: { data: number[] }[];
+}
 
 @Component({
   selector: 'app-trend-chart',
@@ -22,24 +27,20 @@ import {
 })
 export class TrendChart {
 
-  chartData = signal({
-    labels: [
-      '10:00', '10:01', '10:02', '10:03',
-      '10:04', '10:05', '10:06', '10:07'
-    ],
-    datasets: [
-      {
-        data: [21.5, 21.8, 22.1, 22.0, 22.4, 22.9, 23.1, 22.7]
-      }
-    ]
-  });
+  chartData = input<TrendChartData | null>(null);
+  isLoading = input<boolean>(false);
 
-  isLoading = signal(false);
+  labels = computed<string[]>(() =>
+    this.chartData()?.labels ?? []
+  );
 
-  hasValidData = computed(() => {
-    const data = this.chartData();
-    return !!data?.datasets?.[0]?.data?.length;
-  });
+  values = computed<number[]>(() =>
+    this.chartData()?.datasets?.[0]?.data ?? []
+  );
+
+  hasValidData = computed(() =>
+    this.values().length > 0
+  );
 
   noDataMessage = computed(() =>
     this.isLoading()
@@ -47,13 +48,9 @@ export class TrendChart {
       : 'Sin datos de tendencia disponibles'
   );
 
-  labels = computed(() => this.chartData().labels || []);
-
-  values = computed(() => this.chartData().datasets[0].data || []);
-
   svgPoints = computed(() => {
     const data = this.values();
-    if (!data.length) return '';
+    if (!data.length) return '0,0';
 
     const min = Math.min(...data);
     const max = Math.max(...data);

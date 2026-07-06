@@ -50,11 +50,11 @@
       </div>
     }
 
-    @if (store.snapshot()) {
+    @if (store.temperatureChart()) {
       <div class="mb-4">
         <app-trend-chart
-          [chartData]="store.temperatureChart()"
-          [isLoading]="store.loading()" />
+          [chartData]="fakeTemperatureChart"
+          [isLoading]="false" />
       </div>
     }
 
