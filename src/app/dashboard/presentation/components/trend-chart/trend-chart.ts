@@ -1,4 +1,4 @@
-import { Component, computed, OnDestroy } from '@angular/core';
+import { Component, computed, input, OnDestroy } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
   MatCard,
@@ -21,6 +21,8 @@ import {
   styleUrl: './trend-chart.css'
 })
 export class TrendChart implements OnDestroy {
+
+  isLoading = input<boolean>(false);
 
   private data: number[] = [
     22.0, 22.3, 22.6, 22.9, 23.1, 23.4, 23.7
@@ -45,15 +47,13 @@ export class TrendChart implements OnDestroy {
     }, 1500);
   }
 
-  isLoading = computed(() => false);
+  // ===== COMPUTED =====
 
-  labelsComputed = computed<string[]>(() => this.labels);
+  labelsComputed = computed(() => this.labels);
 
-  values = computed<number[]>(() => this.data);
+  values = computed(() => this.data);
 
-  hasValidData = computed(() => {
-    return this.data && this.data.length > 0;
-  });
+  hasValidData = computed(() => this.data.length > 0);
 
   noDataMessage = computed(() => {
     return this.isLoading()
@@ -63,7 +63,7 @@ export class TrendChart implements OnDestroy {
 
   svgPoints = computed(() => {
     const data = this.values();
-    if (!data || data.length === 0) return '';
+    if (!data.length) return '';
 
     const min = Math.min(...data);
     const max = Math.max(...data);
@@ -85,6 +85,8 @@ export class TrendChart implements OnDestroy {
       return `${x},${y}`;
     }).join(' ');
   });
+
+  // ===== CLEANUP =====
 
   ngOnDestroy(): void {
     clearInterval(this.intervalId);
