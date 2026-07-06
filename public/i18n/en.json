@@ -41,6 +41,7 @@
     "login": {
       "title": "Sign in",
       "firstName": "First Name",
+      "remember-me": "Remember me",
       "username": "Username",
       "email": "Email",
       "password": "Password",
@@ -101,7 +102,7 @@
       },
       "severities": {
         "critical": "Critical",
-        "warning": "Warning",
+        "Warning": "Warning",
         "info": "Info",
         "High": "High"
       },

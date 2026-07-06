@@ -6,6 +6,11 @@
       {{ 'reports.title' | translate }}
     </h1>
 
+    <button mat-flat-button color="primary" class="new-report-button" (click)="createReport()">
+      <mat-icon>add</mat-icon>
+      {{ 'reports.buttons.newReport' | translate }}
+    </button>
+
   </div>
 
   <div class="filters">
@@ -88,19 +93,6 @@
 
   </div>
 
-  <button
-    mat-flat-button
-    color="primary"
-    class="new-report-button"
-    (click)="createReport()">
-
-    <mat-icon>
-      add
-    </mat-icon>
-
-    {{ 'reports.buttons.newReport' | translate }}
-
-  </button>
 
   <table
     mat-table

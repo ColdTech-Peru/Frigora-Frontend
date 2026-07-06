@@ -190,36 +190,46 @@
                    [(ngModel)]="newIntervention.endTime">
           </mat-form-field>
 
-          <!-- PHOTOS -->
+
           <div class="photo-section full-width">
 
+            <input
+              id="photoFileInput"
+              type="file"
+              accept="image/*"
+              style="display:none"
+              (change)="onFileSelected($event)"
+            />
+
             <div class="photo-input-row">
+
+              <button mat-stroked-button type="button"
+                      (click)="triggerFileInput()"
+                      [disabled]="isUploadingPhoto">
+                <mat-icon>upload</mat-icon>
+                {{ isUploadingPhoto ? 'Uploading...' : 'Upload Photo' }}
+              </button>
+
               <mat-form-field appearance="outline" class="photo-field">
-                <mat-label>Add Photo URL</mat-label>
-                <input matInput [(ngModel)]="newPhotoUrl">
+                <mat-label>Or paste URL</mat-label>
+                <input matInput [(ngModel)]="newPhotoUrl" (keyup.enter)="addPhotoUrl()">
               </mat-form-field>
 
-              <button mat-icon-button type="button"
-                      (click)="addPhotoUrl()">
-                <mat-icon>add_photo_alternate</mat-icon>
+              <button mat-icon-button type="button" (click)="addPhotoUrl()"
+                      [disabled]="!newPhotoUrl.trim()">
+                <mat-icon>add_link</mat-icon>
               </button>
+
             </div>
 
-            <div class="photo-preview"
-                 *ngIf="newIntervention.photoUrls.length">
-
-              <div class="photo-thumb"
-                   *ngFor="let url of newIntervention.photoUrls">
-
-                <img [src]="url" />
-
-                <button mat-icon-button
-                        (click)="removePhotoUrl(url)">
+            <!-- preview de fotos -->
+            <div class="photo-preview" *ngIf="newIntervention.photoUrls.length">
+              <div class="photo-thumb" *ngFor="let url of newIntervention.photoUrls">
+                <img [src]="url" alt="photo" />
+                <button mat-icon-button (click)="removePhotoUrl(url)">
                   <mat-icon>close</mat-icon>
                 </button>
-
               </div>
-
             </div>
 
           </div>

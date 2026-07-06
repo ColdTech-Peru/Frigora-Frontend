@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {Component, OnInit, inject, ChangeDetectorRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -64,6 +64,7 @@ export class ProviderDashboardComponent implements OnInit {
   private techniciansApi = inject(TechniciansService);
   private assetsManagementApi = inject(AssetsManagementApi);
   private monitoringApi = inject(MonitoringApiService);
+  private cdr = inject(ChangeDetectorRef);
 
   get currentProviderId(): string {
     return <string>this.authStore.currentUserId ?? '14qTsdO';
@@ -79,51 +80,62 @@ export class ProviderDashboardComponent implements OnInit {
 
     this.loading = true;
     this.error = null;
+    this.cdr.markForCheck();
 
     forkJoin({
       requests: this.serviceRequestApi.getRequestsForProviderQuery(providerId),
       techs: this.techniciansApi.getTechniciansByProvider(providerId),
-      sites: this.assetsManagementApi.getSites(),
-      equipments: this.monitoringApi.getEquipments()
     }).subscribe({
       next: (res: any) => {
+        const allRequests = res.requests?.data ?? res.requests ?? [];
 
-        // 🔥 FIX: soportar Axios o API raw
-        const allRequests =
-          res.requests?.data ??
-          res.requests ??
-          [];
+        if (allRequests.length === 0) {
+          this.pendingRequests = [];
+          this.kpis = { pending: 0, active: 0, technicians: res.techs?.length ?? 0 };
+          this.loading = false;
+          this.cdr.markForCheck();
+          return;
+        }
 
-        const context = {
-          sites: res.sites?.data ?? res.sites ?? [],
-          equipments: res.equipments?.data ?? res.equipments ?? []
-        };
+        const ownerId = allRequests[0].requesterId;
+        forkJoin({
+          sites: this.assetsManagementApi.getSitesByOwner(ownerId),
+          equipments: this.monitoringApi.getEquipmentsByOwner(ownerId),
+        }).subscribe({
+          next: (ownerData: any) => {
+            const context = {
+              sites: ownerData.sites ?? [],
+              equipments: ownerData.equipments ?? []
+            };
 
-        const assembler = new ServiceRequestAssembler();
+            const assembler = new ServiceRequestAssembler();
+            const mapped = allRequests.map((r: any) =>
+              assembler.toEntityFromResource(r, context)
+            );
 
-        const mapped = allRequests.map((r: any) =>
-          assembler.toEntityFromResource(r, context)
-        );
+            this.pendingRequests = mapped.filter(
+              (r: any) => (r.status ?? '').toLowerCase() === 'pending'
+            );
 
-        // 🔥 IMPORTANT: normalizar status
-        this.pendingRequests = mapped.filter(
-          (r: any) => (r.status ?? '').toLowerCase() === 'pending'
-        );
-
-        this.kpis.pending = this.pendingRequests.length;
-
-        this.kpis.active = mapped.filter((r: any) =>
-          ['accepted', 'inprogress', 'inProgress'].includes(r.status)
-        ).length;
-
-        this.kpis.technicians = res.techs?.length ?? 0;
-
-        this.loading = false;
+            this.kpis.pending = this.pendingRequests.length;
+            this.kpis.active = mapped.filter((r: any) =>
+              ['accepted', 'inprogress', 'inProgress'].includes(r.status)
+            ).length;
+            this.kpis.technicians = res.techs?.length ?? 0;
+            this.loading = false;
+            this.cdr.markForCheck();
+          },
+          error: (e) => {
+            this.error = 'Failed to load owner data.';
+            this.loading = false;
+            this.cdr.markForCheck();
+          }
+        });
       },
       error: (e) => {
         this.error = 'Failed to load dashboard data.';
-        console.error(e);
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

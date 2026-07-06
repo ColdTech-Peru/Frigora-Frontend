@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {Component, OnInit, inject, ChangeDetectorRef} from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
@@ -11,6 +11,7 @@ import { ServiceRequestsApi } from '../../../infrastructure/service-request-api'
 import { AssetsManagementApi } from '../../../../assets-management/infrastructure/assets-management-api';
 import { AuthStoreService } from '../../../../iam/application/iam.store';
 import { ServiceRequestAssembler } from '../../../infrastructure/service-request-assembler';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-provider-rejected-canceled-services',
@@ -37,6 +38,7 @@ export class ProviderRejectedCanceledServicesComponent implements OnInit {
   private assetsManagementApi = inject(AssetsManagementApi);
   private authStore = inject(AuthStoreService);
   public translate = inject(TranslateService);
+  private cdr = inject(ChangeDetectorRef);
 
   get currentProviderId(): string | number | null {
     return this.authStore.currentUserId;
@@ -52,26 +54,52 @@ export class ProviderRejectedCanceledServicesComponent implements OnInit {
 
     this.loading = true;
     this.error = null;
+    this.cdr.markForCheck();
 
-    forkJoin({
-      requests: this.serviceRequestApi.getRequestsForProviderQuery(providerId as any),
-      sites: this.assetsManagementApi.getSites()
-    }).subscribe({
-      next: (res) => {
-        const allRequests = res.requests;
-        const context = { sites: res.sites };
-        const assembler = new ServiceRequestAssembler();
+    this.serviceRequestApi.getRequestsForProviderQuery(providerId as any).subscribe({
+      next: (requests: any) => {
+        const allRequests = requests ?? [];
 
-        this.rejectedCanceledRequests = allRequests
-          .filter((r: any) => r.status === 'rejected' || r.status === 'canceled')
-          .map((r: any) => assembler.toEntityFromResource(r, context));
+        if (!allRequests.length) {
+          this.rejectedCanceledRequests = [];
+          this.loading = false;
+          this.cdr.markForCheck();
+          return;
+        }
 
-        this.loading = false;
+        const ownerIds = [...new Set(allRequests.map((r: any) => r.requesterId))] as number[];
+
+        forkJoin({
+          sites: forkJoin(ownerIds.map(id => this.assetsManagementApi.getSitesByOwner(id))).pipe(
+            map((results: any[]) => results.flat())
+          ),
+
+        }).subscribe({
+          next: (ownerData: any) => {
+            const context = {
+              sites: ownerData.sites,
+              equipments: ownerData.equipments
+            };
+            const assembler = new ServiceRequestAssembler();
+
+            this.rejectedCanceledRequests = allRequests
+              .filter((r: any) => r.status === 'rejected' || r.status === 'canceled')
+              .map((r: any) => assembler.toEntityFromResource(r, context));
+
+            this.loading = false;
+            this.cdr.markForCheck();
+          },
+          error: (e) => {
+            this.error = 'Failed to load owner data.';
+            this.loading = false;
+            this.cdr.markForCheck();
+          }
+        });
       },
       error: (e) => {
         this.error = 'Failed to load rejected/canceled services.';
-        console.error(e);
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

@@ -51,6 +51,15 @@
   font-weight: 500;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+
+
 /* BORDE */
 
 .mdc-notched-outline__leading,
@@ -131,8 +140,6 @@
 
 .new-report-button {
 
-  position: absolute;
-
   top: 0;
 
   right: 0;
@@ -181,6 +188,7 @@
 
 .page-container {
   position: relative;
+  padding: 2rem;
 }
 
 /* COLORS */

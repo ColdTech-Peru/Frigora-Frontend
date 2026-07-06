@@ -20,6 +20,7 @@ import {ServiceRequestStore} from '../../../application/service-request-store';
 import {MonitoringApiService} from '../../../../monitoring/infrastructure/monitoring-api.service';
 import {AssetsManagementApi} from '../../../../assets-management/infrastructure/assets-management-api';
 import {AuthStoreService} from '../../../../iam/application/iam.store';
+import {IamApi} from '../../../../iam/infrastructure/iam-api';
 import {TechniciansService} from '../../../../technician/infrastructure/technicians.service';
 
 @Component({
@@ -53,23 +54,21 @@ export class ServiceRequestDetailComponent implements OnInit {
   private readonly monitoringApi = inject(MonitoringApiService);
   private readonly assetsManagementApi = inject(AssetsManagementApi);
   private readonly techniciansApi = inject(TechniciansService);
+  private readonly iamApi = inject(IamApi);
   private readonly cdr = inject(ChangeDetectorRef);
   protected readonly authStore = inject(AuthStoreService);
   private readonly snackBar = inject(MatSnackBar);
 
-  readonly isProvider = computed(() =>
-    this.authStore.currentUserRole === 'Provider'
-  );
+  // ── Cloudinary config ──
+  private readonly cloudName = 'sfseyc73';
+  private readonly uploadPreset = 'frigora_uploads';
 
-  readonly isOwner = computed(() =>
-    this.authStore.currentUserRole === 'Owner'
-  );
-
-  readonly requestId = computed(() =>
-    String(this.route.snapshot.paramMap.get('requestId'))
-  );
+  readonly isProvider = computed(() => this.authStore.currentUserRole === 'Provider');
+  readonly isOwner = computed(() => this.authStore.currentUserRole === 'Owner');
+  readonly requestId = computed(() => String(this.route.snapshot.paramMap.get('requestId')));
 
   isLoading = false;
+  isUploadingPhoto = false; // ← estado de carga de foto
 
   serviceRequest: any = null;
   interventions: any[] = [];
@@ -90,15 +89,13 @@ export class ServiceRequestDetailComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     if (!this.isProvider() && !this.isOwner()) {
-      this.snackBar.open('Unauthorized access', 'Close', { duration: 3000 });
-      await this.router.navigate(['/dashboard']);
+      this.snackBar.open('Unauthorized access', 'Close', {duration: 3000});
+      this.router.navigate(['/dashboard']);
       return;
     }
 
     const id = this.requestId();
-    const fromStore = this.store.serviceRequests().find(
-      sr => String(sr.id) === String(id)
-    );
+    const fromStore = this.store.serviceRequests().find(sr => String(sr.id) === String(id));
 
     if (fromStore) {
       this.serviceRequest = fromStore;
@@ -114,39 +111,33 @@ export class ServiceRequestDetailComponent implements OnInit {
   async loadTechnicians(): Promise<void> {
     try {
       if (!this.isProvider()) return;
-
       const providerId = this.authStore.currentUserId;
       if (providerId === null) return;
-
-      const res: any = await firstValueFrom(
-        this.techniciansApi.getTechniciansByProvider(providerId)
-      );
-
+      const res: any = await firstValueFrom(this.techniciansApi.getTechniciansByProvider(providerId));
       this.technicians = res ?? [];
       this.cdr.markForCheck();
     } catch (error) {
-      console.error(error);
+      console.error('Failed to load technicians', error);
     }
   }
 
   async fetchRequestDetails(): Promise<void> {
     this.isLoading = true;
     this.cdr.markForCheck();
-
     try {
-      const [requestRes, equipmentsRes, sitesRes]: any[] = await Promise.all([
-        firstValueFrom(this.api.getServiceRequestDetailsQuery(this.requestId())),
-        firstValueFrom(this.monitoringApi.getEquipments()),
-        firstValueFrom(this.assetsManagementApi.getSites()),
+      const requestRes: any = await firstValueFrom(
+        this.api.getServiceRequestDetailsQuery(this.requestId())
+      );
+
+      const ownerId = requestRes.requesterId;
+
+      const [equipmentsRes, sitesRes]: any[] = await Promise.all([
+        firstValueFrom(this.monitoringApi.getEquipmentsByOwner(ownerId)),
+        firstValueFrom(this.assetsManagementApi.getSitesByOwner(ownerId)),
       ]);
 
-      const equipment = equipmentsRes?.find(
-        (e: any) => String(e.id) === String(requestRes.equipmentId)
-      );
-
-      const site = sitesRes?.find(
-        (s: any) => String(s.id) === String(requestRes.siteId)
-      );
+      const equipment = equipmentsRes?.find((e: any) => String(e.id) === String(requestRes.equipmentId));
+      const site = sitesRes?.find((s: any) => String(s.id) === String(requestRes.siteId));
 
       this.serviceRequest = {
         ...requestRes,
@@ -155,10 +146,9 @@ export class ServiceRequestDetailComponent implements OnInit {
       };
 
       await this.fetchInterventions();
-
     } catch (error) {
       console.error(error);
-      this.snackBar.open('Failed to load request', 'Close', { duration: 3000 });
+      this.snackBar.open('Failed to load request', 'Close', {duration: 3000});
     } finally {
       this.isLoading = false;
       this.cdr.markForCheck();
@@ -167,10 +157,7 @@ export class ServiceRequestDetailComponent implements OnInit {
 
   async fetchInterventions(): Promise<void> {
     try {
-      const res: any = await firstValueFrom(
-        this.api.getInterventionsByRequestQuery(this.requestId())
-      );
-
+      const res: any = await firstValueFrom(this.api.getInterventionsByRequestQuery(this.requestId()));
       this.interventions = res ?? [];
       this.cdr.markForCheck();
     } catch (error) {
@@ -180,11 +167,8 @@ export class ServiceRequestDetailComponent implements OnInit {
 
   async openEquipmentDialog(): Promise<void> {
     if (!this.serviceRequest?.equipmentId) return;
-
     try {
-      this.selectedEquipment = await firstValueFrom(
-        this.monitoringApi.getEquipmentById(this.serviceRequest.equipmentId)
-      );
+      this.selectedEquipment = await firstValueFrom(this.monitoringApi.getEquipmentById(this.serviceRequest.equipmentId));
       this.displayEquipmentDialog = true;
       this.cdr.markForCheck();
     } catch (error) {
@@ -192,27 +176,65 @@ export class ServiceRequestDetailComponent implements OnInit {
     }
   }
 
+  triggerFileInput(): void {
+    const input = document.getElementById('photoFileInput') as HTMLInputElement;
+    input?.click();
+  }
+
+  async onFileSelected(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    this.isUploadingPhoto = true;
+    this.cdr.markForCheck();
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', this.uploadPreset);
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${this.cloudName}/image/upload`,
+        { method: 'POST', body: formData }
+      );
+
+      const data = await response.json();
+
+      if (data.secure_url) {
+        this.newIntervention.photoUrls.push(data.secure_url);
+        this.snackBar.open('Photo uploaded', 'Close', {duration: 2000});
+      } else {
+        this.snackBar.open('Upload failed', 'Close', {duration: 3000});
+      }
+    } catch (error) {
+      console.error('Upload error', error);
+      this.snackBar.open('Upload error', 'Close', {duration: 3000});
+    } finally {
+      this.isUploadingPhoto = false;
+      input.value = ''; // reset input para permitir subir el mismo archivo de nuevo
+      this.cdr.markForCheck();
+    }
+  }
+
   addPhotoUrl(): void {
     const url = this.newPhotoUrl.trim();
     if (!url) return;
-
     if (!this.newIntervention.photoUrls.includes(url)) {
       this.newIntervention.photoUrls.push(url);
     }
-
     this.newPhotoUrl = '';
   }
 
   removePhotoUrl(url: string): void {
-    this.newIntervention.photoUrls =
-      this.newIntervention.photoUrls.filter(x => x !== url);
+    this.newIntervention.photoUrls = this.newIntervention.photoUrls.filter(x => x !== url);
   }
 
   async registerIntervention(): Promise<void> {
     if (!this.isProvider()) return;
 
     if (!this.newIntervention.summary.trim()) {
-      this.snackBar.open('Summary required', 'Close', { duration: 3000 });
+      this.snackBar.open('Summary required', 'Close', {duration: 3000});
       return;
     }
 
@@ -220,41 +242,30 @@ export class ServiceRequestDetailComponent implements OnInit {
       serviceRequestId: this.requestId(),
       technicianId: this.newIntervention.technicianId,
       summary: this.newIntervention.summary,
-
-      startTime: this.newIntervention.startTime || null,
-      endTime: this.newIntervention.endTime || null,
-
+      startTime: this.newIntervention.startTime
+        ? new Date(this.newIntervention.startTime).toISOString()
+        : new Date().toISOString(),
+      endTime: this.newIntervention.endTime
+        ? new Date(this.newIntervention.endTime).toISOString()
+        : null,
       status: this.newIntervention.endTime ? 'completed' : 'pending',
-
       photoUrls: this.newIntervention.photoUrls,
     };
 
     try {
       await firstValueFrom(this.api.sendRecordInterventionCommand(payload));
 
-      this.newIntervention = {
-        technicianId: null,
-        summary: '',
-        startTime: '',
-        endTime: '',
-        photoUrls: []
-      };
-
+      this.newIntervention = {technicianId: null, summary: '', startTime: '', endTime: '', photoUrls: []};
       await this.fetchInterventions();
-
-      this.snackBar.open('Intervention registered', 'Close', { duration: 3000 });
-
+      this.snackBar.open('Intervention registered', 'Close', {duration: 3000});
     } catch (error) {
       console.error(error);
-      this.snackBar.open('Error registering intervention', 'Close', { duration: 3000 });
+      this.snackBar.open('Error registering intervention', 'Close', {duration: 3000});
     }
   }
 
   navigateToIntervention(intervention: any): void {
-    this.router.navigate(
-      ['interventions', intervention.id],
-      { relativeTo: this.route }
-    );
+    this.router.navigate(['interventions', intervention.id], {relativeTo: this.route});
   }
 
   statusClass(status: string): string {
@@ -266,7 +277,6 @@ export class ServiceRequestDetailComponent implements OnInit {
       canceled: 'chip-canceled',
       rejected: 'chip-rejected',
     };
-
     return map[status?.toLowerCase()] ?? '';
   }
 

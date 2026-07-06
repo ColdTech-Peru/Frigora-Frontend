@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { forkJoin, Observable, map, tap } from 'rxjs';
+import {forkJoin, Observable, map, tap, switchMap, of} from 'rxjs';
 import { ServiceRequest } from '../domain/model/service-request.entity';
 import { ServiceRequestsApi } from '../infrastructure/service-request-api';
 import { MonitoringApiService } from '../../monitoring/infrastructure/monitoring-api.service';
@@ -48,45 +48,59 @@ export class ServiceRequestStore {
         ? this.serviceRequestsApi.getRequestsForProviderQuery(userId)
         : this.serviceRequestsApi.getRequestsByRequesterQuery(userId);
 
-    return forkJoin({
-      requests: requests$,
-      equipments: this.monitoringApi.getEquipments(),
-      sites: this.assetsManagementApi.getSites(),
-      reviews: this.reviewsApi.getAllReviews(),
-    }).pipe(
-      tap(({ requests, equipments, sites, reviews }: any) => {
-        this.equipmentsSignal.set(
-          equipments.map((e: any) => ({ id: e.id, name: e.name }))
+    return requests$.pipe(
+      switchMap((requests: any) => {
+        if (!requests?.length) {
+          this.serviceRequestsSignal.set([]);
+          this.loadingSignal.set(false);
+          return of(void 0);
+        }
+
+        const ownerIds = [...new Set(requests.map((r: any) => r.requesterId))] as number[];
+
+        return forkJoin({
+          equipments: forkJoin(
+            ownerIds.map(id => this.monitoringApi.getEquipmentsByOwner(id))
+          ).pipe(map((results: any[]) => results.flat())),
+          sites: forkJoin(
+            ownerIds.map(id => this.assetsManagementApi.getSitesByOwner(id))
+          ).pipe(map((results: any[]) => results.flat())),
+          reviews: this.reviewsApi.getAllReviews(),
+        }).pipe(
+          tap(({ equipments, sites, reviews }: any) => {
+            this.equipmentsSignal.set(
+              equipments.map((e: any) => ({ id: e.id, name: e.name }))
+            );
+            this.sitesSignal.set(
+              sites.map((s: any) => ({ id: s.id, name: s.name }))
+            );
+
+            const enriched = requests.map((req: any) => {
+              const equipment = equipments.find(
+                (e: any) => String(e.id) === String(req.equipmentId)
+              );
+              const site = sites.find(
+                (s: any) => String(s.id) === String(req.siteId)
+              );
+              const serviceReview = reviews.find(
+                (r: any) => String(r.serviceRequestId) === String(req.id)
+              );
+
+              return {
+                ...req,
+                equipmentName: equipment?.name ?? 'N/A',
+                siteName: site?.name ?? 'N/A',
+                hasReview: !!serviceReview,
+                reviewId: serviceReview?.id ?? null
+              };
+            });
+
+            this.serviceRequestsSignal.set(enriched);
+            this.loadingSignal.set(false);
+          }),
+          map(() => void 0)
         );
-
-        this.sitesSignal.set(
-          sites.map((s: any) => ({ id: s.id, name: s.name }))
-        );
-
-        const enriched = requests.map((req: any) => {
-          const equipment = equipments.find(
-            (e: any) => String(e.id) === String(req.equipmentId)
-          );
-          const site = sites.find(
-            (s: any) => String(s.id) === String(req.siteId)
-          );
-          const serviceReview = reviews.find(
-            (r: any) => String(r.serviceRequestId) === String(req.id)
-          );
-
-          return {
-            ...req,
-            equipmentName: equipment?.name ?? 'N/A',
-            siteName: site?.name ?? 'N/A',
-            hasReview: !!serviceReview,
-            reviewId: serviceReview?.id ?? null
-          };
-        });
-
-        this.serviceRequestsSignal.set(enriched);
-        this.loadingSignal.set(false);
-      }),
-      map(() => void 0)
+      })
     );
   }
   createRequest(data: Partial<ServiceRequest>): void {
