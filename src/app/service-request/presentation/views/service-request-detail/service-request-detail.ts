@@ -61,7 +61,6 @@ export class ServiceRequestDetailComponent implements OnInit {
   protected readonly authStore = inject(AuthStoreService);
   private readonly snackBar = inject(MatSnackBar);
 
-  // ── Cloudinary config ──
   private readonly cloudName = 'sfseyc73';
   private readonly uploadPreset = 'frigora_uploads';
 
@@ -70,7 +69,7 @@ export class ServiceRequestDetailComponent implements OnInit {
   readonly requestId = computed(() => String(this.route.snapshot.paramMap.get('requestId')));
 
   isLoading = false;
-  isUploadingPhoto = false; // ← estado de carga de foto
+  isUploadingPhoto = false;
 
   serviceRequest: any = null;
   interventions: any[] = [];
@@ -214,7 +213,7 @@ export class ServiceRequestDetailComponent implements OnInit {
       this.snackBar.open('Upload error', 'Close', {duration: 3000});
     } finally {
       this.isUploadingPhoto = false;
-      input.value = ''; // reset input para permitir subir el mismo archivo de nuevo
+      input.value = '';
       this.cdr.markForCheck();
     }
   }

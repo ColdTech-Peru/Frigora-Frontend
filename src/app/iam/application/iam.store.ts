@@ -37,7 +37,7 @@ export class AuthStoreService {
   get currentUser(): User | null { return this.userSubject.value; }
   get currentToken(): string | null { return this.tokenSubject.value; }
   get isLoggedIn(): boolean { return !!this.currentToken && !!this.currentUser; }
-  get currentUserRole(): string | null { return this.currentUser?.role || null; }  // ← agregado
+  get currentUserRole(): string | null { return this.currentUser?.role || null; }
   get currentTenantId(): string | null { return this.currentUser?.tenantId || null; }
   get currentUserId(): string | number | null { return this.currentUser?.id || null; }
 
@@ -56,7 +56,7 @@ export class AuthStoreService {
         tenantId: rawUser.tenantId || '',
         name: rawUser.name || rawUser.username,
         email: rawUser.username,
-        role: getRoleAsString(rawUser.role),  // ← ahora devuelve 'Owner' o 'Provider' con mayúscula
+        role: getRoleAsString(rawUser.role),
         status: rawUser.status || 'active',
         phone: rawUser.phone || '',
         locale: rawUser.locale || 'es',
