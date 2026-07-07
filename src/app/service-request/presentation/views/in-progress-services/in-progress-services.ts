@@ -74,7 +74,6 @@ export class InProgressServicesComponent implements OnInit, OnDestroy {
     return this.authStore.currentUser?.id ?? null;
   }
 
-  // 🔥 FIX: esperar auth listo antes de llamar backend
   ngOnInit(): void {
     this.waitForAuthAndLoad();
   }
