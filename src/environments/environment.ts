@@ -2,7 +2,7 @@ export const environment = {
   production: true,
 
   // Base URL
-  apiBaseUrl: 'https://frigora-platform.onrender.com/api/v1',
+  apiBaseUrl: 'https://frigora-platform-production.up.railway.app/api/v1',
 
   tenantsEndpointPath: '/tenants',
   dashboardConfigsEndpointPath: '/dashboard-configs',
